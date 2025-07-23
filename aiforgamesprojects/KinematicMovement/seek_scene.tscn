@@ -1,0 +1,53 @@
+[gd_scene load_steps=3 format=3 uid="uid://l2kd2xitjwdb"]
+
+[ext_resource type="Texture2D" uid="uid://tb6s6a41m7ac" path="res://icon.svg" id="1_eqq12"]
+[ext_resource type="Script" uid="uid://dkdjnkuoyu6my" path="res://KinematicMovement/seek_scene.gd" id="1_j610g"]
+
+[node name="SeekScene" type="Node2D"]
+
+[node name="ActorsContainer" type="Node2D" parent="."]
+script = ExtResource("1_j610g")
+
+[node name="Seeker" type="Sprite2D" parent="ActorsContainer"]
+scale = Vector2(0.3, 0.3)
+texture = ExtResource("1_eqq12")
+
+[node name="Target" type="Sprite2D" parent="ActorsContainer"]
+modulate = Color(1, 0, 0, 1)
+scale = Vector2(0.3, 0.3)
+texture = ExtResource("1_eqq12")
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="Container" type="Control" parent="CanvasLayer"]
+custom_minimum_size = Vector2(300, 150)
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/Container"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="CanvasLayer/Container/VBoxContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="CanvasLayer/Container/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+text = "Select Behaviour"
+
+[node name="OptionButton" type="OptionButton" parent="CanvasLayer/Container/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+selected = 0
+item_count = 2
+popup/item_0/text = "Seek"
+popup/item_0/id = 0
+popup/item_1/text = "Flee"
+popup/item_1/id = 1
+
+[connection signal="item_selected" from="CanvasLayer/Container/VBoxContainer/HBoxContainer/OptionButton" to="ActorsContainer" method="_on_option_button_item_selected"]
