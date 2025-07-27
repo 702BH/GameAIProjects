@@ -8,6 +8,7 @@
 script = ExtResource("1_f5fps")
 
 [node name="Vehicle" parent="." instance=ExtResource("1_1fom0")]
+max_speed = 30.0
 max_force = 20.0
 max_turn_rate = 80.0
 color = Color(0.894215, 0.213081, 0.709018, 1)

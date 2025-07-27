@@ -1,19 +1,24 @@
 class_name  SteeringWander
 extends SteeringState
 
-
 var wanderRadius := 50.0
 var wanderDistance := 100.0
-var wanderJitter := 0.0
-var wanderPoint := Vector2.ZERO
-var theta = 0.0
+var wanderJitter := 2
+var wanderTarget := Vector2.ZERO
+var targetLocal := Vector2.ZERO
+var targetWorld := Vector2.ZERO
 
 func _enter_tree() -> void:
-	vehicle.acceleration = Vector2.RIGHT
+	print("wandering")
 
 func _physics_process(delta: float) -> void:
-	var direction = vehicle.velocity.normalized()
-	wanderPoint = direction * wanderDistance
+	wanderTarget += Vector2(randf_range(-1,1) * wanderJitter, randf_range(-1,1) * wanderJitter)
+	wanderTarget = wanderTarget.normalized()
+	wanderTarget *= wanderRadius
+	targetLocal = wanderTarget + Vector2(wanderDistance, 0)
+	targetWorld = targetLocal + vehicle.position
+	var desired_velocity : Vector2 = (targetWorld - vehicle.position).normalized() * vehicle.max_speed
+	vehicle.apply_force((desired_velocity - vehicle.velocity).limit_length(vehicle.max_force))
 
 
 func _process(delta: float) -> void:
@@ -21,7 +26,5 @@ func _process(delta: float) -> void:
 
 
 func _draw() -> void:
-	draw_circle(wanderPoint, wanderRadius, "green", false)
-	var x = wanderRadius * cos(theta)
-	var y = wanderRadius * sin(theta)
-	draw_circle(Vector2(wanderPoint.x + x, wanderPoint.y + y), 8, "red")
+	draw_circle(targetLocal, wanderRadius, "green", false)
+	draw_circle(wanderTarget + targetLocal, 8, "red")
