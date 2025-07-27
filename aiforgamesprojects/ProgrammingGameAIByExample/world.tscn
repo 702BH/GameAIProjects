@@ -1,0 +1,86 @@
+[gd_scene load_steps=4 format=3 uid="uid://cerkuwhcpsf04"]
+
+[ext_resource type="PackedScene" uid="uid://c5sclykxeetq0" path="res://ProgrammingGameAIByExample/vehicle.tscn" id="1_1fom0"]
+[ext_resource type="Script" uid="uid://d0yy7ksoef3fm" path="res://ProgrammingGameAIByExample/world.gd" id="1_f5fps"]
+[ext_resource type="PackedScene" uid="uid://2w6maimepxpq" path="res://ProgrammingGameAIByExample/target.tscn" id="3_3tj7m"]
+
+[node name="World" type="Node2D"]
+script = ExtResource("1_f5fps")
+
+[node name="Vehicle" parent="." instance=ExtResource("1_1fom0")]
+max_force = 20.0
+max_turn_rate = 80.0
+color = Color(0.894215, 0.213081, 0.709018, 1)
+
+[node name="Target" parent="." instance=ExtResource("3_3tj7m")]
+max_speed = 25.0
+max_force = 30.0
+color = Color(0.078301, 0.445323, 0.187561, 1)
+flee_speed = 80.0
+
+[node name="UI" type="Control" parent="."]
+custom_minimum_size = Vector2(300, 150)
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+mouse_default_cursor_shape = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="UI"]
+clip_contents = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="UI/HBoxContainer"]
+clip_contents = true
+layout_mode = 2
+
+[node name="OptionButton" type="OptionButton" parent="UI/HBoxContainer/VBoxContainer"]
+layout_mode = 2
+selected = 0
+item_count = 5
+popup/item_0/text = "SEEK"
+popup/item_0/id = 0
+popup/item_1/text = "FLEE"
+popup/item_1/id = 1
+popup/item_2/text = "ARRIVE"
+popup/item_2/id = 2
+popup/item_3/text = "PURSUE"
+popup/item_3/id = 3
+popup/item_4/text = "WANDER"
+popup/item_4/id = 4
+
+[node name="DecelerationFactor" type="OptionButton" parent="UI/HBoxContainer/VBoxContainer"]
+layout_mode = 2
+selected = 0
+item_count = 3
+popup/item_0/text = "SLOW"
+popup/item_0/id = 1
+popup/item_1/text = "NORMAL"
+popup/item_1/id = 2
+popup/item_2/text = "FAST"
+popup/item_2/id = 3
+
+[node name="Velocity" type="Label" parent="UI/HBoxContainer/VBoxContainer"]
+layout_mode = 2
+clip_text = true
+
+[node name="TargetControls" type="VBoxContainer" parent="UI/HBoxContainer"]
+layout_mode = 2
+
+[node name="TargetState" type="OptionButton" parent="UI/HBoxContainer/TargetControls"]
+layout_mode = 2
+selected = 0
+item_count = 2
+popup/item_0/text = "STATIC"
+popup/item_0/id = 0
+popup/item_1/text = "PURSUED"
+popup/item_1/id = 1
+
+[connection signal="item_selected" from="UI/HBoxContainer/VBoxContainer/OptionButton" to="." method="_on_option_button_item_selected"]
+[connection signal="item_selected" from="UI/HBoxContainer/VBoxContainer/DecelerationFactor" to="." method="_on_deceleration_factor_item_selected"]
+[connection signal="item_selected" from="UI/HBoxContainer/TargetControls/TargetState" to="." method="_on_target_state_item_selected"]

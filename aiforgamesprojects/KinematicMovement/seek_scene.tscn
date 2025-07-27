@@ -44,10 +44,12 @@ text = "Select Behaviour"
 [node name="OptionButton" type="OptionButton" parent="CanvasLayer/Container/VBoxContainer/HBoxContainer"]
 layout_mode = 2
 selected = 0
-item_count = 2
+item_count = 3
 popup/item_0/text = "Seek"
 popup/item_0/id = 0
 popup/item_1/text = "Flee"
 popup/item_1/id = 1
+popup/item_2/text = "SeekArrive"
+popup/item_2/id = 2
 
 [connection signal="item_selected" from="CanvasLayer/Container/VBoxContainer/HBoxContainer/OptionButton" to="ActorsContainer" method="_on_option_button_item_selected"]

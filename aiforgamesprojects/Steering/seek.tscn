@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://ckh5m3jubwh3d"]
+
+[ext_resource type="Script" uid="uid://cklnohrc3qkyh" path="res://Steering/seek.gd" id="1_06kuq"]
+
+[node name="Seek" type="Node2D"]
+script = ExtResource("1_06kuq")

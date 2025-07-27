@@ -1,0 +1,7 @@
+[gd_scene load_steps=2 format=3 uid="uid://di67jrkqdd0gs"]
+
+[ext_resource type="Script" uid="uid://eka7jkqg5xyc" path="res://ProgrammingGameAIByExample/mover.gd" id="1_vsvre"]
+
+[node name="mover" type="Node2D"]
+script = ExtResource("1_vsvre")
+color = Color(0.780392, 0, 0, 1)
