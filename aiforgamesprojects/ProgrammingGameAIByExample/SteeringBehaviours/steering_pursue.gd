@@ -6,6 +6,16 @@ func _enter_tree() -> void:
 	print("PURSUING")
 
 func _physics_process(delta: float) -> void:
+	
+	var tagged_obstacles : Array[Obstacle] = []
+	tagged_obstacles = get_obstacles_in_detector()
+	
+	if !tagged_obstacles.is_empty():
+		print(tagged_obstacles)
+	else:
+		print("NO OBSTACLES")
+	
+	
 	var to_evader = target.position - vehicle.position
 	var relative_heading = vehicle.velocity.normalized().dot(target.velocity.normalized())
 	

@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://bfhra6m6rk0hg"]
+
+[ext_resource type="Script" uid="uid://c4d4p7oi7p0n3" path="res://ProgrammingGameAIByExample/obstacle.gd" id="1_t5dju"]
+
+[node name="Obstacle" type="Node2D"]
+script = ExtResource("1_t5dju")

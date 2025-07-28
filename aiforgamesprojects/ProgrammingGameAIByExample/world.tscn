@@ -7,11 +7,13 @@
 [node name="World" type="Node2D"]
 script = ExtResource("1_f5fps")
 
+[node name="ObstacleContainer" type="Node2D" parent="."]
+
 [node name="Vehicle" parent="." instance=ExtResource("1_1fom0")]
 max_speed = 30.0
 max_force = 20.0
 max_turn_rate = 80.0
-color = Color(0.894215, 0.213081, 0.709018, 1)
+color = Color(0.894118, 0.211765, 0.709804, 1)
 
 [node name="Target" parent="." instance=ExtResource("3_3tj7m")]
 max_speed = 25.0
@@ -43,7 +45,7 @@ layout_mode = 2
 [node name="OptionButton" type="OptionButton" parent="UI/HBoxContainer/VBoxContainer"]
 layout_mode = 2
 selected = 0
-item_count = 5
+item_count = 6
 popup/item_0/text = "SEEK"
 popup/item_0/id = 0
 popup/item_1/text = "FLEE"
@@ -54,6 +56,8 @@ popup/item_3/text = "PURSUE"
 popup/item_3/id = 3
 popup/item_4/text = "WANDER"
 popup/item_4/id = 4
+popup/item_5/text = "OBSTACLE_AVOIDANCE"
+popup/item_5/id = 5
 
 [node name="DecelerationFactor" type="OptionButton" parent="UI/HBoxContainer/VBoxContainer"]
 layout_mode = 2
