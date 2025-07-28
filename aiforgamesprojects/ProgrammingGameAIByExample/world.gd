@@ -13,6 +13,7 @@ var obstacles : Array[Obstacle] = []
 @onready var vechile : Vehicle = $Vehicle
 @onready var target : Target = $Target
 @onready var obstacle_container: Node2D = $ObstacleContainer
+@onready var obstacle_prefab := preload("res://ProgrammingGameAIByExample/obstacle.tscn")
 
 func _ready() -> void:
 	spawn_obstacles()
@@ -66,7 +67,7 @@ func _on_target_state_item_selected(index: int) -> void:
 
 func spawn_obstacles() -> void:
 	for i in range(obstacle_count):
-		var obstacle = Obstacle.new()
-		obstacle.collision_radius = vechile.radius
+		var obstacle = obstacle_prefab.instantiate()
+		obstacle.collision_radius = obstacle.radius +  vechile.radius
 		obstacles.append(obstacle)
 		obstacle_container.add_child(obstacle)

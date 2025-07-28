@@ -16,6 +16,7 @@ var state_factory := SteeringStateFactory.new()
 var deceleration_factor := 0
 
 var obstacles : Array[Obstacle] = []
+@onready var area : Area2D = $Area2D
 
 
 #func _ready() -> void:
@@ -24,6 +25,7 @@ var obstacles : Array[Obstacle] = []
 
 func _physics_process(delta: float) -> void:
 	detection_box_length = min_detection_box_length + (velocity.length() / max_speed) * min_detection_box_length
+	$Area2D/CollisionShape2D.shape.points = pointsDetector
 	velocity += acceleration * delta
 	velocity = velocity.limit_length(max_speed)
 	position += velocity * delta

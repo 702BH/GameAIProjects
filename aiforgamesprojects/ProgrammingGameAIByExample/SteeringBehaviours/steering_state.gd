@@ -1,7 +1,7 @@
 class_name SteeringState
 extends Node2D
 
-signal state_transition_requested(new_state: Vehicle.State)
+signal state_transition_requested(new_state: Vehicle.State, state_data : SteeringStateData)
 
 var vehicle : Vehicle = null
 var target : Target = null
@@ -13,16 +13,38 @@ func setup(context_vehicle: Vehicle, context_target: Target, context_obstacles) 
 	obstacles = context_obstacles
 
 
+func transition_state(new_state: Vehicle.State, state_data: SteeringStateData = SteeringStateData.new()) -> void:
+	state_transition_requested.emit(new_state, state_data)
+
 
 func get_obstacles_in_detector() -> Array[Obstacle]:
 	var tagged_obstacles : Array[Obstacle] = []
 	
-	var vel = vehicle.velocity.normalized()
-	vel = vel * vehicle.detection_box_length
+	var closest_obstacle: Obstacle = null
+	var dist_to_closest_ip = INF
 	
-	
-	for obstacle in obstacles:
-		if obstacle.position.x + obstacle.collision_radius > vehicle.position.x - vehicle.radius and obstacle.position.x + obstacle.collision_radius < vehicle.position.x +  vel.x - vehicle.radius:
-			if obstacle.position.y + obstacle.collision_radius > vehicle.position.y + vehicle.radius and obstacle.position.y + obstacle.collision_radius < vehicle.position.y +  vel.y + vehicle.radius:
-				tagged_obstacles.append(obstacle)
+	for area in vehicle.area.get_overlapping_areas():
+		var parent = area.get_parent()
+		if parent is Obstacle:
+			#tagged_obstacles.append(parent)
+			var local_pos = parent.global_position - vehicle.global_position
+			local_pos = local_pos.rotated(-vehicle.rotation)
+			
+			if local_pos.x < 0 or abs(local_pos.y) > vehicle.radius:
+				continue
+			
+			var expanded_radius = parent.radius + parent.collision_radius
+			
+			if abs(local_pos.y) >= expanded_radius:
+				continue
+			
+			var sqrt_part = sqrt(expanded_radius * expanded_radius - local_pos.y * local_pos.y)
+			var ip = local_pos.x - sqrt_part
+			if ip <= 0:
+				ip = local_pos.x + sqrt_part
+			
+			if ip <dist_to_closest_ip:
+				dist_to_closest_ip = ip
+				closest_obstacle = parent
+	tagged_obstacles.append(closest_obstacle)
 	return tagged_obstacles

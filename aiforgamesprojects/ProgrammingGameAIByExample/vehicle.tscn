@@ -1,6 +1,8 @@
-[gd_scene load_steps=2 format=3 uid="uid://c5sclykxeetq0"]
+[gd_scene load_steps=3 format=3 uid="uid://c5sclykxeetq0"]
 
 [ext_resource type="Script" uid="uid://cs0ui48nyyebc" path="res://ProgrammingGameAIByExample/vehicle.gd" id="1_ck2cn"]
+
+[sub_resource type="ConvexPolygonShape2D" id="ConvexPolygonShape2D_837mh"]
 
 [node name="Vehicle" type="Node2D"]
 script = ExtResource("1_ck2cn")
@@ -17,3 +19,10 @@ offset_bottom = 40.0
 layout_mode = 0
 offset_right = 40.0
 offset_bottom = 23.0
+
+[node name="Area2D" type="Area2D" parent="."]
+collision_mask = 2
+monitorable = false
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+shape = SubResource("ConvexPolygonShape2D_837mh")

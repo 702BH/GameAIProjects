@@ -11,7 +11,7 @@ func _physics_process(delta: float) -> void:
 	tagged_obstacles = get_obstacles_in_detector()
 	
 	if !tagged_obstacles.is_empty():
-		print(tagged_obstacles)
+		state_transition_requested.emit(Vehicle.State.OBSTACLE_AVOIDANCE)
 	else:
 		print("NO OBSTACLES")
 	
