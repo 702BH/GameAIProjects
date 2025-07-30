@@ -4,8 +4,8 @@ extends Mover
 const PANIC_DISTANCE := 50.0
 
 
-enum State {SEEK, FLEE, ARRIVE, PURSUE, WANDER, OBSTACLE_AVOIDANCE}
-enum Deceleration {FAST = 1, NORMAL = 2, SLOW = 3}
+enum State {SEEK, FLEE, ARRIVE, PURSUE, WANDER, OBSTACLE_AVOIDANCE, WALL_AVOIDANCE, INTERPOSE}
+
 
 
 var target : Target = null 
@@ -17,10 +17,10 @@ var deceleration_factor := 0
 
 var obstacles : Array[Obstacle] = []
 @onready var area : Area2D = $Area2D
+@onready var feeler : RayCast2D = $RayCast2D
 
-
-#func _ready() -> void:
-	#switch_state(State.SEEK)
+var interpose_target_1: Vehicle = null
+var interpose_target_2: Vehicle = null
 
 
 func _physics_process(delta: float) -> void:
@@ -33,11 +33,11 @@ func _physics_process(delta: float) -> void:
 	wrap_around()
 	rotateVehicle(delta)
 
-func switch_state(state: State) -> void:
+func switch_state(state: State, state_data: SteeringStateData = SteeringStateData.new()) -> void:
 	if current_state != null:
 		current_state.queue_free()
 	current_state = state_factory.get_fresh_state(state)
-	current_state.setup(self, target, obstacles)
+	current_state.setup(self, target, obstacles, state_data, interpose_target_1, interpose_target_2)
 	current_state.state_transition_requested.connect(switch_state.bind())
 	current_state.name = "SteeringStateMachine: " + str(state)
 	call_deferred("add_child", current_state)

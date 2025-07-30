@@ -9,7 +9,9 @@ func _init() -> void:
 		Vehicle.State.ARRIVE : SteeringArrive,
 		Vehicle.State.PURSUE : SteeringPursuing,
 		Vehicle.State.WANDER : SteeringWander,
-		Vehicle.State.OBSTACLE_AVOIDANCE : SteeringObstacleAvoidance
+		Vehicle.State.OBSTACLE_AVOIDANCE : SteeringObstacleAvoidance,
+		Vehicle.State.WALL_AVOIDANCE : SteeringWallAvoidance,
+		Vehicle.State.INTERPOSE: SteeringInterpose
 	}
 
 func get_fresh_state(state: Vehicle.State) -> SteeringState:

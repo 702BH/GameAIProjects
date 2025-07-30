@@ -7,7 +7,8 @@ func _init() -> void:
 		Target.State.STATIC : TargetStatic,
 		Target.State.PURSUED : TargetPursued,
 		Target.State.FLEEING : TargetFleeing,
-		Target.State.EVADE : TargetEvade
+		Target.State.EVADE : TargetEvade,
+		Target.State.HIDE: TargetHide
 	}
 
 func get_fresh_state(state: Target.State) -> TargetState:

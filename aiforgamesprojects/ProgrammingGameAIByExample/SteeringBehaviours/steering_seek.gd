@@ -8,4 +8,4 @@ func _physics_process(delta: float) -> void:
 	vehicle.apply_force((desired_velocity - vehicle.velocity).limit_length(vehicle.max_force))
 	
 	if vehicle.position.distance_squared_to(target.position) < vehicle.PANIC_DISTANCE * vehicle.PANIC_DISTANCE:
-		state_transition_requested.emit(Vehicle.State.FLEE)
+		transition_state(Vehicle.State.FLEE)

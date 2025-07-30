@@ -11,7 +11,9 @@ func _physics_process(delta: float) -> void:
 	tagged_obstacles = get_obstacles_in_detector()
 	
 	if !tagged_obstacles.is_empty():
-		state_transition_requested.emit(Vehicle.State.OBSTACLE_AVOIDANCE)
+		var state_data := SteeringStateData.new()
+		state_data.closest_obstacle = tagged_obstacles[0]
+		transition_state(Vehicle.State.OBSTACLE_AVOIDANCE, state_data)
 	else:
 		print("NO OBSTACLES")
 	

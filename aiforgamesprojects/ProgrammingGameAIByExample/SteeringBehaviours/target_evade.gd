@@ -20,4 +20,4 @@ func _physics_process(delta: float) -> void:
 	vehicle.apply_force(steering)
 	
 	if pursuer.position.distance_squared_to(vehicle.position) > vehicle.SAFE_DISTANCE * vehicle.SAFE_DISTANCE:
-		state_transition_requested.emit(Target.State.PURSUED)
+		state_transition_requested.emit(Target.State.HIDE)

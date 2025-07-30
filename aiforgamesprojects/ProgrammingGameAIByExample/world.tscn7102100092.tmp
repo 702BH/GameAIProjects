@@ -14,12 +14,10 @@ script = ExtResource("1_f5fps")
 [node name="WallContainer" type="Node2D" parent="."]
 
 [node name="Vehicle" parent="." instance=ExtResource("1_1fom0")]
-mass = 1.0
 max_speed = 30.0
 max_force = 20.0
 max_turn_rate = 80.0
 color = Color(0.894118, 0.211765, 0.709804, 1)
-flee_speed = 1.0
 
 [node name="Target" parent="." instance=ExtResource("3_3tj7m")]
 max_speed = 25.0
@@ -90,13 +88,11 @@ layout_mode = 2
 [node name="TargetState" type="OptionButton" parent="UI/HBoxContainer/TargetControls"]
 layout_mode = 2
 selected = 0
-item_count = 3
+item_count = 2
 popup/item_0/text = "STATIC"
 popup/item_0/id = 0
 popup/item_1/text = "PURSUED"
 popup/item_1/id = 1
-popup/item_2/text = "HIDE"
-popup/item_2/id = 2
 
 [connection signal="item_selected" from="UI/HBoxContainer/VBoxContainer/OptionButton" to="." method="_on_option_button_item_selected"]
 [connection signal="item_selected" from="UI/HBoxContainer/VBoxContainer/DecelerationFactor" to="." method="_on_deceleration_factor_item_selected"]

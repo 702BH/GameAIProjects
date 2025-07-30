@@ -8,7 +8,7 @@ var radius := 15.0
 var min_detection_box_length := 50.0
 var detection_box_length := 50.0
 
-
+enum Deceleration {FAST = 1, NORMAL = 2, SLOW = 3}
 
 @export var mass := 1.0
 @export var max_speed := 1.0

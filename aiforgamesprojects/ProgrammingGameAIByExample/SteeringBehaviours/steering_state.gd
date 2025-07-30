@@ -6,11 +6,17 @@ signal state_transition_requested(new_state: Vehicle.State, state_data : Steerin
 var vehicle : Vehicle = null
 var target : Target = null
 var obstacles : Array[Obstacle] = []
+var state_data : SteeringStateData = SteeringStateData.new()
+var interpose_target_1 : Vehicle = null
+var interpose_target_2 : Vehicle = null
 
-func setup(context_vehicle: Vehicle, context_target: Target, context_obstacles) ->void:
+func setup(context_vehicle: Vehicle, context_target: Target, context_obstacles, context_state_data, context_interpose_1, context_interpose_2) ->void:
 	vehicle = context_vehicle
 	target = context_target
 	obstacles = context_obstacles
+	state_data = context_state_data
+	interpose_target_1 = context_interpose_1
+	interpose_target_2 = context_interpose_2
 
 
 func transition_state(new_state: Vehicle.State, state_data: SteeringStateData = SteeringStateData.new()) -> void:
@@ -46,5 +52,11 @@ func get_obstacles_in_detector() -> Array[Obstacle]:
 			if ip <dist_to_closest_ip:
 				dist_to_closest_ip = ip
 				closest_obstacle = parent
-	tagged_obstacles.append(closest_obstacle)
+	
+	if closest_obstacle != null:
+		tagged_obstacles.append(closest_obstacle)
 	return tagged_obstacles
+
+
+func wall_collisions() -> bool:
+	return vehicle.feeler.is_colliding()
