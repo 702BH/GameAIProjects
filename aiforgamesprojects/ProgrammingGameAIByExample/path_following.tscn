@@ -1,0 +1,52 @@
+[gd_scene load_steps=3 format=3 uid="uid://bg3txe41dejec"]
+
+[ext_resource type="Script" uid="uid://x8tsiipkw4lm" path="res://ProgrammingGameAIByExample/path_following.gd" id="1_6imnu"]
+[ext_resource type="PackedScene" uid="uid://c5sclykxeetq0" path="res://ProgrammingGameAIByExample/vehicle.tscn" id="2_6i1hl"]
+
+[node name="PathFollowing" type="Node2D"]
+script = ExtResource("1_6imnu")
+
+[node name="PathControls" type="Control" parent="."]
+custom_minimum_size = Vector2(200, 100)
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="PathControls"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="PathControls/VBoxContainer"]
+layout_mode = 2
+
+[node name="closed" type="Label" parent="PathControls/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+text = "Is Path Closed?"
+
+[node name="isClosed" type="CheckButton" parent="PathControls/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+
+[node name="AddPoint" type="Button" parent="PathControls/VBoxContainer"]
+layout_mode = 2
+text = "Add Point"
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="PathControls/VBoxContainer"]
+layout_mode = 2
+
+[node name="moveLabel" type="Label" parent="PathControls/VBoxContainer/HBoxContainer2"]
+layout_mode = 2
+text = "Move"
+
+[node name="Move" type="CheckButton" parent="PathControls/VBoxContainer/HBoxContainer2"]
+layout_mode = 2
+
+[node name="Vehicle" parent="." instance=ExtResource("2_6i1hl")]
+
+[connection signal="toggled" from="PathControls/VBoxContainer/HBoxContainer/isClosed" to="." method="_on_is_closed_toggled"]
+[connection signal="pressed" from="PathControls/VBoxContainer/AddPoint" to="." method="_on_add_point_pressed"]

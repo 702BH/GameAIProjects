@@ -11,7 +11,8 @@ func _init() -> void:
 		Vehicle.State.WANDER : SteeringWander,
 		Vehicle.State.OBSTACLE_AVOIDANCE : SteeringObstacleAvoidance,
 		Vehicle.State.WALL_AVOIDANCE : SteeringWallAvoidance,
-		Vehicle.State.INTERPOSE: SteeringInterpose
+		Vehicle.State.INTERPOSE: SteeringInterpose,
+		Vehicle.State.PATH_FOLLOWING : SteeringPathFollowing
 	}
 
 func get_fresh_state(state: Vehicle.State) -> SteeringState:
