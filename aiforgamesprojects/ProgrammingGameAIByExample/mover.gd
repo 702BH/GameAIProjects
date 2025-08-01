@@ -7,6 +7,7 @@ var velocity := Vector2(0.0, 1.0)
 var radius := 15.0
 var min_detection_box_length := 50.0
 var detection_box_length := 50.0
+var is_debugging := true
 
 enum Deceleration {FAST = 1, NORMAL = 2, SLOW = 3}
 
@@ -30,14 +31,15 @@ func _draw() -> void:
 	var points = PackedVector2Array([Vector2(-radius, -radius), Vector2(radius, 0), Vector2(-radius, radius)])
 	var colors = PackedColorArray([color.to_rgba64(), color.to_rgba64(), color.to_rgba64()])
 	draw_primitive(points, colors, [])
-	pointsDetector = PackedVector2Array([
-		Vector2(-radius, -radius),
-		Vector2(detection_box_length, -radius),
-		Vector2(detection_box_length, radius),
-		Vector2(-radius, radius)
-	])
-	var colorsDetector = PackedColorArray([Color.from_rgba8(255, 0,0,125), Color.from_rgba8(255, 0,0,125), Color.from_rgba8(255, 0,0,125)])
-	draw_primitive(pointsDetector, colorsDetector, [])
+	if is_debugging:
+		pointsDetector = PackedVector2Array([
+			Vector2(-radius, -radius),
+			Vector2(detection_box_length, -radius),
+			Vector2(detection_box_length, radius),
+			Vector2(-radius, radius)
+		])
+		var colorsDetector = PackedColorArray([Color.from_rgba8(255, 0,0,125), Color.from_rgba8(255, 0,0,125), Color.from_rgba8(255, 0,0,125)])
+		draw_primitive(pointsDetector, colorsDetector, [])
 
 
 func wrap_around() -> void:

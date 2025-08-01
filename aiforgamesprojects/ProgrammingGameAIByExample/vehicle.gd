@@ -4,7 +4,7 @@ extends Mover
 const PANIC_DISTANCE := 50.0
 
 
-enum State {SEEK, FLEE, ARRIVE, PURSUE, WANDER, OBSTACLE_AVOIDANCE, WALL_AVOIDANCE, INTERPOSE, PATH_FOLLOWING}
+enum State {SEEK, FLEE, ARRIVE, PURSUE, WANDER, OBSTACLE_AVOIDANCE, WALL_AVOIDANCE, INTERPOSE, PATH_FOLLOWING, PURSUE_OFFSET}
 
 
 
@@ -24,10 +24,12 @@ var interpose_target_2: Vehicle = null
 
 var path: PathI = null
 
+var leader : Vehicle = null
 
 func _physics_process(delta: float) -> void:
-	detection_box_length = min_detection_box_length + (velocity.length() / max_speed) * min_detection_box_length
-	$Area2D/CollisionShape2D.shape.points = pointsDetector
+	if is_debugging:
+		detection_box_length = min_detection_box_length + (velocity.length() / max_speed) * min_detection_box_length
+		$Area2D/CollisionShape2D.shape.points = pointsDetector
 	velocity += acceleration * delta
 	velocity = velocity.limit_length(max_speed)
 	position += velocity * delta
@@ -39,7 +41,7 @@ func switch_state(state: State, state_data: SteeringStateData = SteeringStateDat
 	if current_state != null:
 		current_state.queue_free()
 	current_state = state_factory.get_fresh_state(state)
-	current_state.setup(self, target, obstacles, state_data, interpose_target_1, interpose_target_2, path)
+	current_state.setup(self, target, obstacles, state_data, interpose_target_1, interpose_target_2, path, leader)
 	current_state.state_transition_requested.connect(switch_state.bind())
 	current_state.name = "SteeringStateMachine: " + str(state)
 	call_deferred("add_child", current_state)

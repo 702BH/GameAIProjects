@@ -6,10 +6,14 @@ var paths : PathI = PathI.new()
 var is_placing_point := false
 
 @onready var vehicle : Vehicle = $Vehicle
+@onready var move_toggle :Button = $PathControls/VBoxContainer/HBoxContainer2/Move
+
+var is_moving := false
 
 func _ready() -> void:
 	vehicle.path = paths
-	vehicle.switch_state(vehicle.State.WANDER)
+	vehicle.switch_state(Vehicle.State.WANDER)
+	is_moving = move_toggle.button_pressed
 
 func _input(event: InputEvent) -> void:
 	if event is InputEventMouseButton and event.is_pressed():
@@ -18,8 +22,10 @@ func _input(event: InputEvent) -> void:
 				is_placing_point = false
 				paths.points.append(get_global_mouse_position())
 
+
 func _process(delta: float) -> void:
 	queue_redraw()
+	print(paths.is_closed)
 
 func _on_add_point_pressed() -> void:
 	is_placing_point = true
@@ -36,3 +42,12 @@ func _draw() -> void:
 
 func _on_is_closed_toggled(toggled_on: bool) -> void:
 	paths.is_closed = !paths.is_closed
+
+
+func _on_move_toggled(toggled_on: bool) -> void:
+	paths.current_index = 0
+	is_moving = move_toggle.button_pressed
+	if is_moving:
+		vehicle.switch_state(Vehicle.State.PATH_FOLLOWING)
+	elif !(vehicle.current_state is SteeringWander):
+		vehicle.switch_state(Vehicle.State.WANDER)

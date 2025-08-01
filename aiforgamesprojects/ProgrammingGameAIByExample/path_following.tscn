@@ -50,3 +50,4 @@ layout_mode = 2
 
 [connection signal="toggled" from="PathControls/VBoxContainer/HBoxContainer/isClosed" to="." method="_on_is_closed_toggled"]
 [connection signal="pressed" from="PathControls/VBoxContainer/AddPoint" to="." method="_on_add_point_pressed"]
+[connection signal="toggled" from="PathControls/VBoxContainer/HBoxContainer2/Move" to="." method="_on_move_toggled"]

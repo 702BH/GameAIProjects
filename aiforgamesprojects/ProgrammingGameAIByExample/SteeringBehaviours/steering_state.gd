@@ -12,7 +12,9 @@ var interpose_target_2 : Vehicle = null
 
 var path : PathI = null
 
-func setup(context_vehicle: Vehicle, context_target: Target, context_obstacles, context_state_data, context_interpose_1, context_interpose_2, context_path) ->void:
+var leader : Vehicle = null
+
+func setup(context_vehicle: Vehicle, context_target: Target, context_obstacles, context_state_data, context_interpose_1, context_interpose_2, context_path, context_leader) ->void:
 	vehicle = context_vehicle
 	target = context_target
 	obstacles = context_obstacles
@@ -20,6 +22,7 @@ func setup(context_vehicle: Vehicle, context_target: Target, context_obstacles, 
 	interpose_target_1 = context_interpose_1
 	interpose_target_2 = context_interpose_2
 	path = context_path
+	leader = context_leader
 
 
 func transition_state(new_state: Vehicle.State, state_data: SteeringStateData = SteeringStateData.new()) -> void:
