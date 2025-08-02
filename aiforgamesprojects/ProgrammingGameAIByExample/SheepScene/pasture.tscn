@@ -1,0 +1,8 @@
+[gd_scene load_steps=2 format=3 uid="uid://cdef2aaqs1tb"]
+
+[ext_resource type="Script" uid="uid://2f2tjy8ts6mw" path="res://ProgrammingGameAIByExample/SheepScene/pasture.gd" id="1_cd43b"]
+
+[node name="Pasture" type="Node2D"]
+script = ExtResource("1_cd43b")
+
+[node name="SheepContainer" type="Node2D" parent="."]

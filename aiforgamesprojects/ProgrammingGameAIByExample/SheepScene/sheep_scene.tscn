@@ -1,0 +1,20 @@
+[gd_scene load_steps=2 format=3 uid="uid://8ulx0ud1t5r7"]
+
+[ext_resource type="Script" uid="uid://broaklvkowpvp" path="res://ProgrammingGameAIByExample/SheepScene/Sheep.gd" id="1_6hjqv"]
+
+[node name="SheepScene" type="Node2D"]
+script = ExtResource("1_6hjqv")
+max_speed = 5.0
+color = Color(0.816014, 0.263232, 0.808086, 1)
+
+[node name="State" type="Control" parent="."]
+visible = false
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="Label" type="Label" parent="State"]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 23.0

@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://cjppxioa0fyo5"]
+
+[ext_resource type="Script" uid="uid://da8jr77b86kkx" path="res://ProgrammingGameAIByExample/SheepScene/mover.gd" id="1_k34me"]
+
+[node name="mover" type="Node2D"]
+script = ExtResource("1_k34me")
