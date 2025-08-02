@@ -14,6 +14,8 @@ var targetLocal := Vector2.ZERO
 var targetWorld := Vector2.ZERO
 var pursuer
 
+var neighbors := []
+
 # Behaviour settings
 var behaviors = {
 	"seperation" : {"active": false, "weight": 1.0},
@@ -28,6 +30,11 @@ func _init(context_owner_sheep : Sheep) -> void:
 
 
 func calculate() -> Vector2:
+	var pos = owner_sheep.position_to_bin_grid(owner_sheep.position)
+	var col = int(pos.x)
+	var row = int(pos.y)
+	neighbors = owner_sheep.bin_grid[row][col]
+	
 	steering_force = Vector2.ZERO
 	
 	if behaviors["evade"]["active"]:
@@ -35,15 +42,15 @@ func calculate() -> Vector2:
 			return steering_force
 	
 	if behaviors["seperation"]["active"]:
-		if not accumulate_force(seperate(owner_sheep.flock) * behaviors["seperation"]["weight"]):
+		if not accumulate_force(seperate(neighbors) * behaviors["seperation"]["weight"]):
 			return steering_force
 	
 	if behaviors["alignment"]["active"]:
-		if not accumulate_force(allignment(owner_sheep.flock) * behaviors["alignment"]["weight"]):
+		if not accumulate_force(allignment(neighbors) * behaviors["alignment"]["weight"]):
 			return steering_force
 	
 	if behaviors["cohesion"]["active"]:
-		if not accumulate_force(cohesion(owner_sheep.flock) * behaviors["cohesion"]["weight"]):
+		if not accumulate_force(cohesion(neighbors) * behaviors["cohesion"]["weight"]):
 			return steering_force
 	
 	if behaviors["wander"]["active"]:
