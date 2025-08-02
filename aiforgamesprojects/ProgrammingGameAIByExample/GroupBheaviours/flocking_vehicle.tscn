@@ -1,0 +1,7 @@
+[gd_scene load_steps=2 format=3 uid="uid://jnhkhet7lbio"]
+
+[ext_resource type="Script" uid="uid://cmuahb6tmvqew" path="res://ProgrammingGameAIByExample/GroupBheaviours/flocking_vehicle.gd" id="1_lqfn1"]
+
+[node name="FlockingVehicle" type="Node2D"]
+script = ExtResource("1_lqfn1")
+color = Color(0.891376, 0.178571, 0.680495, 1)

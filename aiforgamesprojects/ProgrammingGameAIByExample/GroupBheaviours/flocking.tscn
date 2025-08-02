@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://3sbvlc4i8u7s"]
+
+[ext_resource type="Script" uid="uid://cg1cgj06sli1x" path="res://ProgrammingGameAIByExample/GroupBheaviours/flocking.gd" id="1_5hb5u"]
+
+[node name="Flocking" type="Node2D"]
+script = ExtResource("1_5hb5u")
