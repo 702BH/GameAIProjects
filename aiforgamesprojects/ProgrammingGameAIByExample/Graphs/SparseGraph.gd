@@ -1,16 +1,21 @@
 class_name SparseGraph
 extends Node
 
-var di_graph : bool
 
-var nodes : Array[NodeGraph] = []
+
+# the nodes that comprise this graph
+var nodes : Array[GraphVertex] = []
 var edges: Dictionary = {}
+var di_graph : bool
+var next_index := 0
 
 func _init(context_digraph:bool) -> void:
 	di_graph = context_digraph
 
 
 func add_vertex(_node : GraphVertex) -> void:
+	if not nodes.has(_node):
+		nodes.append(_node)
 	if not edges.find_key(_node):
 		edges[_node] = []
 
@@ -49,3 +54,10 @@ func remove_vertex(_node : GraphVertex) -> void:
 			if edge_list[i].to == _node:
 				edge_list.remove_at(i)
 				return
+
+
+func depth_first_search() -> void:
+	var is_visited : Array = []
+	for node : GraphVertex in nodes:
+		is_visited[node.id].append(false)
+	var result : Array = []
