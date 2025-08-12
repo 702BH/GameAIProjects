@@ -13,47 +13,48 @@ func _init(context_digraph:bool) -> void:
 	di_graph = context_digraph
 
 
-func add_vertex(_node : GraphVertex) -> void:
-	if not nodes.has(_node):
-		nodes.append(_node)
-	if not edges.find_key(_node):
-		edges[_node] = []
-
-func add_edge(_from : GraphVertex, _to: GraphVertex, weight : float) -> void:
-	var edge_exists := false
-	var edge_list :Array[GraphEdge] = edges.get(_from)
-	for edge : GraphEdge in edge_list:
-		if edge.to == _to:
-			edge_exists = true
-	# if this source -> target edge already exists then dont add
-	if not edge_exists:
-		var edge := GraphEdge.new(_from, _to, weight)
-		edge_list.append(edge)
+func add_vertex() -> void:
+	var vertex = GraphVertex.new(next_index)
+	nodes.append(vertex)
+	edges[next_index] = []
+	next_index += 1
 
 
-func remove_edge(_from : GraphVertex, _to: GraphVertex) -> void:
-	var edge_list :Array[GraphEdge] = edges.get(_from)
-	
-	for i in range(edge_list.size() - 1):
-		if edge_list[i].to == _to:
-			edge_list.remove_at(i)
+func add_edge(_from : int, _to: int, weight : float) -> void:
+	# prevent duplicates
+	for e:GraphEdge in edges[_from]:
+		if e.to == _to:
 			return
+	edges[_from].append(GraphEdge.new(_from, _to, weight))
+	
+	# if undirected graph, add the reverse edge
+	if not di_graph:
+		for e:GraphEdge in edges[_to]:
+			if e.to == _from:
+				return
+		edges[_to].append(GraphEdge.new(_to, _from, weight))
 
 
-func remove_vertex(_node : GraphVertex) -> void:
-	if not edges.find_key(_node):
+
+func remove_edge(_from : int, _to: int) -> void:
+	edges[_from] = edges[_from].filter(func(e): return e.to != _to)
+	if not di_graph:
+		edges[_to] = edges[_to].filter(func(e): return e.to != _from)
+
+
+
+func remove_vertex(id : int) -> void:
+	if not edges.has(id):
 		return
 	
 	# remove the node
-	edges.erase(_node)
+	edges.erase(id)
 	
-	# look for other ingoing edges
-	for nodes in edges:
-		var edge_list = edges[nodes]
-		for i in range(edge_list.size() - 1):
-			if edge_list[i].to == _node:
-				edge_list.remove_at(i)
-				return
+	# remove all edges to this vertex
+	for key in edges.keys():
+		edges[key] = edges[key].filter(func(e): return e.to != id)
+	
+	nodes[id] = null
 
 
 func depth_first_search() -> void:
