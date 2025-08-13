@@ -36,9 +36,50 @@ size_flags_vertical = 3
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="Label" type="Label" parent="Control/HBoxContainer/NodeManipulation"]
+[node name="Node" type="VBoxContainer" parent="Control/HBoxContainer/NodeManipulation"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="Control/HBoxContainer/NodeManipulation/Node"]
 layout_mode = 2
 text = "No Node Selected"
 
+[node name="RemoveNode" type="Button" parent="Control/HBoxContainer/NodeManipulation/Node"]
+visible = false
+layout_mode = 2
+text = "Remove Node"
+
+[node name="Label2" type="Label" parent="Control/HBoxContainer/NodeManipulation/Node"]
+visible = false
+layout_mode = 2
+text = "Select outoging vertex"
+
+[node name="EdgeNodeOption" type="OptionButton" parent="Control/HBoxContainer/NodeManipulation/Node"]
+visible = false
+layout_mode = 2
+
+[node name="AddEdge" type="Button" parent="Control/HBoxContainer/NodeManipulation/Node"]
+visible = false
+layout_mode = 2
+text = "Add Edge"
+
+[node name="DFS" type="Button" parent="Control/HBoxContainer/NodeManipulation/Node"]
+layout_mode = 2
+text = "Depth First Search"
+
+[node name="Edge" type="VBoxContainer" parent="Control/HBoxContainer/NodeManipulation"]
+visible = false
+layout_mode = 2
+
+[node name="EdgeLabel" type="Label" parent="Control/HBoxContainer/NodeManipulation/Edge"]
+layout_mode = 2
+
+[node name="RemoveEdge" type="Button" parent="Control/HBoxContainer/NodeManipulation/Edge"]
+layout_mode = 2
+text = "Remove Edge"
+
 [connection signal="pressed" from="Control/HBoxContainer/VBoxContainer/Button" to="." method="_on_button_pressed"]
 [connection signal="item_selected" from="Control/HBoxContainer/VBoxContainer/GraphTree" to="." method="_on_graph_tree_item_selected"]
+[connection signal="pressed" from="Control/HBoxContainer/NodeManipulation/Node/RemoveNode" to="." method="_on_remove_node_pressed"]
+[connection signal="pressed" from="Control/HBoxContainer/NodeManipulation/Node/AddEdge" to="." method="_on_add_edge_pressed"]
+[connection signal="pressed" from="Control/HBoxContainer/NodeManipulation/Node/DFS" to="." method="_on_dfs_pressed"]
+[connection signal="pressed" from="Control/HBoxContainer/NodeManipulation/Edge/RemoveEdge" to="." method="_on_remove_edge_pressed"]

@@ -57,8 +57,23 @@ func remove_vertex(id : int) -> void:
 	nodes[id] = null
 
 
-func depth_first_search() -> void:
-	var is_visited : Array = []
-	for node : GraphVertex in nodes:
-		is_visited[node.id].append(false)
-	var result : Array = []
+func depth_first_search(target:int) -> Array[GraphVertex]:
+	var is_visited : Array[bool] = []
+	is_visited.resize(nodes.size())
+	var result : Array[GraphVertex] = []
+	_dfs(is_visited, nodes[0], result, target)
+	print(result)
+	for i in range(result.size()):
+		print(result[i].vertex_text())
+	return result
+
+
+func _dfs(isVisited: Array[bool], node : GraphVertex, result: Array[GraphVertex], target:int) -> void:
+	result.append(node)
+	isVisited[node.id] = true
+	if node.id == target:
+		return
+	var node_edges = edges[node.id]
+	for edge:GraphEdge in node_edges:
+		if !isVisited[edge.to]:
+			_dfs(isVisited, nodes[edge.to], result, target)

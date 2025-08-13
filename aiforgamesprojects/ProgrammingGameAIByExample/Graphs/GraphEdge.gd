@@ -10,3 +10,7 @@ func _init(context_from:int, context_to:int, context_cost:float) -> void:
 	from = context_from
 	to = context_to
 	cost = context_cost
+
+
+func edge_text() -> String:
+	return "Source: %d - Target: %d" %[from, to]
