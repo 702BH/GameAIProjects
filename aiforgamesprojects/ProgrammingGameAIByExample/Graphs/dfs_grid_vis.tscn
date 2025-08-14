@@ -1,0 +1,51 @@
+[gd_scene load_steps=3 format=3 uid="uid://cifsyqlghfphh"]
+
+[ext_resource type="Script" uid="uid://bey4x6mqnv3as" path="res://ProgrammingGameAIByExample/Graphs/dfs_grid_vis.gd" id="1_75a5e"]
+[ext_resource type="Script" uid="uid://cxpx5smgrvdqq" path="res://ProgrammingGameAIByExample/Graphs/grid.gd" id="2_weqn8"]
+
+[node name="DfsGridVis" type="Node2D"]
+script = ExtResource("1_75a5e")
+
+[node name="Control" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 0
+offset_top = 5.0
+offset_right = 1152.0
+offset_bottom = 645.0
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Control"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Buttons" type="VBoxContainer" parent="Control/HBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 4
+theme_override_constants/separation = 15
+
+[node name="Source" type="Button" parent="Control/HBoxContainer/Buttons"]
+layout_mode = 2
+text = "Add Source"
+
+[node name="Target" type="Button" parent="Control/HBoxContainer/Buttons"]
+layout_mode = 2
+text = "Add Target"
+
+[node name="Walls" type="Button" parent="Control/HBoxContainer/Buttons"]
+layout_mode = 2
+text = "Place Walls"
+
+[node name="Grid" type="ReferenceRect" parent="Control/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+mouse_default_cursor_shape = 2
+border_color = Color(0.600011, 0.433377, 0.843736, 1)
+editor_only = false
+script = ExtResource("2_weqn8")
+
+[connection signal="mouse_entered" from="Control/HBoxContainer/Grid" to="Control/HBoxContainer/Grid" method="_on_mouse_entered"]
+[connection signal="mouse_exited" from="Control/HBoxContainer/Grid" to="Control/HBoxContainer/Grid" method="_on_mouse_exited"]
+[connection signal="resized" from="Control/HBoxContainer/Grid" to="Control/HBoxContainer/Grid" method="_on_resized"]
