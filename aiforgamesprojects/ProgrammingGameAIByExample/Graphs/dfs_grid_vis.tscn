@@ -1,7 +1,22 @@
-[gd_scene load_steps=3 format=3 uid="uid://cifsyqlghfphh"]
+[gd_scene load_steps=9 format=3 uid="uid://cifsyqlghfphh"]
 
 [ext_resource type="Script" uid="uid://bey4x6mqnv3as" path="res://ProgrammingGameAIByExample/Graphs/dfs_grid_vis.gd" id="1_75a5e"]
 [ext_resource type="Script" uid="uid://cxpx5smgrvdqq" path="res://ProgrammingGameAIByExample/Graphs/grid.gd" id="2_weqn8"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_weqn8"]
+bg_color = Color(0.892787, 0.45323, 0.37779, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_me184"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_55x87"]
+bg_color = Color(0.6, 0, 0, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_fcdx7"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_5oawj"]
+bg_color = Color(0, 0, 0, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_so6rh"]
 
 [node name="DfsGridVis" type="Node2D"]
 script = ExtResource("1_75a5e")
@@ -24,18 +39,30 @@ grow_vertical = 2
 [node name="Buttons" type="VBoxContainer" parent="Control/HBoxContainer"]
 layout_mode = 2
 size_flags_vertical = 4
-theme_override_constants/separation = 15
 
 [node name="Source" type="Button" parent="Control/HBoxContainer/Buttons"]
 layout_mode = 2
+theme_override_colors/icon_hover_pressed_color = Color(0.262932, 0.262932, 0.262932, 1)
+theme_override_colors/icon_pressed_color = Color(1.92523e-07, 0, 0.627454, 1)
+theme_override_styles/pressed = SubResource("StyleBoxFlat_weqn8")
+theme_override_styles/normal = SubResource("StyleBoxFlat_me184")
+toggle_mode = true
 text = "Add Source"
 
 [node name="Target" type="Button" parent="Control/HBoxContainer/Buttons"]
 layout_mode = 2
+theme_override_colors/icon_hover_pressed_color = Color(0.262745, 0.262745, 0.262745, 1)
+theme_override_styles/pressed = SubResource("StyleBoxFlat_55x87")
+theme_override_styles/normal = SubResource("StyleBoxFlat_fcdx7")
+toggle_mode = true
 text = "Add Target"
 
 [node name="Walls" type="Button" parent="Control/HBoxContainer/Buttons"]
 layout_mode = 2
+theme_override_colors/icon_hover_pressed_color = Color(0.262745, 0.262745, 0.262745, 1)
+theme_override_styles/pressed = SubResource("StyleBoxFlat_5oawj")
+theme_override_styles/normal = SubResource("StyleBoxFlat_so6rh")
+toggle_mode = true
 text = "Place Walls"
 
 [node name="Grid" type="ReferenceRect" parent="Control/HBoxContainer"]
@@ -46,6 +73,9 @@ border_color = Color(0.600011, 0.433377, 0.843736, 1)
 editor_only = false
 script = ExtResource("2_weqn8")
 
+[connection signal="toggled" from="Control/HBoxContainer/Buttons/Source" to="." method="_on_source_toggled"]
+[connection signal="toggled" from="Control/HBoxContainer/Buttons/Target" to="." method="_on_target_toggled"]
+[connection signal="toggled" from="Control/HBoxContainer/Buttons/Walls" to="." method="_on_walls_toggled"]
 [connection signal="mouse_entered" from="Control/HBoxContainer/Grid" to="Control/HBoxContainer/Grid" method="_on_mouse_entered"]
 [connection signal="mouse_exited" from="Control/HBoxContainer/Grid" to="Control/HBoxContainer/Grid" method="_on_mouse_exited"]
 [connection signal="resized" from="Control/HBoxContainer/Grid" to="Control/HBoxContainer/Grid" method="_on_resized"]
