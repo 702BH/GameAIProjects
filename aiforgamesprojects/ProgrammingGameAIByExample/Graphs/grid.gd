@@ -22,6 +22,9 @@ var source_location := Vector2.ZERO
 var target_location := Vector2.ZERO
 
 var walls: Array[Vector2] = []
+var paths: Array[Vector2] = []
+
+var graph: SparseGraph
 
 
 func _process(delta: float) -> void:
@@ -30,10 +33,9 @@ func _process(delta: float) -> void:
 		return
 	if placing_walls and Input.is_action_pressed("place"):
 		var wall_location = position_to_grid(get_local_mouse_position())
+		wall_location = Vector2(wall_location.y, wall_location.x)
 		if !walls.has(wall_location):
 			walls.append(wall_location)
-	if placing_walls and Input.is_action_just_released("place"):
-			print(walls)
 
 func _input(event: InputEvent) -> void:
 	if event.is_action_pressed("place"):
@@ -53,6 +55,7 @@ func _input(event: InputEvent) -> void:
 
 
 func _on_resized() -> void:
+	print("resised")
 	grid_size = size
 	rows = int(grid_size.y / resolution)
 	columns = int(grid_size.x / resolution)
@@ -64,6 +67,16 @@ func _draw() -> void:
 			var color = Color(1,1,1)
 			draw_rect(Rect2(col * resolution, row * resolution, resolution, resolution), color)
 	
+	# draw rows?
+	for i in range(rows + 1):
+		var y = i * resolution
+		draw_line(Vector2(0, y), Vector2(grid_size.x, y), Color.RED, 1.0)
+	
+	for c in range(columns + 1):
+		var x = c * resolution
+		draw_line(Vector2(x, 0), Vector2(x, grid_size.y), Color.RED, 1.0)
+	
+	
 	if source_location != Vector2.ZERO:
 		draw_rect(Rect2(source_location.x * resolution, source_location.y * resolution, resolution, resolution), Color8(228,116,96))
 	
@@ -71,7 +84,9 @@ func _draw() -> void:
 		draw_rect(Rect2(target_location.x * resolution, target_location.y * resolution, resolution, resolution), Color8(153,0,0))
 	
 	for wall in walls:
-		draw_rect(Rect2(wall.x * resolution, wall.y * resolution, resolution, resolution), Color.BLACK)
+		var draw_x = wall.y * resolution
+		var draw_y = wall.x * resolution
+		draw_rect(Rect2(draw_x, draw_y, resolution, resolution), Color.BLACK)
 	
 	if mouse_in:
 		var mouse_position:= get_local_mouse_position()
@@ -90,14 +105,7 @@ func _draw() -> void:
 			draw_rect(Rect2(mouse_grid.x * resolution, mouse_grid.y * resolution, resolution, resolution), color)
 	
 	
-	# draw rows?
-	for i in range(rows + 1):
-		var y = i * resolution
-		draw_line(Vector2(0, y), Vector2(grid_size.x, y), Color.RED, 1.0)
-	
-	for c in range(columns + 1):
-		var x = c * resolution
-		draw_line(Vector2(x, 0), Vector2(x, grid_size.y), Color.RED, 1.0)
+
 
 
 

@@ -67,13 +67,28 @@ func depth_first_search(target:int) -> Array[GraphVertex]:
 		print(result[i].vertex_text())
 	return result
 
+func depth_first_search_source(source:int, target:int) -> Array[GraphVertex]:
+	var is_visited : Array[bool] = []
+	is_visited.resize(nodes.size())
+	var path : Array[GraphVertex] = []
+	if _dfs(is_visited, nodes[source], path, target):
+		print("found")
+		for i in range(path.size()):
+			print(path[i].vertex_text())
+		return path
+	print("failed")
+	return []
 
-func _dfs(isVisited: Array[bool], node : GraphVertex, result: Array[GraphVertex], target:int) -> void:
-	result.append(node)
+
+func _dfs(isVisited: Array[bool], node : GraphVertex, path: Array[GraphVertex], target:int) -> bool:
+	path.append(node)
 	isVisited[node.id] = true
 	if node.id == target:
-		return
+		return true
 	var node_edges = edges[node.id]
 	for edge:GraphEdge in node_edges:
 		if !isVisited[edge.to]:
-			_dfs(isVisited, nodes[edge.to], result, target)
+			if _dfs(isVisited, nodes[edge.to], path, target):
+				return true
+	path.pop_back()
+	return false
