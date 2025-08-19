@@ -9,6 +9,7 @@ extends Node2D
 @onready var buttons_container := $Control/HBoxContainer/Buttons
 @onready var grid: ReferenceRect= $Control/HBoxContainer/Grid
 @onready var dfs_button := $Control/HBoxContainer/Buttons/dfs
+@onready var bfs_button := $Control/HBoxContainer/Buttons/bfs
 
 var graph: SparseGraph
 var resolution := 30.0
@@ -23,6 +24,7 @@ var source_node = null
 var target_node = null
 
 var dfs_path = []
+var bfs_path = []
 
 
 func _ready() -> void:
@@ -113,8 +115,10 @@ func on_source_placed() -> void:
 	print(source_node)
 	if source_node != null and target_node != null:
 		dfs_button.disabled = false
+		bfs_button.disabled = false
 	else:
 		dfs_button.disabled = true
+		bfs_button.disabled = true
 
 func on_target_placed() -> void:
 	target_button.button_pressed = false
@@ -127,6 +131,7 @@ func on_target_placed() -> void:
 	print(target_node)
 	if source_node != null and target_node != null:
 		dfs_button.disabled = false
+		bfs_button.disabled = false
 
 func _on_target_toggled(toggled_on: bool) -> void:
 	placing = toggled_on
@@ -148,7 +153,13 @@ func _on_walls_toggled(toggled_on: bool) -> void:
 
 
 func _on_dfs_pressed() -> void:
-	grid.paths = []
+	#grid.paths = []
 	dfs_path = graph.depth_first_search_source(source_node.id, target_node.id)
 	for node in dfs_path:
 		pass
+
+
+func _on_button_pressed() -> void:
+	#grid.paths = []
+	bfs_path = graph.breadth_first_search_source(source_node.id, target_node.id)
+	

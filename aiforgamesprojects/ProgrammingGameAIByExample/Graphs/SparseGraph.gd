@@ -92,3 +92,41 @@ func _dfs(isVisited: Array[bool], node : GraphVertex, path: Array[GraphVertex], 
 				return true
 	path.pop_back()
 	return false
+
+
+func breadth_first_search_source(source:int, target:int) -> Array[GraphVertex]:
+	var is_visited : Array[bool] = []
+	is_visited.resize(nodes.size())
+	var path : Array[GraphVertex] = []
+	var parents : Dictionary = {}
+	if _bfs(is_visited, nodes[source], path, target, parents):
+		print("found")
+		var path_to_target: Array[GraphVertex]  = []
+		var current = target
+		
+		while current != null:
+			path_to_target.push_front(nodes[current])
+			current = parents.get(current, null)
+		for i in range(path_to_target.size()):
+			print(path[i].vertex_text())
+		return path_to_target
+	print("failed")
+	return []
+
+func _bfs(isVisited: Array[bool], node : GraphVertex, path: Array[GraphVertex], target:int, parents:Dictionary) -> bool:
+	isVisited[node.id] = true
+	var queue = []
+	queue.push_back(node)
+	parents[node.id] = null
+	while queue.size() > 0:
+		var next = queue.pop_front()
+		path.append(next)
+		if next.id == target:
+			return true
+		var node_edges = edges[next.id]
+		for edge:GraphEdge in node_edges:
+			if !isVisited[edge.to]:
+				isVisited[edge.to] = true
+				parents[edge.to] = next.id
+				queue.push_back(nodes[edge.to])
+	return false

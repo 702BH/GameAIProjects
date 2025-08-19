@@ -51,6 +51,11 @@ layout_mode = 2
 disabled = true
 text = "DFS"
 
+[node name="bfs" type="Button" parent="Control/HBoxContainer/Buttons"]
+layout_mode = 2
+disabled = true
+text = "BFS"
+
 [node name="Grid" type="ReferenceRect" parent="Control/HBoxContainer"]
 custom_minimum_size = Vector2(1052, 640)
 layout_mode = 2
@@ -63,6 +68,7 @@ script = ExtResource("2_weqn8")
 [connection signal="toggled" from="Control/HBoxContainer/Buttons/Target" to="." method="_on_target_toggled"]
 [connection signal="toggled" from="Control/HBoxContainer/Buttons/Walls" to="." method="_on_walls_toggled"]
 [connection signal="pressed" from="Control/HBoxContainer/Buttons/dfs" to="." method="_on_dfs_pressed"]
+[connection signal="pressed" from="Control/HBoxContainer/Buttons/bfs" to="." method="_on_button_pressed"]
 [connection signal="mouse_entered" from="Control/HBoxContainer/Grid" to="Control/HBoxContainer/Grid" method="_on_mouse_entered"]
 [connection signal="mouse_exited" from="Control/HBoxContainer/Grid" to="Control/HBoxContainer/Grid" method="_on_mouse_exited"]
 [connection signal="resized" from="Control/HBoxContainer/Grid" to="Control/HBoxContainer/Grid" method="_on_resized"]
