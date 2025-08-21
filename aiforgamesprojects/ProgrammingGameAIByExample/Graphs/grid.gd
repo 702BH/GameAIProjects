@@ -31,12 +31,13 @@ var graph: SparseGraph
 var dijkstras_grid = []
 var bfs_grid = []
 var dfs_grid = []
+var a_star_grid = []
 
 
 var dijk_color = Color(0, 1, 0, 0.6)  # green, semi-transparent
 var dfs_color  = Color(1, 1, 0, 0.6)  # yellow, semi-transparent
 var bfs_color  = Color(0, 0, 1, 0.6)
-
+var astar_color  = Color(1, 1, 0, 0.6)
 
 func _process(delta: float) -> void:
 	queue_redraw()
@@ -101,6 +102,12 @@ func _draw() -> void:
 		var draw_x = path.y * resolution
 		var draw_y = path.x * resolution
 		draw_rect(Rect2(draw_x, draw_y, resolution, resolution), dijk_color)
+		draw_rect(Rect2(draw_x, draw_y, resolution, resolution), Color(0,0,0,1), false, 1) # black border
+	
+	for path in a_star_grid:
+		var draw_x = path.y * resolution
+		var draw_y = path.x * resolution
+		draw_rect(Rect2(draw_x, draw_y, resolution, resolution),astar_color )
 		draw_rect(Rect2(draw_x, draw_y, resolution, resolution), Color(0,0,0,1), false, 1) # black border
 	
 	if source_location != Vector2.ZERO:

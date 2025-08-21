@@ -11,6 +11,8 @@ extends Node2D
 @onready var dfs_button := $Control/HBoxContainer/Buttons/dfs
 @onready var bfs_button := $Control/HBoxContainer/Buttons/bfs
 @onready var dijkstras := $Control/HBoxContainer/Buttons/dijkstras
+@onready var a_star_button := $Control/HBoxContainer/Buttons/AStar
+
 
 var graph: SparseGraph
 var resolution := 30.0
@@ -118,10 +120,12 @@ func on_source_placed() -> void:
 		dfs_button.disabled = false
 		bfs_button.disabled = false
 		dijkstras.disabled = false
+		a_star_button.disabled = false
 	else:
 		dfs_button.disabled = true
 		bfs_button.disabled = true
 		dijkstras.disabled = true
+		a_star_button.disabled = true
 
 func on_target_placed() -> void:
 	target_button.button_pressed = false
@@ -136,6 +140,7 @@ func on_target_placed() -> void:
 		dfs_button.disabled = false
 		bfs_button.disabled = false
 		dijkstras.disabled = false
+		a_star_button.disabled = false
 
 func _on_target_toggled(toggled_on: bool) -> void:
 	placing = toggled_on
@@ -177,9 +182,20 @@ func _on_button_pressed() -> void:
 
 
 func _on_dijkstras_pressed() -> void:
+	grid.dijkstras_grid = []
 	var path = graph.dijkstras(source_node.id, target_node.id)
 	for i in range(path.size()):
 		var row = path[i].id / columns
 		var col = path[i].id % columns
 		grid.dijkstras_grid.append(Vector2(row, col))
+		print(path[i].vertex_text())
+
+
+func _on_a_star_pressed() -> void:
+	grid.a_star_grid = []
+	var path = graph.A_star(source_node.id, target_node.id, columns)
+	for i in range(path.size()):
+		var row = path[i].id / columns
+		var col = path[i].id % columns
+		grid.a_star_grid.append(Vector2(row, col))
 		print(path[i].vertex_text())
