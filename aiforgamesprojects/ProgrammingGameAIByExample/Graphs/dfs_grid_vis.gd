@@ -10,6 +10,7 @@ extends Node2D
 @onready var grid: ReferenceRect= $Control/HBoxContainer/Grid
 @onready var dfs_button := $Control/HBoxContainer/Buttons/dfs
 @onready var bfs_button := $Control/HBoxContainer/Buttons/bfs
+@onready var dijkstras := $Control/HBoxContainer/Buttons/dijkstras
 
 var graph: SparseGraph
 var resolution := 30.0
@@ -57,7 +58,7 @@ func _ready() -> void:
 						var neighbor = grid_world[i+k][j+l]
 						if neighbor == null:
 							continue
-						graph.add_edge(node.id, neighbor.id, 0.0)
+						graph.add_edge(node.id, neighbor.id, randf_range(1.0, 15.0))
 	#print(grid_world)
 	#print(graph.edges)
 	grid.graph = graph
@@ -116,9 +117,11 @@ func on_source_placed() -> void:
 	if source_node != null and target_node != null:
 		dfs_button.disabled = false
 		bfs_button.disabled = false
+		dijkstras.disabled = false
 	else:
 		dfs_button.disabled = true
 		bfs_button.disabled = true
+		dijkstras.disabled = true
 
 func on_target_placed() -> void:
 	target_button.button_pressed = false
@@ -132,6 +135,7 @@ func on_target_placed() -> void:
 	if source_node != null and target_node != null:
 		dfs_button.disabled = false
 		bfs_button.disabled = false
+		dijkstras.disabled = false
 
 func _on_target_toggled(toggled_on: bool) -> void:
 	placing = toggled_on
@@ -163,3 +167,9 @@ func _on_button_pressed() -> void:
 	#grid.paths = []
 	bfs_path = graph.breadth_first_search_source(source_node.id, target_node.id)
 	
+
+
+func _on_dijkstras_pressed() -> void:
+	var path = graph.dijkstras(source_node.id, target_node.id)
+	for i in range(path.size()):
+		print(path[i].vertex_text())

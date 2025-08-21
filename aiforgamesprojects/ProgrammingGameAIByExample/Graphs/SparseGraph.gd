@@ -130,3 +130,39 @@ func _bfs(isVisited: Array[bool], node : GraphVertex, path: Array[GraphVertex], 
 				parents[edge.to] = next.id
 				queue.push_back(nodes[edge.to])
 	return false
+
+
+func dijkstras(source: int, target: int) -> Array[GraphVertex]:
+	var result : Array[GraphVertex] = []
+	var costs : Dictionary = {}
+	var parents : Dictionary = {}
+	
+	
+	var queue = []
+	for node in nodes:
+		if node == null:
+			continue
+		costs[node.id] = 9223372036854775807 
+		queue.push_back(node.id)
+	costs[source] = 0
+	parents[source] = null
+	
+	queue.sort_custom(func(a, b): return costs[a] < costs[b])
+	
+	while queue.size() > 0:
+		var current_node = queue.pop_front()
+		var neighbors = edges[current_node]
+		var cost = costs[current_node]
+		for edge:GraphEdge in neighbors:
+			var new_cost = cost + edge.cost
+			if costs[edge.to] > new_cost:
+				costs[edge.to] = new_cost
+				parents[edge.to] = current_node
+				queue.sort_custom(func(a, b): return costs[a] < costs[b])
+	
+	var path_to_target: Array[GraphVertex]  = []
+	var current = target
+	while current != null:
+		path_to_target.push_front(nodes[current])
+		current = parents.get(current, null)
+	return path_to_target
