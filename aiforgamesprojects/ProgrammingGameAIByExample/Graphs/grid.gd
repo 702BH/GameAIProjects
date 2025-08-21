@@ -1,6 +1,8 @@
 extends ReferenceRect
 
 
+
+
 signal source_placed
 signal target_placed
 signal walls_placed
@@ -25,6 +27,15 @@ var walls: Array[Vector2] = []
 var paths: Array[Vector2] = []
 
 var graph: SparseGraph
+
+var dijkstras_grid = []
+var bfs_grid = []
+var dfs_grid = []
+
+
+var dijk_color = Color(0, 1, 0, 0.6)  # green, semi-transparent
+var dfs_color  = Color(1, 1, 0, 0.6)  # yellow, semi-transparent
+var bfs_color  = Color(0, 0, 1, 0.6)
 
 
 func _process(delta: float) -> void:
@@ -75,7 +86,22 @@ func _draw() -> void:
 	for c in range(columns + 1):
 		var x = c * resolution
 		draw_line(Vector2(x, 0), Vector2(x, grid_size.y), Color.RED, 1.0)
+		
+	for path in dfs_grid:
+		var draw_x = path.y * resolution
+		var draw_y = path.x * resolution
+		draw_rect(Rect2(draw_x, draw_y, resolution, resolution), dfs_color)
 	
+	for path in bfs_grid:
+		var draw_x = path.y * resolution
+		var draw_y = path.x * resolution
+		draw_rect(Rect2(draw_x, draw_y, resolution, resolution), bfs_color)
+	
+	for path in dijkstras_grid:
+		var draw_x = path.y * resolution
+		var draw_y = path.x * resolution
+		draw_rect(Rect2(draw_x, draw_y, resolution, resolution), dijk_color)
+		draw_rect(Rect2(draw_x, draw_y, resolution, resolution), Color(0,0,0,1), false, 1) # black border
 	
 	if source_location != Vector2.ZERO:
 		draw_rect(Rect2(source_location.x * resolution, source_location.y * resolution, resolution, resolution), Color8(228,116,96))
@@ -87,6 +113,7 @@ func _draw() -> void:
 		var draw_x = wall.y * resolution
 		var draw_y = wall.x * resolution
 		draw_rect(Rect2(draw_x, draw_y, resolution, resolution), Color.BLACK)
+	
 	
 	if mouse_in:
 		var mouse_position:= get_local_mouse_position()

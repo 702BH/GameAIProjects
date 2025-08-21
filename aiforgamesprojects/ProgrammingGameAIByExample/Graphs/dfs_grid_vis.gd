@@ -159,17 +159,27 @@ func _on_walls_toggled(toggled_on: bool) -> void:
 func _on_dfs_pressed() -> void:
 	#grid.paths = []
 	dfs_path = graph.depth_first_search_source(source_node.id, target_node.id)
-	for node in dfs_path:
-		pass
+	for i in range(dfs_path.size()):
+		var row = dfs_path[i].id / columns
+		var col = dfs_path[i].id % columns
+		grid.dfs_grid.append(Vector2(row, col))
+		print(dfs_path[i].vertex_text())
 
 
 func _on_button_pressed() -> void:
 	#grid.paths = []
 	bfs_path = graph.breadth_first_search_source(source_node.id, target_node.id)
-	
+	for i in range(bfs_path.size()):
+		var row = bfs_path[i].id / columns
+		var col = bfs_path[i].id % columns
+		grid.bfs_grid.append(Vector2(row, col))
+		print(bfs_path[i].vertex_text())
 
 
 func _on_dijkstras_pressed() -> void:
 	var path = graph.dijkstras(source_node.id, target_node.id)
 	for i in range(path.size()):
+		var row = path[i].id / columns
+		var col = path[i].id % columns
+		grid.dijkstras_grid.append(Vector2(row, col))
 		print(path[i].vertex_text())
