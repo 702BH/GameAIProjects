@@ -1,4 +1,10 @@
-[gd_scene format=3 uid="uid://c5uea86dlcivm"]
+[gd_scene load_steps=4 format=3 uid="uid://c5uea86dlcivm"]
+
+[ext_resource type="Script" uid="uid://cmclv6r6mrl5b" path="res://ProgrammingGameAIByExample/Raven/map_ui_editor.gd" id="1_ad81b"]
+[ext_resource type="Script" uid="uid://b8rbw8yfhmd0q" path="res://ProgrammingGameAIByExample/Raven/grid_container.gd" id="2_ruvss"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_itxlc"]
+bg_color = Color(0.6, 0.6, 0.6, 0.231373)
 
 [node name="UI" type="Control"]
 layout_mode = 3
@@ -7,6 +13,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+script = ExtResource("1_ad81b")
 
 [node name="Container" type="VBoxContainer" parent="."]
 layout_mode = 1
@@ -16,5 +23,24 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="Control" type="Control" parent="Container"]
+[node name="GridContainer" type="Control" parent="Container"]
+custom_minimum_size = Vector2(1152, 600)
 layout_mode = 2
+script = ExtResource("2_ruvss")
+
+[node name="ButtonPanel" type="PanelContainer" parent="Container"]
+custom_minimum_size = Vector2(0, 48)
+layout_mode = 2
+size_flags_vertical = 4
+theme_override_styles/panel = SubResource("StyleBoxFlat_itxlc")
+
+[node name="Buttons" type="HBoxContainer" parent="Container/ButtonPanel"]
+layout_mode = 2
+alignment = 1
+
+[node name="Walls" type="Button" parent="Container/ButtonPanel/Buttons"]
+layout_mode = 2
+text = "ADD WALLS"
+
+[connection signal="mouse_entered" from="Container/GridContainer" to="Container/GridContainer" method="_on_mouse_entered"]
+[connection signal="mouse_exited" from="Container/GridContainer" to="Container/GridContainer" method="_on_mouse_exited"]
