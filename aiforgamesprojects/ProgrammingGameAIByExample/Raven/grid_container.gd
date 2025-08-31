@@ -1,7 +1,7 @@
 class_name GridDrawing
 extends Control
 
-signal grid_created(rows:int, columns:int)
+enum tool_state {NONE, WALL, SPAWNS}
 
 var resolution := 24.0
 var rows := 0
@@ -9,8 +9,35 @@ var columns := 0
 var grid_world = []
 var mouse_in := false
 
+var current_state: tool_state = tool_state.NONE
+
 func _process(delta: float) -> void:
 	queue_redraw()
+	if !mouse_in:
+		return
+	if current_state == tool_state.WALL:
+		if Input.is_action_pressed("place"):
+			var wall_location = position_to_grid(get_local_mouse_position())
+			var node: RavenNode = grid_world[wall_location.y][wall_location.x]
+			if node.node_type == RavenNode.NodeType.TRAVERSAL:
+				node.node_type = RavenNode.NodeType.WALL
+		elif Input.is_action_pressed("remove"):
+			var wall_location = position_to_grid(get_local_mouse_position())
+			var node: RavenNode = grid_world[wall_location.y][wall_location.x]
+			if node.node_type == RavenNode.NodeType.WALL and !node.is_border:
+				node.node_type = RavenNode.NodeType.TRAVERSAL
+	elif current_state == tool_state.SPAWNS:
+		if Input.is_action_pressed("place"):
+			var wall_location = position_to_grid(get_local_mouse_position())
+			var node: RavenNode = grid_world[wall_location.y][wall_location.x]
+			if node.node_type == RavenNode.NodeType.TRAVERSAL:
+				node.node_type = RavenNode.NodeType.SPAWN
+		elif Input.is_action_pressed("remove"):
+			var wall_location = position_to_grid(get_local_mouse_position())
+			var node: RavenNode = grid_world[wall_location.y][wall_location.x]
+			if node.node_type == RavenNode.NodeType.SPAWN:
+				node.node_type = RavenNode.NodeType.TRAVERSAL
+
 
 func _draw() -> void:
 	# Iterate the grid world and draw the correct color for the node type
@@ -20,6 +47,9 @@ func _draw() -> void:
 				var node: RavenNode = grid_world[row][col]
 				var color
 				if node.node_type == RavenNode.NodeType.TRAVERSAL:
+					draw_rect(Rect2(col * resolution, row * resolution, resolution, resolution), Color.WHITE)
+					#draw_circle(node.node_pos, 2.0, Color.REBECCA_PURPLE)
+				elif node.node_type == RavenNode.NodeType.SPAWN:
 					draw_rect(Rect2(col * resolution, row * resolution, resolution, resolution), Color.WHITE)
 					draw_circle(node.node_pos, 2.0, Color.REBECCA_PURPLE)
 				else:
@@ -52,8 +82,12 @@ func position_to_grid(pos: Vector2) -> Vector2:
 
 func _on_mouse_entered() -> void:
 	mouse_in = true
-	print(mouse_in)
+	print(current_state)
 
 
 func _on_mouse_exited() -> void:
 	mouse_in = false
+
+
+func update_tool_state(state: tool_state) -> void:
+	current_state = state

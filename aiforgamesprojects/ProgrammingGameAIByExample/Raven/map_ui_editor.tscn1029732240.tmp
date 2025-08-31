@@ -1,12 +1,13 @@
-[gd_scene load_steps=6 format=3 uid="uid://c5uea86dlcivm"]
+[gd_scene load_steps=5 format=3 uid="uid://c5uea86dlcivm"]
 
 [ext_resource type="Script" uid="uid://cmclv6r6mrl5b" path="res://ProgrammingGameAIByExample/Raven/map_ui_editor.gd" id="1_ad81b"]
 [ext_resource type="Script" uid="uid://b8rbw8yfhmd0q" path="res://ProgrammingGameAIByExample/Raven/grid_container.gd" id="2_ruvss"]
-[ext_resource type="StyleBox" uid="uid://b8a81fdlk5ted" path="res://ProgrammingGameAIByExample/Raven/button_pressed.tres" id="3_birsf"]
-[ext_resource type="ButtonGroup" uid="uid://ve11tdfr0n4y" path="res://ProgrammingGameAIByExample/Raven/raven_map_buttons.tres" id="4_62kta"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_itxlc"]
 bg_color = Color(0.6, 0.6, 0.6, 0.231373)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ruvss"]
+bg_color = Color(0.109534, 0.692541, 0.616554, 1)
 
 [node name="UI" type="Control"]
 layout_mode = 3
@@ -38,36 +39,14 @@ theme_override_styles/panel = SubResource("StyleBoxFlat_itxlc")
 
 [node name="Buttons" type="HBoxContainer" parent="Container/ButtonPanel"]
 layout_mode = 2
-theme_override_constants/separation = 19
 alignment = 1
 
 [node name="Walls" type="Button" parent="Container/ButtonPanel/Buttons"]
 layout_mode = 2
-theme_override_styles/pressed = ExtResource("3_birsf")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_ruvss")
 toggle_mode = true
-button_group = ExtResource("4_62kta")
 text = "ADD WALLS"
-
-[node name="Spawn" type="Button" parent="Container/ButtonPanel/Buttons"]
-layout_mode = 2
-theme_override_styles/pressed = ExtResource("3_birsf")
-toggle_mode = true
-button_group = ExtResource("4_62kta")
-text = "ADD SPAWNS"
-
-[node name="Save" type="Button" parent="Container/ButtonPanel/Buttons"]
-layout_mode = 2
-text = "SAVE MAP"
-
-[node name="MapName" type="LineEdit" parent="Container/ButtonPanel/Buttons"]
-custom_minimum_size = Vector2(300, 0)
-layout_mode = 2
-size_flags_horizontal = 4
-text = "map_name"
-flat = true
 
 [connection signal="mouse_entered" from="Container/GridContainer" to="Container/GridContainer" method="_on_mouse_entered"]
 [connection signal="mouse_exited" from="Container/GridContainer" to="Container/GridContainer" method="_on_mouse_exited"]
 [connection signal="toggled" from="Container/ButtonPanel/Buttons/Walls" to="." method="_on_walls_toggled"]
-[connection signal="toggled" from="Container/ButtonPanel/Buttons/Spawn" to="." method="_on_spawn_toggled"]
-[connection signal="pressed" from="Container/ButtonPanel/Buttons/Save" to="." method="_on_save_pressed"]

@@ -23,10 +23,10 @@ func generate_grid() -> void:
 		grid_world[i] = []
 		for j in range(columns):
 			if i == 0 or i == rows-1 or j== 0 or j==columns-1:
-				graph.add_vertex(RavenNode.NodeType.WALL, Vector2(j * resolution + resolution / 2, i * resolution + resolution / 2))
+				graph.add_vertex(RavenNode.NodeType.WALL, Vector2(j * resolution + resolution / 2, i * resolution + resolution / 2), true)
 				grid_world[i].append(graph.nodes[i * columns + j])
 			else:
-				graph.add_vertex(RavenNode.NodeType.TRAVERSAL, Vector2(j * resolution + resolution / 2, i * resolution + resolution / 2))
+				graph.add_vertex(RavenNode.NodeType.TRAVERSAL, Vector2(j * resolution + resolution / 2, i * resolution + resolution / 2), false)
 				grid_world[i].append(graph.nodes[i * columns + j])
 
 
@@ -36,3 +36,41 @@ func initialise_grid_container() -> void:
 	grid_container.resolution = resolution
 	grid_container.grid_world = grid_world
 	grid_container.queue_redraw()
+
+
+func _on_walls_toggled(toggled_on: bool) -> void:
+	if toggled_on:
+		grid_container.update_tool_state(GridDrawing.tool_state.WALL)
+	else:
+		grid_container.update_tool_state(GridDrawing.tool_state.NONE)
+
+
+func _on_spawn_toggled(toggled_on: bool) -> void:
+	if toggled_on:
+		grid_container.update_tool_state(GridDrawing.tool_state.SPAWNS)
+	else:
+		grid_container.update_tool_state(GridDrawing.tool_state.NONE)
+
+
+func _on_save_pressed() -> void:
+	var save_data = {
+		"rows":rows,
+		"columns": columns,
+		"resolution": resolution,
+		"nodes": []
+	}
+	for row in range(rows):
+		for col in range(columns):
+			var node: RavenNode = grid_world[row][col]
+			save_data["nodes"].append({
+				"type": node.node_type,
+				"position": node.node_pos,
+				"row": row,
+				"column": col
+			})
+	
+	var file_path = "res://ProgrammingGameAIByExample/Raven/Maps/" + str($Container/ButtonPanel/Buttons/MapName.text + ".json")
+	
+	var file = FileAccess.open(file_path, FileAccess.WRITE)
+	var json_string = JSON.stringify(save_data)
+	file.store_line(json_string)
