@@ -60,14 +60,26 @@ layout_mode = 2
 text = "SAVE MAP"
 
 [node name="MapName" type="LineEdit" parent="Container/ButtonPanel/Buttons"]
-custom_minimum_size = Vector2(300, 0)
+custom_minimum_size = Vector2(100, 0)
 layout_mode = 2
 size_flags_horizontal = 4
 text = "map_name"
 flat = true
+
+[node name="Load" type="Button" parent="Container/ButtonPanel/Buttons"]
+layout_mode = 2
+text = "LOAD MAP"
+
+[node name="LoadMapDialog" type="FileDialog" parent="."]
+title = "Open a File"
+ok_button_text = "Open"
+file_mode = 0
+use_native_dialog = true
 
 [connection signal="mouse_entered" from="Container/GridContainer" to="Container/GridContainer" method="_on_mouse_entered"]
 [connection signal="mouse_exited" from="Container/GridContainer" to="Container/GridContainer" method="_on_mouse_exited"]
 [connection signal="toggled" from="Container/ButtonPanel/Buttons/Walls" to="." method="_on_walls_toggled"]
 [connection signal="toggled" from="Container/ButtonPanel/Buttons/Spawn" to="." method="_on_spawn_toggled"]
 [connection signal="pressed" from="Container/ButtonPanel/Buttons/Save" to="." method="_on_save_pressed"]
+[connection signal="pressed" from="Container/ButtonPanel/Buttons/Load" to="." method="_on_load_pressed"]
+[connection signal="file_selected" from="LoadMapDialog" to="." method="_on_load_map_dialog_file_selected"]
