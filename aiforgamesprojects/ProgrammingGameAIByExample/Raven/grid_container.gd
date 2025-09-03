@@ -2,14 +2,17 @@ class_name GridDrawing
 extends Control
 
 enum tool_state {NONE, WALL, SPAWNS}
+enum ui_state {MAP_EDITOR, MAP_RUNNING}
 
 var resolution := 24.0
 var rows := 0
 var columns := 0
 var grid_world = []
 var mouse_in := false
+var control
 
 var current_state: tool_state = tool_state.NONE
+var current_ui_state: ui_state = ui_state.MAP_EDITOR
 
 func _process(delta: float) -> void:
 	queue_redraw()
@@ -51,26 +54,27 @@ func _draw() -> void:
 					#draw_circle(node.node_pos, 2.0, Color.REBECCA_PURPLE)
 				elif node.node_type == RavenNode.NodeType.SPAWN:
 					draw_rect(Rect2(col * resolution, row * resolution, resolution, resolution), Color.WHITE)
-					draw_circle(node.node_pos, 2.0, Color.REBECCA_PURPLE)
+					draw_circle(node.node_pos, 4.0, Color.REBECCA_PURPLE)
 				else:
 					draw_rect(Rect2(col * resolution, row * resolution, resolution, resolution), Color.BLACK)
 	
 	
 	# DRAW THE MOUSE POS
-	if mouse_in:
-		var mouse_position:= get_local_mouse_position()
-		var mouse_grid = position_to_grid(mouse_position)
-		var color = Color.CRIMSON
-		color.a = 0.5
-		draw_rect(Rect2(mouse_grid.x * resolution, mouse_grid.y * resolution, resolution, resolution), color)
-	# Draw the Grid rows and columns:
-	for i in range(rows + 1):
-		var y = i * resolution
-		draw_line(Vector2(0, y), Vector2(size.x, y), Color.RED, 1.0)
-	
-	for c in range(columns + 1):
-		var x = c * resolution
-		draw_line(Vector2(x, 0), Vector2(x, size.y), Color.RED, 1.0)
+	if current_ui_state == ui_state.MAP_EDITOR:
+		if mouse_in:
+			var mouse_position:= get_local_mouse_position()
+			var mouse_grid = position_to_grid(mouse_position)
+			var color = Color.CRIMSON
+			color.a = 0.5
+			draw_rect(Rect2(mouse_grid.x * resolution, mouse_grid.y * resolution, resolution, resolution), color)
+		# Draw the Grid rows and columns:
+		for i in range(rows + 1):
+			var y = i * resolution
+			draw_line(Vector2(0, y), Vector2(size.x, y), Color.RED, 1.0)
+		
+		for c in range(columns + 1):
+			var x = c * resolution
+			draw_line(Vector2(x, 0), Vector2(x, size.y), Color.RED, 1.0)
 
 
 

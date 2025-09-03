@@ -1,6 +1,8 @@
 extends Control
 
 @onready var grid_container := $Container/GridContainer
+@onready var map_editor_ui := $Container/ButtonPanel/Buttons
+@onready var map_run_ui := $Container/ButtonPanel/RunMapUI
 
 var resolution := 24.0
 var rows := 0
@@ -10,11 +12,15 @@ var graph: RavenGraph
 var loaded_map := ""
 
 
-func _ready() -> void:
-	graph = RavenGraph.new(false)
-	generate_grid()
-	initialise_grid_container(rows, columns, resolution, grid_world)
-	print(grid_world[2][5])
+
+var spawn_points
+
+
+#func _ready() -> void:
+	#graph = RavenGraph.new(false)
+	#generate_grid()
+	#initialise_grid_container(rows, columns, resolution, grid_world)
+	#print(grid_world[2][5])
 
 func generate_grid() -> void:
 	rows = int(grid_container.size.y / resolution)
@@ -31,7 +37,7 @@ func generate_grid() -> void:
 				grid_world[i].append(graph.nodes[i * columns + j])
 
 
-func initialise_grid_container(_rows:int, _columns:int, _res:float, _grid:Array) -> void:
+func initialise_grid_container(_rows:int, _columns:int, _res:float, _grid:Array, control:Control) -> void:
 	grid_container.rows = _rows
 	grid_container.columns = _columns
 	grid_container.resolution = _res
@@ -122,6 +128,13 @@ func load_world_from_file(file_path: String) -> void:
 		else:
 			var graph_node = graph.add_vertex(node["type"], Vector2(node["position"]["x"], node["position"]["y"]), false)
 			grid_world[node["row"]][node["column"]] = graph_node
-	initialise_grid_container(map_rows, map_columns, map_res, grid_world)
+	initialise_grid_container(map_rows, map_columns, map_res, grid_world, self)
 	print("completed")
+	
+
+
+func _on_run_map_pressed() -> void:
+	map_editor_ui.visible = false
+	map_run_ui.visible = true
+	grid_container.current_ui_state = GridDrawing.ui_state.MAP_RUNNING
 	

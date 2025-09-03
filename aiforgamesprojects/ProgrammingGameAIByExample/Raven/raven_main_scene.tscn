@@ -1,3 +1,13 @@
-[gd_scene format=3 uid="uid://dk31yiflq813g"]
+[gd_scene load_steps=3 format=3 uid="uid://dk31yiflq813g"]
+
+[ext_resource type="Script" uid="uid://novq8jodqgp7" path="res://ProgrammingGameAIByExample/Raven/raven_main_scene.gd" id="1_c0dl3"]
+[ext_resource type="PackedScene" uid="uid://c5uea86dlcivm" path="res://ProgrammingGameAIByExample/Raven/map_ui_editor.tscn" id="1_pnaga"]
 
 [node name="RavenMainScene" type="Node2D"]
+script = ExtResource("1_c0dl3")
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="UI" parent="CanvasLayer" instance=ExtResource("1_pnaga")]
+mouse_filter = 2
+mouse_force_pass_scroll_events = false
