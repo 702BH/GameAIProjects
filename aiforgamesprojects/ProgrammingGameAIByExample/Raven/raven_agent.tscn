@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://bw8n4rlrth5ch"]
+
+[ext_resource type="Script" uid="uid://b652dbejbm1bw" path="res://ProgrammingGameAIByExample/Raven/raven_agent.gd" id="1_y4deu"]
+
+[node name="RavenAgent" type="Node2D"]
+script = ExtResource("1_y4deu")
