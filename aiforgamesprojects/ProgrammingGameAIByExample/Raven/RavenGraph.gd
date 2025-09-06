@@ -16,3 +16,25 @@ func add_vertex(type: RavenNode.NodeType, pos: Vector2, border:bool) -> RavenNod
 	edges[next_index] = []
 	next_index += 1
 	return vertex
+
+
+func add_edge(_from : int, _to: int, weight : float) -> void:
+	# prevent duplicates
+	for e:GraphEdge in edges[_from]:
+		if e.to == _to:
+			return
+	edges[_from].append(GraphEdge.new(_from, _to, weight))
+	
+	# if undirected graph, add the reverse edge
+	if not di_graph:
+		for e:GraphEdge in edges[_to]:
+			if e.to == _from:
+				return
+		edges[_to].append(GraphEdge.new(_to, _from, weight))
+
+
+
+func remove_edge(_from : int, _to: int) -> void:
+	edges[_from] = edges[_from].filter(func(e): return e.to != _to)
+	if not di_graph:
+		edges[_to] = edges[_to].filter(func(e): return e.to != _from)
