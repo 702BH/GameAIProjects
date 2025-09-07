@@ -38,3 +38,16 @@ func remove_edge(_from : int, _to: int) -> void:
 	edges[_from] = edges[_from].filter(func(e): return e.to != _to)
 	if not di_graph:
 		edges[_to] = edges[_to].filter(func(e): return e.to != _from)
+
+
+func remove_wall(id : int) -> void:
+	if not edges.has(id):
+		return
+	
+	# remove the node
+	edges.erase(id)
+	
+	# remove all edges to this vertex
+	for key in edges.keys():
+		edges[key] = edges[key].filter(func(e): return e.to != id)
+	

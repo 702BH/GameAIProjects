@@ -12,6 +12,7 @@ var grid_world = []
 var mouse_in := true
 var width := 0.0
 var height := 0.0
+var graph: RavenGraph
 
 var current_state: tool_state = tool_state.NONE
 var current_ui_state: ui_state = ui_state.MAP_EDITOR
@@ -24,6 +25,7 @@ func _process(delta: float) -> void:
 			var node: RavenNode = grid_world[wall_location.y][wall_location.x]
 			if node.node_type == RavenNode.NodeType.TRAVERSAL:
 				node.node_type = RavenNode.NodeType.WALL
+				graph.remove_wall(node.id)
 		elif Input.is_action_pressed("remove"):
 			var wall_location = position_to_grid(get_global_mouse_position())
 			var node: RavenNode = grid_world[wall_location.y][wall_location.x]
@@ -51,16 +53,27 @@ func _draw() -> void:
 		for row in range(rows):
 			for col in range(columns):
 				var node: RavenNode = grid_world[row][col]
+				var neighbors : Array
 				var color
 				if node.node_type == RavenNode.NodeType.TRAVERSAL:
 					draw_rect(Rect2(col * resolution, row * resolution, resolution, resolution), Color.WHITE)
 					#draw_circle(node.node_pos, 2.0, Color.REBECCA_PURPLE)
+					neighbors = graph.edges[node.id]
+					
 				elif node.node_type == RavenNode.NodeType.SPAWN:
 					draw_rect(Rect2(col * resolution, row * resolution, resolution, resolution), Color.WHITE)
 					draw_circle(grid_to_world(node.node_pos.x, node.node_pos.y, resolution), 4.0, Color.REBECCA_PURPLE)
+					neighbors = graph.edges[node.id]
 				else:
 					draw_rect(Rect2(col * resolution, row * resolution, resolution, resolution), Color.BLACK)
-	
+				
+				if !neighbors.is_empty():
+					for neighbor: GraphEdge in neighbors:
+						
+						var node_row = neighbor.to / columns
+						var node_col = neighbor.to % columns
+						var current_neighbor: RavenNode = grid_world[node_row][node_col]
+						draw_line(grid_to_world(node.node_pos.x, node.node_pos.y, resolution), grid_to_world(current_neighbor.node_pos.x, current_neighbor.node_pos.y, resolution), Color.WEB_GREEN)
 	
 	## DRAW THE MOUSE POS
 	if current_ui_state == ui_state.MAP_EDITOR:

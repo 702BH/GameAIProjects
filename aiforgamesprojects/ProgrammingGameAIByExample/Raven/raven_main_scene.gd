@@ -26,7 +26,10 @@ func _ready() -> void:
 	generate_grid()
 	initialise_ui_container(rows, columns, resolution, grid_world, graph, spawn_points, map_drawing)
 	#ui.initialise_grid_container(rows, columns, resolution, grid_world, ui)
-	initialise_map_drawer(rows, columns, resolution, grid_world)
+	initialise_map_drawer(rows, columns, resolution, grid_world, graph)
+	print("Debug")
+	print("Edges for node 1 ", graph.edges[1])
+	print("Edges for node 56", graph.edges[56])
 
 func initialise_ui_container(rows, columns, resolution, grid_world, graph, spawn_points, map_drawer) -> void:
 	ui.rows = rows
@@ -37,13 +40,14 @@ func initialise_ui_container(rows, columns, resolution, grid_world, graph, spawn
 	ui.spawn_points = spawn_points
 	ui.map_drawer = map_drawer
 
-func initialise_map_drawer(rows, columns, resolution, grid_world) -> void:
+func initialise_map_drawer(rows, columns, resolution, grid_world, graph) -> void:
 	map_drawing.rows = rows
 	map_drawing.columns = columns
 	map_drawing.resolution = resolution
 	map_drawing.grid_world = grid_world
 	map_drawing.width = width
 	map_drawing.height = height
+	map_drawing.graph = graph
 	map_drawing.queue_redraw()
 
 
@@ -62,10 +66,24 @@ func generate_grid() -> void:
 				#graph.add_vertex(RavenNode.NodeType.TRAVERSAL, Vector2(j * resolution + resolution / 2, i * resolution + resolution / 2), false)
 				graph.add_vertex(RavenNode.NodeType.TRAVERSAL, Vector2(j , i ), false)
 				grid_world[i].append(graph.nodes[i * columns + j])
+	
+	
+	# generated edges
+	for i in range(rows):
+		for j in range(columns):
+			var node: RavenNode = grid_world[i][j]
+			if node.node_type == RavenNode.NodeType.WALL:
+				continue
+			for k in range(-1, 2):
+				for l in range(-1, 2):
+					var neighbor: RavenNode = grid_world[i+k][j+l]
+					if neighbor.node_type == RavenNode.NodeType.WALL:
+						continue
+					graph.add_edge(node.id, neighbor.id, 1.0)
 
 
 func _on_ui_map_load_request(file_path: String) -> void:
-	print(file_path)
+	#print(file_path)
 	load_world_from_file(file_path)
 	#print(spawn_points)
 	#for node:RavenNode in spawn_points:
@@ -107,14 +125,14 @@ func load_world_from_file(file_path: String) -> void:
 			grid_world[node["row"]][node["column"]] = graph_node
 			if graph_node.node_type == RavenNode.NodeType.SPAWN:
 				spawn_points.append(graph_node)
-				print("spawn loaded")
-				print("node pos ", graph_node.node_pos)
-				print("loc row: ", node["row"], " column: ", node["column"])
-				print("grid to world: ", grid_to_world(graph_node.node_pos.x, graph_node.node_pos.y, resolution))
-				print("world to grid: ", position_to_grid(graph_node.node_pos))
+				#print("spawn loaded")
+				#print("node pos ", graph_node.node_pos)
+				#print("loc row: ", node["row"], " column: ", node["column"])
+				#print("grid to world: ", grid_to_world(graph_node.node_pos.x, graph_node.node_pos.y, resolution))
+				#print("world to grid: ", position_to_grid(graph_node.node_pos))
 	initialise_ui_container(map_rows, map_columns, map_res, grid_world, graph, spawn_points, map_drawing)
-	initialise_map_drawer(map_rows, map_columns, map_res, grid_world)
-	print("completed")
+	initialise_map_drawer(map_rows, map_columns, map_res, grid_world, graph)
+	#print("completed")
 
 
 func spawn_agents() -> void:
@@ -123,9 +141,9 @@ func spawn_agents() -> void:
 		agent.position = grid_to_world(node.node_pos.x, node.node_pos.y, resolution)
 		if randf() > 0.3:
 			agent.rotate(randf_range(-2, 2))
-		print(node.node_pos)
-		print(agent.position)
-		print(grid_to_world(node.node_pos.x, node.node_pos.y, resolution))
+		#print(node.node_pos)
+		#print(agent.position)
+		#print(grid_to_world(node.node_pos.x, node.node_pos.y, resolution))
 		agents_container.add_child(agent)
 		agent.queue_redraw()
 		
