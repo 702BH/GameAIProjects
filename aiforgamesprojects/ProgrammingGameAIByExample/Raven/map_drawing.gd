@@ -17,12 +17,19 @@ var graph: RavenGraph
 var current_state: tool_state = tool_state.NONE
 var current_ui_state: ui_state = ui_state.MAP_EDITOR
 
+var cell_size
+var cell_space
+
 func _process(delta: float) -> void:
 	queue_redraw()
 	if current_state == tool_state.WALL:
 		if Input.is_action_pressed("place"):
 			var wall_location = position_to_grid(get_global_mouse_position())
 			var node: RavenNode = grid_world[wall_location.y][wall_location.x]
+			#var cell_x = int(wall_location.y/cell_size)
+			#var cell_y = int(wall_location.x/cell_size)
+			#var key = Vector2i(cell_x, cell_y)
+			#print(cell_space[key])
 			if node.node_type == RavenNode.NodeType.TRAVERSAL:
 				node.node_type = RavenNode.NodeType.WALL
 				graph.remove_wall(node.id)
@@ -31,6 +38,12 @@ func _process(delta: float) -> void:
 			var node: RavenNode = grid_world[wall_location.y][wall_location.x]
 			if node.node_type == RavenNode.NodeType.WALL and !node.is_border:
 				node.node_type = RavenNode.NodeType.TRAVERSAL
+				for k in range(-1, 2):
+					for l in range(-1, 2):
+						var neighbor: RavenNode = grid_world[node.node_pos.y+k][node.node_pos.x+l]
+						if neighbor.node_type == RavenNode.NodeType.WALL:
+							continue
+						graph.add_edge(node.id, neighbor.id, 1.0)
 	elif current_state == tool_state.SPAWNS:
 		if Input.is_action_pressed("place"):
 			var wall_location = position_to_grid(get_global_mouse_position())
@@ -48,6 +61,12 @@ func _process(delta: float) -> void:
 
 
 func _draw() -> void:
+	var mouse_pos = position_to_grid(get_global_mouse_position())
+	var cell_x = int(mouse_pos.x/cell_size)
+	var cell_y = int(mouse_pos.y/cell_size)
+	var key = Vector2i(cell_x, cell_y)
+	var current_cell_space:Array = cell_space[key]
+	
 	# Iterate the grid world and draw the correct color for the node type
 	if !grid_world.is_empty():
 		for row in range(rows):
@@ -66,6 +85,11 @@ func _draw() -> void:
 					neighbors = graph.edges[node.id]
 				else:
 					draw_rect(Rect2(col * resolution, row * resolution, resolution, resolution), Color.BLACK)
+				
+				if current_cell_space.has(node):
+					draw_rect(Rect2(col * resolution, row * resolution, resolution, resolution), Color(1.2, 1, 0, 0.4))
+					print("Has node: ")
+					print(node)
 				
 				if !neighbors.is_empty():
 					for neighbor: GraphEdge in neighbors:

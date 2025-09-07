@@ -45,7 +45,7 @@ func remove_wall(id : int) -> void:
 		return
 	
 	# remove the node
-	edges.erase(id)
+	edges[id] = []
 	
 	# remove all edges to this vertex
 	for key in edges.keys():

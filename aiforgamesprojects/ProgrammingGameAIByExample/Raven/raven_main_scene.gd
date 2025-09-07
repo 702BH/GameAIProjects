@@ -19,6 +19,10 @@ var loaded_map := ""
 
 var spawn_points := []
 
+# grid-space partioning
+var cell_size = 4
+var cell_buckets: Dictionary = {}
+
 
 
 func _ready() -> void:
@@ -26,10 +30,12 @@ func _ready() -> void:
 	generate_grid()
 	initialise_ui_container(rows, columns, resolution, grid_world, graph, spawn_points, map_drawing)
 	#ui.initialise_grid_container(rows, columns, resolution, grid_world, ui)
-	initialise_map_drawer(rows, columns, resolution, grid_world, graph)
+	initialise_map_drawer(rows, columns, resolution, grid_world, graph, cell_size, cell_buckets)
 	print("Debug")
 	print("Edges for node 1 ", graph.edges[1])
 	print("Edges for node 56", graph.edges[56])
+	print("Cell Space")
+	print(cell_buckets[Vector2i(0,0)])
 
 func initialise_ui_container(rows, columns, resolution, grid_world, graph, spawn_points, map_drawer) -> void:
 	ui.rows = rows
@@ -40,7 +46,7 @@ func initialise_ui_container(rows, columns, resolution, grid_world, graph, spawn
 	ui.spawn_points = spawn_points
 	ui.map_drawer = map_drawer
 
-func initialise_map_drawer(rows, columns, resolution, grid_world, graph) -> void:
+func initialise_map_drawer(rows, columns, resolution, grid_world, graph, cell_size, cell_space) -> void:
 	map_drawing.rows = rows
 	map_drawing.columns = columns
 	map_drawing.resolution = resolution
@@ -48,6 +54,8 @@ func initialise_map_drawer(rows, columns, resolution, grid_world, graph) -> void
 	map_drawing.width = width
 	map_drawing.height = height
 	map_drawing.graph = graph
+	map_drawing.cell_size = cell_size
+	map_drawing.cell_space = cell_space
 	map_drawing.queue_redraw()
 
 
@@ -66,7 +74,12 @@ func generate_grid() -> void:
 				#graph.add_vertex(RavenNode.NodeType.TRAVERSAL, Vector2(j * resolution + resolution / 2, i * resolution + resolution / 2), false)
 				graph.add_vertex(RavenNode.NodeType.TRAVERSAL, Vector2(j , i ), false)
 				grid_world[i].append(graph.nodes[i * columns + j])
-	
+			var cell_x = int(j/cell_size)
+			var cell_y = int(i/cell_size)
+			var key = Vector2i(cell_x, cell_y)
+			if !cell_buckets.has(key):
+				cell_buckets[key] = []
+			cell_buckets[key].append(graph.nodes[i * columns + j])
 	
 	# generated edges
 	for i in range(rows):
@@ -131,7 +144,7 @@ func load_world_from_file(file_path: String) -> void:
 				#print("grid to world: ", grid_to_world(graph_node.node_pos.x, graph_node.node_pos.y, resolution))
 				#print("world to grid: ", position_to_grid(graph_node.node_pos))
 	initialise_ui_container(map_rows, map_columns, map_res, grid_world, graph, spawn_points, map_drawing)
-	initialise_map_drawer(map_rows, map_columns, map_res, grid_world, graph)
+	initialise_map_drawer(map_rows, map_columns, map_res, grid_world, graph, cell_size, cell_buckets)
 	#print("completed")
 
 
