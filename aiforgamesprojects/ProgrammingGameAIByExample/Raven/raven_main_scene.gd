@@ -31,11 +31,11 @@ func _ready() -> void:
 	initialise_ui_container(rows, columns, resolution, grid_world, graph, spawn_points, map_drawing)
 	#ui.initialise_grid_container(rows, columns, resolution, grid_world, ui)
 	initialise_map_drawer(rows, columns, resolution, grid_world, graph, cell_size, cell_buckets)
-	print("Debug")
-	print("Edges for node 1 ", graph.edges[1])
-	print("Edges for node 56", graph.edges[56])
-	print("Cell Space")
-	print(cell_buckets[Vector2i(0,0)])
+	#print("Debug")
+	#print("Edges for node 1 ", graph.edges[1])
+	#print("Edges for node 56", graph.edges[56])
+	#print("Cell Space")
+	#print(cell_buckets[Vector2i(0,0)])
 
 func initialise_ui_container(rows, columns, resolution, grid_world, graph, spawn_points, map_drawer) -> void:
 	ui.rows = rows
@@ -63,6 +63,7 @@ func generate_grid() -> void:
 	rows = int(height / resolution)
 	columns = int(width/ resolution)
 	grid_world.resize(rows)
+	cell_buckets.clear()
 	for i in range(rows):
 		grid_world[i] = []
 		for j in range(columns):
@@ -82,6 +83,10 @@ func generate_grid() -> void:
 			cell_buckets[key].append(graph.nodes[i * columns + j])
 	
 	# generated edges
+	generate_edges(rows, columns)
+
+
+func generate_edges(rows, columns) ->void:
 	for i in range(rows):
 		for j in range(columns):
 			var node: RavenNode = grid_world[i][j]
@@ -129,6 +134,8 @@ func load_world_from_file(file_path: String) -> void:
 		grid_world[i] = []
 		grid_world[i].resize(map_columns)
 	
+	cell_buckets.clear()
+	
 	for node in nodes:
 		if node["row"] == 0 or node["row"] == map_rows-1 or node["column"]== 0 or node["column"]==map_columns-1:
 			var graph_node = graph.add_vertex(node["type"], Vector2(node["position"]["x"], node["position"]["y"]), true)
@@ -143,6 +150,13 @@ func load_world_from_file(file_path: String) -> void:
 				#print("loc row: ", node["row"], " column: ", node["column"])
 				#print("grid to world: ", grid_to_world(graph_node.node_pos.x, graph_node.node_pos.y, resolution))
 				#print("world to grid: ", position_to_grid(graph_node.node_pos))
+			var cell_x = int(node["position"]["x"]/cell_size)
+			var cell_y = int(node["position"]["y"]/cell_size)
+			var key = Vector2i(cell_x, cell_y)
+			if !cell_buckets.has(key):
+				cell_buckets[key] = []
+			cell_buckets[key].append(graph.nodes[node["row"] * columns + node["column"]])
+	generate_edges(map_rows, map_columns)
 	initialise_ui_container(map_rows, map_columns, map_res, grid_world, graph, spawn_points, map_drawing)
 	initialise_map_drawer(map_rows, map_columns, map_res, grid_world, graph, cell_size, cell_buckets)
 	#print("completed")
