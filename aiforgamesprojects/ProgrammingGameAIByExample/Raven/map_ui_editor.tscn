@@ -15,6 +15,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+mouse_filter = 2
 script = ExtResource("1_ad81b")
 
 [node name="Container" type="VBoxContainer" parent="."]
@@ -28,6 +29,7 @@ grow_vertical = 2
 [node name="GridContainer" type="Control" parent="Container"]
 custom_minimum_size = Vector2(1152, 600)
 layout_mode = 2
+mouse_filter = 2
 script = ExtResource("2_ruvss")
 
 [node name="ButtonPanel" type="PanelContainer" parent="Container"]
@@ -37,6 +39,7 @@ size_flags_vertical = 4
 theme_override_styles/panel = SubResource("StyleBoxFlat_itxlc")
 
 [node name="Buttons" type="HBoxContainer" parent="Container/ButtonPanel"]
+visible = false
 layout_mode = 2
 theme_override_constants/separation = 19
 alignment = 1
@@ -75,13 +78,27 @@ layout_mode = 2
 text = "RUN MAP"
 
 [node name="RunMapUI" type="HBoxContainer" parent="Container/ButtonPanel"]
-visible = false
 layout_mode = 2
 alignment = 1
 
 [node name="HBoxContainer" type="HBoxContainer" parent="Container/ButtonPanel/RunMapUI"]
 layout_mode = 2
 size_flags_horizontal = 3
+
+[node name="AgentUI" type="HBoxContainer" parent="Container/ButtonPanel/RunMapUI/HBoxContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="Container/ButtonPanel/RunMapUI/HBoxContainer/AgentUI"]
+layout_mode = 2
+text = "Agent Selected: "
+
+[node name="selectedName" type="Label" parent="Container/ButtonPanel/RunMapUI/HBoxContainer/AgentUI"]
+layout_mode = 2
+text = "None"
+
+[node name="RandomPath" type="Button" parent="Container/ButtonPanel/RunMapUI/HBoxContainer/AgentUI"]
+layout_mode = 2
+text = "Generate Random Path"
 
 [node name="PlayControls" type="HBoxContainer" parent="Container/ButtonPanel/RunMapUI"]
 layout_mode = 2
@@ -91,6 +108,10 @@ layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 4
 text = "Play"
+
+[node name="MarginContainer" type="MarginContainer" parent="Container/ButtonPanel/RunMapUI/PlayControls"]
+layout_mode = 2
+theme_override_constants/margin_right = 4
 
 [node name="LoadMapDialog" type="FileDialog" parent="."]
 title = "Open a File"

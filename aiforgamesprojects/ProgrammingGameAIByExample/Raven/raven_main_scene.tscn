@@ -16,7 +16,6 @@ script = ExtResource("2_qcd6h")
 layer = -2
 
 [node name="UI" parent="CanvasLayer" instance=ExtResource("1_pnaga")]
-mouse_filter = 2
 mouse_force_pass_scroll_events = false
 
 [node name="MapDrawing" type="Node2D" parent="."]

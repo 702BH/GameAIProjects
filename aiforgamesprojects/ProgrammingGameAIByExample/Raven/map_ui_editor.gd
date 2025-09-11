@@ -6,6 +6,7 @@ signal start_map_request
 @onready var grid_container := $Container/GridContainer
 @onready var map_editor_ui := $Container/ButtonPanel/Buttons
 @onready var map_run_ui := $Container/ButtonPanel/RunMapUI
+@onready var agent_name_label := $Container/ButtonPanel/RunMapUI/HBoxContainer/AgentUI/selectedName
 
 var resolution := 24.0
 var rows := 0
@@ -18,6 +19,10 @@ var map_drawer
 
 
 var spawn_points := []
+
+func _ready() -> void:
+	$Container/ButtonPanel/Buttons.visible = true
+	$Container/ButtonPanel/RunMapUI.visible = false
 
 
 func _on_walls_toggled(toggled_on: bool) -> void:
@@ -78,3 +83,6 @@ func _on_run_map_pressed() -> void:
 	map_run_ui.visible = true
 	map_drawer.current_ui_state = MapDrawing.ui_state.MAP_RUNNING
 	start_map_request.emit()
+
+func on_agent_selected(agent: RavenAgent) -> void:
+	agent_name_label.text = str(agent)
