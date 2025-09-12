@@ -126,4 +126,5 @@ use_native_dialog = true
 [connection signal="pressed" from="Container/ButtonPanel/Buttons/Save" to="." method="_on_save_pressed"]
 [connection signal="pressed" from="Container/ButtonPanel/Buttons/Load" to="." method="_on_load_pressed"]
 [connection signal="pressed" from="Container/ButtonPanel/Buttons/RunMap" to="." method="_on_run_map_pressed"]
+[connection signal="pressed" from="Container/ButtonPanel/RunMapUI/HBoxContainer/AgentUI/RandomPath" to="." method="_on_random_path_pressed"]
 [connection signal="file_selected" from="LoadMapDialog" to="." method="_on_load_map_dialog_file_selected"]

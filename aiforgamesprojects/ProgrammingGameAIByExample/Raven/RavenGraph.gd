@@ -51,3 +51,61 @@ func remove_wall(id : int) -> void:
 	for key in edges.keys():
 		edges[key] = edges[key].filter(func(e): return e.to != id)
 	
+
+
+func get_random_node() -> RavenNode:
+	var return_node
+	while true:
+		var node: RavenNode = nodes[randi_range(0, nodes.size())]
+		if node.node_type != RavenNode.NodeType.WALL:
+			return_node = node
+			break
+	return return_node
+
+
+
+func A_star(source: int, target: int, columns: int) -> Array[RavenNode]:
+	var result : Array[RavenNode] = []
+	var costs : Dictionary = {}
+	var parents : Dictionary = {}
+	
+	var target_row = target / columns
+	var target_col = target % columns
+	var target_grid_pos = Vector2(target_col, target_row)
+	
+	var queue = []
+	for node in nodes:
+		if node == null:
+			continue
+		costs[node.id] = 9223372036854775807 
+		queue.push_back(node.id)
+	costs[source] = 0
+	parents[source] = null
+	
+	queue.sort_custom(func(a, b): return costs[a] < costs[b])
+	
+	while queue.size() > 0:
+		var current_node = queue.pop_front()
+		var neighbors = edges[current_node]
+		var cost = costs[current_node]
+		for edge:GraphEdge in neighbors:
+			var new_cost = cost + edge.cost
+			
+			if costs[edge.to] > new_cost:
+				costs[edge.to] = new_cost
+				parents[edge.to] = current_node
+				queue.sort_custom(func(a, b): return costs[a] + heuristic(a, target_grid_pos, columns)  < costs[b] + heuristic(b, target_grid_pos, columns))
+	
+	var path_to_target: Array[RavenNode]  = []
+	var current = target
+	while current != null:
+		path_to_target.push_front(nodes[current])
+		current = parents.get(current, null)
+	return path_to_target
+
+
+func heuristic(node_index: int, target_pos: Vector2, columns:int) -> float:
+	var row = node_index / columns
+	var col = node_index % columns
+	var node_pos = Vector2(col, row)
+	return (node_pos - target_pos).length()

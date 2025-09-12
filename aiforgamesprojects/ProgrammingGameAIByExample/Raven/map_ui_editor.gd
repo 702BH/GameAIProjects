@@ -16,6 +16,8 @@ var graph: RavenGraph
 var loaded_map := ""
 var map_drawer
 
+var selected_agent : RavenAgent
+
 
 
 var spawn_points := []
@@ -85,4 +87,14 @@ func _on_run_map_pressed() -> void:
 	start_map_request.emit()
 
 func on_agent_selected(agent: RavenAgent) -> void:
+	selected_agent = agent
 	agent_name_label.text = str(agent)
+
+func on_agent_deselected() -> void:
+	selected_agent = null
+	agent_name_label.text = "None"
+
+func _on_random_path_pressed() -> void:
+	print(selected_agent)
+	if selected_agent:
+		selected_agent._on_generate_paths_pressed()

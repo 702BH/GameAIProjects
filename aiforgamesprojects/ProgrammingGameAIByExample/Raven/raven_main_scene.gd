@@ -39,12 +39,15 @@ func _ready() -> void:
 	#print(cell_buckets[Vector2i(0,0)])
 	
 	agents_container.connect("agent_selected", ui.on_agent_selected)
-	
+	agents_container.connect("agent_deselected", ui.on_agent_deselected)
 
 
 func _unhandled_input(event: InputEvent) -> void:
 	if event.is_action_pressed("place"):
 		agents_container.query_selectable(get_global_mouse_position())
+	if event.is_action_pressed("remove"):
+		if agents_container.selected_agent:
+			print("Should generate a path")
 
 func initialise_ui_container(rows, columns, resolution, grid_world, graph, spawn_points, map_drawer) -> void:
 	ui.rows = rows
@@ -175,7 +178,7 @@ func load_world_from_file(file_path: String) -> void:
 func spawn_agents() -> void:
 	for node:RavenNode in spawn_points:
 		var agent : RavenAgent = agent_prefab.instantiate()
-		agent.path_planner = RavenPathPlanner.new(graph)
+		agent.path_planner = RavenPathPlanner.new(graph, columns,rows, resolution)
 		agent.position = grid_to_world(node.node_pos.x, node.node_pos.y, resolution)
 		if randf() > 0.3:
 			agent.rotate(randf_range(-2, 2))
