@@ -73,19 +73,19 @@ func A_star(source: int, target: int, columns: int) -> Array[RavenNode]:
 	var target_col = target % columns
 	var target_grid_pos = Vector2(target_col, target_row)
 	
-	var queue = []
+	var open_set = MinHeap.new()
+	
 	for node in nodes:
 		if node == null:
 			continue
 		costs[node.id] = 9223372036854775807 
-		queue.push_back(node.id)
 	costs[source] = 0
 	parents[source] = null
 	
-	queue.sort_custom(func(a, b): return costs[a] < costs[b])
+	open_set.push(source, heuristic(source, target_grid_pos, columns))
 	
-	while queue.size() > 0:
-		var current_node = queue.pop_front()
+	while open_set.data.size() > 0:
+		var current_node = open_set.pop()
 		var neighbors = edges[current_node]
 		var cost = costs[current_node]
 		for edge:GraphEdge in neighbors:
@@ -94,7 +94,9 @@ func A_star(source: int, target: int, columns: int) -> Array[RavenNode]:
 			if costs[edge.to] > new_cost:
 				costs[edge.to] = new_cost
 				parents[edge.to] = current_node
-				queue.sort_custom(func(a, b): return costs[a] + heuristic(a, target_grid_pos, columns)  < costs[b] + heuristic(b, target_grid_pos, columns))
+				var f_cost = new_cost + heuristic(edge.to, target_grid_pos, columns)
+				open_set.push(edge.to, f_cost)
+				#queue.sort_custom(func(a, b): return costs[a] + heuristic(a, target_grid_pos, columns)  < costs[b] + heuristic(b, target_grid_pos, columns))
 	
 	var path_to_target: Array[RavenNode]  = []
 	var current = target
