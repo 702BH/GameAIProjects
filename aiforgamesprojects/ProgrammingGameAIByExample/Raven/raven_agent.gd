@@ -21,8 +21,8 @@ func _draw() -> void:
 		var target_node:RavenNode = current_path[current_path.size()-1]
 		
 		draw_circle(to_local(grid_to_world(target_node.node_pos.x, target_node.node_pos.y, path_planner.resolution)), 6.0, Color.NAVY_BLUE)
-		draw_line(Vector2.ZERO, to_local(grid_to_world(current_path[0].node_pos.x, current_path[0].node_pos.y, path_planner.resolution)), "orange")
-		for i in range(1, current_path.size() - 1):
+		#draw_line(Vector2.ZERO, to_local(grid_to_world(current_path[0].node_pos.x, current_path[0].node_pos.y, path_planner.resolution)), "orange")
+		for i in range(0, current_path.size() - 1):
 			if i == current_path.size() - 1:
 				continue
 			else:
@@ -40,6 +40,7 @@ func _on_generate_paths_pressed() -> void:
 	#print(path_planner.get_random_path(position))
 	current_path = path_planner.get_random_path(position)
 	print(current_path[current_path.size()-1].node_pos)
+	print(current_path[0].node_pos)
 
 
 
