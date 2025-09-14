@@ -7,6 +7,10 @@ signal start_map_request
 @onready var map_editor_ui := $Container/ButtonPanel/Buttons
 @onready var map_run_ui := $Container/ButtonPanel/RunMapUI
 @onready var agent_name_label := $Container/ButtonPanel/RunMapUI/HBoxContainer/AgentUI/selectedName
+@onready var weapon_popup := $WeaponTypeSelector
+@onready var weapon_cancel := $WeaponTypeSelector/VBoxContainer/VBoxContainer2/HBoxContainer2/HBoxContainer/WeaponCancel
+@onready var weapon_submit := $WeaponTypeSelector/VBoxContainer/VBoxContainer2/HBoxContainer2/HBoxContainer2/WeaponSubmit
+@onready var weapon_toggle := $Container/ButtonPanel/Buttons/Weapon
 
 var resolution := 24.0
 var rows := 0
@@ -25,7 +29,11 @@ var spawn_points := []
 func _ready() -> void:
 	$Container/ButtonPanel/Buttons.visible = true
 	$Container/ButtonPanel/RunMapUI.visible = false
+	RavenServiceBus.weapon_popup.connect(_on_weapon_popup.bind())
 
+func _on_weapon_popup() -> void:
+	print("should be visible")
+	weapon_popup.visible = true
 
 func _on_walls_toggled(toggled_on: bool) -> void:
 	if toggled_on:
@@ -98,3 +106,19 @@ func _on_random_path_pressed() -> void:
 	print(selected_agent)
 	if selected_agent:
 		selected_agent._on_generate_paths_pressed()
+
+
+func _on_weapon_toggled(toggled_on: bool) -> void:
+	if toggled_on:
+		RavenServiceBus.mode_changed.emit(MapDrawing.tool_state.WEAPONS)
+	else:
+		RavenServiceBus.mode_changed.emit(MapDrawing.tool_state.NONE)
+
+
+func _on_weapon_cancel_pressed() -> void:
+	weapon_popup.visible = false
+	weapon_toggle.button_pressed = false
+
+
+func _on_weapon_submit_pressed() -> void:
+	RavenServiceBus.submitted.emit()

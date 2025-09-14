@@ -13,13 +13,13 @@ z_index = 5
 script = ExtResource("2_qcd6h")
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
-layer = -2
+layer = 26
 
 [node name="UI" parent="CanvasLayer" instance=ExtResource("1_pnaga")]
 mouse_force_pass_scroll_events = false
 
 [node name="MapDrawing" type="Node2D" parent="."]
-z_index = -1
+z_index = 25
 script = ExtResource("3_wa7ej")
 
 [connection signal="map_load_request" from="CanvasLayer/UI" to="." method="_on_ui_map_load_request"]

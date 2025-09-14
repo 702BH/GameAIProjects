@@ -59,6 +59,7 @@ text = "ADD SPAWNS"
 
 [node name="Weapon" type="Button" parent="Container/ButtonPanel/Buttons"]
 layout_mode = 2
+theme_override_styles/pressed = ExtResource("3_birsf")
 toggle_mode = true
 button_group = ExtResource("4_62kta")
 text = "Add Weapon"
@@ -127,7 +128,9 @@ use_native_dialog = true
 
 [node name="WeaponTypeSelector" type="Panel" parent="."]
 visible = false
-custom_minimum_size = Vector2(200, 200)
+z_index = 50
+clip_contents = true
+custom_minimum_size = Vector2(400, 200)
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -142,6 +145,7 @@ grow_horizontal = 2
 grow_vertical = 2
 
 [node name="VBoxContainer" type="VBoxContainer" parent="WeaponTypeSelector"]
+clip_contents = true
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -150,11 +154,15 @@ grow_horizontal = 2
 grow_vertical = 2
 
 [node name="VBoxContainer" type="VBoxContainer" parent="WeaponTypeSelector/VBoxContainer"]
+clip_contents = true
 layout_mode = 2
 size_flags_vertical = 3
 
 [node name="HBoxContainer" type="HBoxContainer" parent="WeaponTypeSelector/VBoxContainer/VBoxContainer"]
+clip_contents = true
 layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 0
 alignment = 1
 
 [node name="Label" type="Label" parent="WeaponTypeSelector/VBoxContainer/VBoxContainer/HBoxContainer"]
@@ -164,6 +172,12 @@ text = "Select Weapon Type"
 [node name="OptionButton" type="OptionButton" parent="WeaponTypeSelector/VBoxContainer/VBoxContainer/HBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
+fit_to_longest_item = false
+item_count = 2
+popup/item_0/text = "SHOTGUN"
+popup/item_0/id = 0
+popup/item_1/text = "ROCKET_LAUNCHER"
+popup/item_1/id = 1
 
 [node name="VBoxContainer2" type="VBoxContainer" parent="WeaponTypeSelector/VBoxContainer"]
 layout_mode = 2
@@ -175,14 +189,14 @@ layout_mode = 2
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="Button" type="Button" parent="WeaponTypeSelector/VBoxContainer/VBoxContainer2/HBoxContainer2/HBoxContainer"]
+[node name="WeaponCancel" type="Button" parent="WeaponTypeSelector/VBoxContainer/VBoxContainer2/HBoxContainer2/HBoxContainer"]
 layout_mode = 2
 text = "Cancel"
 
 [node name="HBoxContainer2" type="HBoxContainer" parent="WeaponTypeSelector/VBoxContainer/VBoxContainer2/HBoxContainer2"]
 layout_mode = 2
 
-[node name="Button" type="Button" parent="WeaponTypeSelector/VBoxContainer/VBoxContainer2/HBoxContainer2/HBoxContainer2"]
+[node name="WeaponSubmit" type="Button" parent="WeaponTypeSelector/VBoxContainer/VBoxContainer2/HBoxContainer2/HBoxContainer2"]
 layout_mode = 2
 text = "Submit"
 
@@ -190,8 +204,11 @@ text = "Submit"
 [connection signal="mouse_exited" from="Container/GridContainer" to="Container/GridContainer" method="_on_mouse_exited"]
 [connection signal="toggled" from="Container/ButtonPanel/Buttons/Walls" to="." method="_on_walls_toggled"]
 [connection signal="toggled" from="Container/ButtonPanel/Buttons/Spawn" to="." method="_on_spawn_toggled"]
+[connection signal="toggled" from="Container/ButtonPanel/Buttons/Weapon" to="." method="_on_weapon_toggled"]
 [connection signal="pressed" from="Container/ButtonPanel/Buttons/Save" to="." method="_on_save_pressed"]
 [connection signal="pressed" from="Container/ButtonPanel/Buttons/Load" to="." method="_on_load_pressed"]
 [connection signal="pressed" from="Container/ButtonPanel/Buttons/RunMap" to="." method="_on_run_map_pressed"]
 [connection signal="pressed" from="Container/ButtonPanel/RunMapUI/HBoxContainer/AgentUI/RandomPath" to="." method="_on_random_path_pressed"]
 [connection signal="file_selected" from="LoadMapDialog" to="." method="_on_load_map_dialog_file_selected"]
+[connection signal="pressed" from="WeaponTypeSelector/VBoxContainer/VBoxContainer2/HBoxContainer2/HBoxContainer/WeaponCancel" to="." method="_on_weapon_cancel_pressed"]
+[connection signal="pressed" from="WeaponTypeSelector/VBoxContainer/VBoxContainer2/HBoxContainer2/HBoxContainer2/WeaponSubmit" to="." method="_on_weapon_submit_pressed"]

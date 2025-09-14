@@ -2,8 +2,8 @@ class_name MapDrawing
 extends Node2D
 
 
-enum tool_state {NONE, WALL, SPAWNS}
-enum ui_state {MAP_EDITOR, MAP_RUNNING}
+enum tool_state {NONE, WALL, SPAWNS, WEAPONS}
+enum ui_state {MAP_EDITOR, MAP_RUNNING, MAP_SELECTIONS}
 
 var resolution := 24.0
 var rows := 0
@@ -19,6 +19,17 @@ var current_ui_state: ui_state = ui_state.MAP_EDITOR
 
 var cell_size
 var cell_space
+
+func _ready() -> void:
+	RavenServiceBus.mode_changed.connect(_on_mode_changed.bind())
+	RavenServiceBus.submitted.connect(_on_submitted.bind())
+
+func _on_mode_changed(mode: tool_state) -> void:
+	print(mode)
+	current_state = mode
+
+func _on_submitted() -> void:
+	pass
 
 func _process(delta: float) -> void:
 	queue_redraw()
@@ -58,6 +69,22 @@ func _process(delta: float) -> void:
 			var node: RavenNode = grid_world[wall_location.y][wall_location.x]
 			if node.node_type == RavenNode.NodeType.SPAWN:
 				node.node_type = RavenNode.NodeType.TRAVERSAL
+	elif current_state == tool_state.WEAPONS:
+		if Input.is_action_just_pressed("place"):
+			var wall_location = position_to_grid(get_global_mouse_position())
+			var node: RavenNode = grid_world[wall_location.y][wall_location.x]
+			if node.node_type == RavenNode.NodeType.TRAVERSAL:
+				RavenServiceBus.selected_node =node
+				RavenServiceBus.weapon_popup.emit()
+				#var item_type := RavenNodeItemWeapon.new(RavenNodeItemWeapon.WeaponSubtype.SHOTGUN)
+				#node.set_item_type(item_type)
+				#node.node_type = RavenNode.NodeType.ITEM
+		#elif Input.is_action_pressed("remove"):
+			#var wall_location = position_to_grid(get_global_mouse_position())
+			#var node: RavenNode = grid_world[wall_location.y][wall_location.x]
+			#if node.node_type == RavenNode.NodeType.ITEM:
+				#node.item_type = null
+				#node.node_type = RavenNode.NodeType.TRAVERSAL
 
 
 func _draw() -> void:
