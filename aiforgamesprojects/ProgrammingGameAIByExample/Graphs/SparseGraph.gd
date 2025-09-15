@@ -151,6 +151,8 @@ func dijkstras(source: int, target: int) -> Array[GraphVertex]:
 	
 	while queue.size() > 0:
 		var current_node = queue.pop_front()
+		if current_node == target:
+			break
 		var neighbors = edges[current_node]
 		var cost = costs[current_node]
 		for edge:GraphEdge in neighbors:

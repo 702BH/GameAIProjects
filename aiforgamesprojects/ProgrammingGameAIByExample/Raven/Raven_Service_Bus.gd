@@ -6,4 +6,4 @@ var selected_node: RavenNode = null
 
 signal mode_changed(mode: MapDrawing.tool_state)
 signal weapon_popup()
-signal submitted_weapon(weapon: RavenNodeItemWeapon)
+signal submitted_weapon(weapon: RavenNodeItemWeapon.WeaponSubtype)

@@ -63,6 +63,46 @@ func get_random_node() -> RavenNode:
 	return return_node
 
 
+func dijkstras(source: int, target: int) -> Array[GraphVertex]:
+	var result : Array[GraphVertex] = []
+	var costs : Dictionary = {}
+	var parents : Dictionary = {}
+	
+	
+	var queue = []
+	var open_set = MinHeap.new()
+	for node in nodes:
+		if node == null:
+			continue
+		costs[node.id] = 9223372036854775807 
+	costs[source] = 0
+	parents[source] = null
+	
+	open_set.push(source, 0)
+	
+	
+	while open_set.data.size() > 0:
+		var current_node = open_set.pop()
+		if current_node == target:
+			break
+		var neighbors = edges[current_node]
+		var cost = costs[current_node]
+		for edge:GraphEdge in neighbors:
+			var new_cost = cost + edge.cost
+			if costs[edge.to] > new_cost:
+				costs[edge.to] = new_cost
+				parents[edge.to] = current_node
+				open_set.push(edge.to, new_cost)
+	
+	var path_to_target: Array[GraphVertex]  = []
+	var current = target
+	while current != null:
+		path_to_target.push_front(nodes[current])
+		current = parents.get(current, null)
+	return path_to_target
+
+
+
 
 func A_star(source: int, target: int, columns: int) -> Array[RavenNode]:
 	var result : Array[RavenNode] = []

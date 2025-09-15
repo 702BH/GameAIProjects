@@ -13,7 +13,7 @@ func _init(_graph: RavenGraph, _columns:int, _rows:int, _resolution: float) -> v
 	resolution = _resolution
 
 func get_random_path(agent_pos: Vector2) -> Array:
-	var return_path = graph.A_star(get_nearest_node(agent_pos).id, graph.get_random_node().id, columns)
+	var return_path = graph.dijkstras(get_nearest_node(agent_pos).id, graph.get_random_node().id)
 	if !return_path.is_empty():
 		return return_path
 	else:

@@ -156,6 +156,9 @@ func load_world_from_file(file_path: String) -> void:
 		else:
 			var graph_node = graph.add_vertex(node["type"], Vector2(node["position"]["x"], node["position"]["y"]), false)
 			grid_world[node["row"]][node["column"]] = graph_node
+			if node["item_type"] == RavenNodeItem.ItemType.WEAPON:
+				var item := RavenNodeItemWeapon.new(RavenNodeItemWeapon.WeaponSubtype.SHOTGUN)
+				graph_node.set_item_type(item)
 			if graph_node.node_type == RavenNode.NodeType.SPAWN:
 				spawn_points.append(graph_node)
 				#print("spawn loaded")

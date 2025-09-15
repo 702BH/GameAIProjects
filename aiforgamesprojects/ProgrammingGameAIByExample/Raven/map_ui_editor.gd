@@ -24,6 +24,8 @@ var selected_agent : RavenAgent
 
 
 
+
+
 var spawn_points := []
 
 func _ready() -> void:
@@ -59,8 +61,12 @@ func _on_save_pressed() -> void:
 	for row in range(rows):
 		for col in range(columns):
 			var node: RavenNode = grid_world[row][col]
+			var item_type= null
+			if node.item_type:
+				item_type = node.item_type.item_type
 			save_data["nodes"].append({
 				"type": node.node_type,
+				"item_type": item_type,
 				"position": {"x":node.node_pos.x, "y":node.node_pos.y},
 				"row": row,
 				"column": col
@@ -121,4 +127,5 @@ func _on_weapon_cancel_pressed() -> void:
 
 
 func _on_weapon_submit_pressed() -> void:
-	RavenServiceBus.submitted.emit()
+	weapon_popup.visible = false
+	RavenServiceBus.submitted_weapon.emit(RavenNodeItemWeapon.WeaponSubtype.SHOTGUN)

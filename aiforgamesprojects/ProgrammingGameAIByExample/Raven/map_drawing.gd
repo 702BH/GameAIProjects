@@ -20,16 +20,21 @@ var current_ui_state: ui_state = ui_state.MAP_EDITOR
 var cell_size
 var cell_space
 
+var selected_position
+
 func _ready() -> void:
 	RavenServiceBus.mode_changed.connect(_on_mode_changed.bind())
-	RavenServiceBus.submitted.connect(_on_submitted.bind())
+	RavenServiceBus.submitted_weapon.connect(_on_submitted.bind())
 
 func _on_mode_changed(mode: tool_state) -> void:
 	print(mode)
 	current_state = mode
 
-func _on_submitted() -> void:
-	pass
+func _on_submitted(weapon: RavenNodeItemWeapon.WeaponSubtype) -> void:
+	if RavenServiceBus.selected_node:
+		var item := RavenNodeItemWeapon.new(weapon)
+		RavenServiceBus.selected_node.set_item_type(item)
+		RavenServiceBus.selected_node = null
 
 func _process(delta: float) -> void:
 	queue_redraw()
@@ -74,6 +79,8 @@ func _process(delta: float) -> void:
 			var wall_location = position_to_grid(get_global_mouse_position())
 			var node: RavenNode = grid_world[wall_location.y][wall_location.x]
 			if node.node_type == RavenNode.NodeType.TRAVERSAL:
+				selected_position = wall_location
+				current_state = tool_state.NONE
 				RavenServiceBus.selected_node =node
 				RavenServiceBus.weapon_popup.emit()
 				#var item_type := RavenNodeItemWeapon.new(RavenNodeItemWeapon.WeaponSubtype.SHOTGUN)
@@ -105,6 +112,9 @@ func _draw() -> void:
 					draw_rect(Rect2(col * resolution, row * resolution, resolution, resolution), Color.WHITE)
 					#draw_circle(node.node_pos, 2.0, Color.REBECCA_PURPLE)
 					neighbors = graph.edges[node.id]
+					if node.item_type:
+						if node.item_type.item_type == RavenNodeItem.ItemType.WEAPON:
+							draw_circle(grid_to_world(node.node_pos.x, node.node_pos.y, resolution), 6.0, Color.CRIMSON)
 					
 				elif node.node_type == RavenNode.NodeType.SPAWN:
 					draw_rect(Rect2(col * resolution, row * resolution, resolution, resolution), Color.WHITE)
