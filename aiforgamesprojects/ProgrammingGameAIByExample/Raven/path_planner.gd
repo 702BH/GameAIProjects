@@ -13,7 +13,7 @@ func _init(_graph: RavenGraph, _columns:int, _rows:int, _resolution: float) -> v
 	resolution = _resolution
 
 func get_random_path(agent_pos: Vector2) -> Array:
-	var return_path = graph.dijkstras(get_nearest_node(agent_pos).id, graph.get_random_node().id)
+	var return_path = graph.dijkstras(get_nearest_node(agent_pos).id, is_shotgun)
 	if !return_path.is_empty():
 		return return_path
 	else:
@@ -29,3 +29,11 @@ func get_nearest_node(pos: Vector2) -> RavenNode:
 	var grid_pos = position_to_grid(pos)
 	var node = graph.nodes[grid_pos.y * columns + grid_pos.x]
 	return node
+
+
+func is_shotgun(node: RavenNode) -> bool:
+	if node.node_type == null:
+		return false
+	if node.item_type is RavenNodeItemWeapon:
+		return true
+	return false

@@ -63,11 +63,11 @@ func get_random_node() -> RavenNode:
 	return return_node
 
 
-func dijkstras(source: int, target: int) -> Array[GraphVertex]:
+func dijkstras(source: int, item_predicate: Callable) -> Array[GraphVertex]:
 	var result : Array[GraphVertex] = []
 	var costs : Dictionary = {}
 	var parents : Dictionary = {}
-	
+	var found_target
 	
 	var queue = []
 	var open_set = MinHeap.new()
@@ -83,7 +83,9 @@ func dijkstras(source: int, target: int) -> Array[GraphVertex]:
 	
 	while open_set.data.size() > 0:
 		var current_node = open_set.pop()
-		if current_node == target:
+		var current_node_v = nodes[current_node]
+		if item_predicate.call(current_node_v):
+			found_target = current_node
 			break
 		var neighbors = edges[current_node]
 		var cost = costs[current_node]
@@ -95,7 +97,7 @@ func dijkstras(source: int, target: int) -> Array[GraphVertex]:
 				open_set.push(edge.to, new_cost)
 	
 	var path_to_target: Array[GraphVertex]  = []
-	var current = target
+	var current = found_target
 	while current != null:
 		path_to_target.push_front(nodes[current])
 		current = parents.get(current, null)

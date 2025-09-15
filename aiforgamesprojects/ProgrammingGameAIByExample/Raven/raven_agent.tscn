@@ -3,4 +3,5 @@
 [ext_resource type="Script" uid="uid://b652dbejbm1bw" path="res://ProgrammingGameAIByExample/Raven/raven_agent.gd" id="1_y4deu"]
 
 [node name="RavenAgent" type="Node2D"]
+z_index = 50
 script = ExtResource("1_y4deu")
