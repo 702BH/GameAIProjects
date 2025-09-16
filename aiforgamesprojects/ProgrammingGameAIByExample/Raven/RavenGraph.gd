@@ -20,17 +20,17 @@ func add_vertex(type: RavenNode.NodeType, pos: Vector2, border:bool) -> RavenNod
 
 func add_edge(_from : int, _to: int, weight : float) -> void:
 	# prevent duplicates
-	for e:GraphEdge in edges[_from]:
+	for e:NavGraphEdge in edges[_from]:
 		if e.to == _to:
 			return
-	edges[_from].append(GraphEdge.new(_from, _to, weight))
+	edges[_from].append(NavGraphEdge.new(_from, _to, weight))
 	
 	# if undirected graph, add the reverse edge
 	if not di_graph:
-		for e:GraphEdge in edges[_to]:
+		for e:NavGraphEdge in edges[_to]:
 			if e.to == _from:
 				return
-		edges[_to].append(GraphEdge.new(_to, _from, weight))
+		edges[_to].append(NavGraphEdge.new(_to, _from, weight))
 
 
 
@@ -53,6 +53,12 @@ func remove_wall(id : int) -> void:
 	
 
 
+func get_edge_between(from_id: int, to_id:int) -> NavGraphEdge:
+	for e:NavGraphEdge in edges[from_id]:
+		if e.to == to_id:
+			return e
+	return null
+
 func get_random_node() -> RavenNode:
 	var return_node
 	while true:
@@ -63,7 +69,7 @@ func get_random_node() -> RavenNode:
 	return return_node
 
 
-func dijkstras(source: int, item_predicate: Callable) -> Array[GraphVertex]:
+func dijkstras(source: int, item_predicate: Callable) -> Array[PathEdge]:
 	var result : Array[GraphVertex] = []
 	var costs : Dictionary = {}
 	var parents : Dictionary = {}
@@ -96,11 +102,18 @@ func dijkstras(source: int, item_predicate: Callable) -> Array[GraphVertex]:
 				parents[edge.to] = current_node
 				open_set.push(edge.to, new_cost)
 	
-	var path_to_target: Array[GraphVertex]  = []
+	var path_to_target: Array[PathEdge]  = []
 	var current = found_target
-	while current != null:
-		path_to_target.push_front(nodes[current])
-		current = parents.get(current, null)
+	while parents.has(current):
+		var parent = parents[current]
+		if parent == null:
+			break
+		var from_node: RavenNode = nodes[parent]
+		var to_node: RavenNode = nodes[current]
+		var edge: NavGraphEdge = get_edge_between(parent, current)
+		var behaviour = edge.behaviour_type if edge != null else PathEdge.BehaviourType.WALK
+		path_to_target.push_front(PathEdge.new(from_node.node_pos, to_node.node_pos, behaviour))
+		current = parent
 	return path_to_target
 
 
