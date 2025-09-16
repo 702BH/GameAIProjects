@@ -18,15 +18,19 @@ func _draw() -> void:
 	draw_line(Vector2.ZERO, Vector2(10.0,0.0), "red")
 	if !current_path.is_empty():
 		#print("drawing target:")
-		var target_node:RavenNode = current_path[current_path.size()-1]
+		var target_node:PathEdge = current_path[current_path.size()-1]
 		
-		draw_circle(to_local(grid_to_world(target_node.node_pos.x, target_node.node_pos.y, path_planner.resolution)), 6.0, Color.NAVY_BLUE)
+		draw_circle(to_local(grid_to_world(target_node.destination.x, target_node.destination.y, path_planner.resolution)), 6.0, Color.NAVY_BLUE)
 		#draw_line(Vector2.ZERO, to_local(grid_to_world(current_path[0].node_pos.x, current_path[0].node_pos.y, path_planner.resolution)), "orange")
-		for i in range(0, current_path.size() - 1):
-			if i == current_path.size() - 1:
-				continue
-			else:
-				draw_line(to_local(grid_to_world(current_path[i].node_pos.x, current_path[i].node_pos.y, path_planner.resolution)), to_local(grid_to_world(current_path[i+1].node_pos.x, current_path[i+1].node_pos.y, path_planner.resolution)), "orange")
+		for edge:PathEdge in current_path:
+			var color := Color.ORANGE
+			draw_line(to_local(grid_to_world(edge.source.x, edge.source.y, path_planner.resolution)), to_local(grid_to_world(edge.destination.x, edge.destination.y, path_planner.resolution)), color)
+		
+		#for i in range(0, current_path.size() - 1):
+			#if i == current_path.size() - 1:
+				#continue
+			#else:
+				#draw_line(to_local(grid_to_world(current_path[i].node_pos.x, current_path[i].node_pos.y, path_planner.resolution)), to_local(grid_to_world(current_path[i+1].node_pos.x, current_path[i+1].node_pos.y, path_planner.resolution)), "orange")
 
 func _on_generate_paths_pressed() -> void:
 	current_path.clear()
@@ -39,8 +43,6 @@ func _on_generate_paths_pressed() -> void:
 	print("getting random path:")
 	#print(path_planner.get_random_path(position))
 	current_path = path_planner.get_random_path(position)
-	print(current_path[current_path.size()-1].node_pos)
-	print(current_path[0].node_pos)
 
 
 
