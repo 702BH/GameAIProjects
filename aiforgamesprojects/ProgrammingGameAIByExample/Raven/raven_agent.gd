@@ -8,8 +8,24 @@ var selected := false
 
 var current_path = []
 
+var edge_timer := 0
+var exepected_time := 0.0
+
+var max_speed := 200
+
 func _process(delta: float) -> void:
 	queue_redraw()
+	if !current_path.is_empty():
+		
+		if edge_timer == 0:
+			edge_timer = Time.get_ticks_msec()
+			exepected_time = (current_path[0].cost / max_speed + 2.0) * 1000.0
+		
+		var elapsed := Time.get_ticks_msec() - edge_timer
+		if elapsed > exepected_time:
+			print("Time passed, recalculating")
+			_on_generate_paths_pressed()
+			edge_timer = 0
 
 func _draw() -> void:
 	if selected:
@@ -43,7 +59,26 @@ func _on_generate_paths_pressed() -> void:
 	print("getting random path:")
 	#print(path_planner.get_random_path(position))
 	current_path = path_planner.get_random_path(position)
+	edge_timer = 0
+	#follow_path(current_path)
+	
 
+
+func follow_path(path:Array) -> void:
+	if path.is_empty():
+		return
+	
+	#if edge_timer == 0:
+		#edge_timer = Time.get_ticks_msec()
+		#exepected_time = (path[0].cost / max_speed + 2.0) * 1000.0
+		#print(exepected_time)
+	
+	#var elapsed := Time.get_ticks_msec() - edge_timer
+	#print(elapsed)
+	#if elapsed > exepected_time:
+		#print("Time passed, recalculating")
+		#_on_generate_paths_pressed()
+		#edge_timer = 0
 
 
 func position_to_grid(pos: Vector2) -> Vector2:

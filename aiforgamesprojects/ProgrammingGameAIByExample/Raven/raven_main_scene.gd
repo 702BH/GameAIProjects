@@ -110,7 +110,8 @@ func generate_edges(rows, columns) ->void:
 					var neighbor: RavenNode = grid_world[i+k][j+l]
 					if neighbor.node_type == RavenNode.NodeType.WALL:
 						continue
-					graph.add_edge(node.id, neighbor.id, 1.0)
+					var distance = grid_to_world(graph.nodes[node.id].node_pos.x, graph.nodes[node.id].node_pos.y, resolution).distance_to(grid_to_world(graph.nodes[neighbor.id].node_pos.x, graph.nodes[neighbor.id].node_pos.y, resolution))
+					graph.add_edge(node.id, neighbor.id, distance)
 
 
 func _on_ui_map_load_request(file_path: String) -> void:

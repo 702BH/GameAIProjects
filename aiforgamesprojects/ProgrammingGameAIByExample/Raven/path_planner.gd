@@ -55,6 +55,7 @@ func smooth_path_edges_quick(path: Array[PathEdge]) -> Array[PathEdge]:
 		while e2 < return_path.size():
 			if _can_walk_between(return_path[e1].source, return_path[e2].destination):
 				return_path[e1].destination = return_path[e2].destination
+				return_path[e1].cost = grid_to_world(return_path[e1].source.x, return_path[e1].source.y, resolution).distance_to(grid_to_world(return_path[e2].destination.x, return_path[e2].destination.y, resolution))
 				return_path.pop_at(e2)
 			else:
 				e1 = e2
