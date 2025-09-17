@@ -112,7 +112,7 @@ func dijkstras(source: int, item_predicate: Callable) -> Array[PathEdge]:
 		var to_node: RavenNode = nodes[current]
 		var edge: NavGraphEdge = get_edge_between(parent, current)
 		var behaviour = edge.behaviour_type if edge != null else PathEdge.BehaviourType.WALK
-		path_to_target.push_front(PathEdge.new(from_node.node_pos, to_node.node_pos, behaviour))
+		path_to_target.push_front(PathEdge.new(from_node.node_pos, to_node.node_pos, behaviour, edge.cost))
 		current = parent
 	return path_to_target
 
