@@ -115,6 +115,34 @@ func load_world_from_file(file_path: String) -> void:
 	generate_edges(map_rows, map_columns)
 
 
+func save_world_to_file(file_name:String) -> void:
+	var save_data = {
+		"rows":rows,
+		"columns": columns,
+		"resolution": resolution,
+		"nodes": []
+	}
+	for row in range(rows):
+		for col in range(columns):
+			var node: RavenNode = grid_world[row][col]
+			var item_type= null
+			if node.item_type:
+				item_type = node.item_type.item_type
+			save_data["nodes"].append({
+				"type": node.node_type,
+				"item_type": item_type,
+				"position": {"x":node.node_pos.x, "y":node.node_pos.y},
+				"row": row,
+				"column": col
+			})
+	
+	var file_path = "res://ProgrammingGameAIByExample/Raven/Maps/" + file_name + ".json"
+	
+	var file = FileAccess.open(file_path, FileAccess.WRITE)
+	var json_string = JSON.stringify(save_data)
+	file.store_line(json_string)
+	file.close()
+
 
 # Helper functions
 func position_to_grid(pos: Vector2) -> Vector2:
