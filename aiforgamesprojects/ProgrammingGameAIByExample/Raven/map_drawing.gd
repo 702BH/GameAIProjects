@@ -76,7 +76,6 @@ func _draw() -> void:
 	var cell_y = int(mouse_pos.y/World.cell_size)
 	var key = Vector2i(cell_x, cell_y)
 	var current_cell_space = World.cell_buckets_static.get(key, [])
-	
 	# Iterate the grid world and draw the correct color for the node type
 	if !World.grid_world.is_empty():
 		for row in range(World.rows):

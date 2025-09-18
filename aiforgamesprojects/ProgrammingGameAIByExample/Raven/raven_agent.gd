@@ -1,8 +1,9 @@
 class_name RavenAgent
-extends Node2D
+extends MoverBase
 
 
 var path_planner : RavenPathPlanner
+var steering_controller := RavenSteeringController.new(self)
 var click_radius := 15.0
 var selected := false
 
@@ -11,7 +12,28 @@ var current_path = []
 var edge_timer := 0
 var exepected_time := 0.0
 
-var max_speed := 200
+var last_cell
+
+func _ready() -> void:
+	last_cell = World.position_to_grid(position)
+
+
+func _physics_process(delta: float) -> void:
+	#hunger = max(hunger - hunger_depletion_rate * delta, 0)
+	var steering_force = steering_controller.calculate()
+	apply_force(steering_force)
+	velocity += acceleration * delta
+	velocity = velocity.limit_length(max_speed)
+	position += velocity * delta
+	acceleration = Vector2.ZERO
+	rotateVehicle(delta)
+	
+	var new_cell = World.position_to_grid(position)
+	
+	if new_cell != last_cell:
+		World.move_agent(self, last_cell, new_cell)
+		last_cell = new_cell
+
 
 func _process(delta: float) -> void:
 	queue_redraw()
@@ -67,3 +89,9 @@ func _on_generate_paths_pressed() -> void:
 func follow_path(path:Array) -> void:
 	if path.is_empty():
 		return
+
+
+func is_at_position(pos: Vector2) -> bool:
+	var tolerance := 10.0
+	
+	return position.distance_squared_to(pos) < tolerance * tolerance
