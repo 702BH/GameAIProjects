@@ -9,16 +9,19 @@ var columns: int
 
 
 var graph: RavenGraph
-var grid_world: Array
-var spawn_points: Array
+var grid_world: Array = []
+var spawn_points: Array = []
 
 
 var cell_size : int
-var cell_buckets_agents: Dictionary
-var cell_buckets_static: Dictionary
+var cell_buckets_agents: Dictionary ={}
+var cell_buckets_static: Dictionary ={}
 
-
-
+func initialise(_width:float, _height:float, _resolution:float, _cell_size:int) -> void:
+	width = _width
+	height = _height
+	resolution = _resolution
+	cell_size = _cell_size
 
 func generate_grid() -> void:
 	rows = int(height / resolution)

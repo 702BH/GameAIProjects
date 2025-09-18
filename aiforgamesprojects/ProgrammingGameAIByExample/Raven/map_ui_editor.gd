@@ -13,21 +13,11 @@ signal start_map_request
 @onready var weapon_submit := $WeaponTypeSelector/VBoxContainer/VBoxContainer2/HBoxContainer2/HBoxContainer2/WeaponSubmit
 @onready var weapon_toggle := $Container/ButtonPanel/Buttons/Weapon
 
-var resolution := 24.0
-var rows := 0
-var columns := 0
-var grid_world = []
-var graph: RavenGraph
 var loaded_map := ""
 var map_drawer
 
 var selected_agent : RavenAgent
 
-
-
-
-
-var spawn_points := []
 
 func _ready() -> void:
 	$Container/ButtonPanel/Buttons.visible = true

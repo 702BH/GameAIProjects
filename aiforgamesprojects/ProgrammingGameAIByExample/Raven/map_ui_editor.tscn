@@ -1,7 +1,6 @@
-[gd_scene load_steps=6 format=3 uid="uid://c5uea86dlcivm"]
+[gd_scene load_steps=5 format=3 uid="uid://c5uea86dlcivm"]
 
 [ext_resource type="Script" uid="uid://cmclv6r6mrl5b" path="res://ProgrammingGameAIByExample/Raven/map_ui_editor.gd" id="1_ad81b"]
-[ext_resource type="Script" uid="uid://b8rbw8yfhmd0q" path="res://ProgrammingGameAIByExample/Raven/grid_container.gd" id="2_ruvss"]
 [ext_resource type="StyleBox" uid="uid://b8a81fdlk5ted" path="res://ProgrammingGameAIByExample/Raven/button_pressed.tres" id="3_birsf"]
 [ext_resource type="ButtonGroup" uid="uid://ve11tdfr0n4y" path="res://ProgrammingGameAIByExample/Raven/raven_map_buttons.tres" id="4_62kta"]
 
@@ -30,7 +29,6 @@ grow_vertical = 2
 custom_minimum_size = Vector2(1152, 600)
 layout_mode = 2
 mouse_filter = 2
-script = ExtResource("2_ruvss")
 
 [node name="ButtonPanel" type="PanelContainer" parent="Container"]
 custom_minimum_size = Vector2(0, 48)

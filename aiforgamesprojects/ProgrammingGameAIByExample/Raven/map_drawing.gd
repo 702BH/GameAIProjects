@@ -5,20 +5,12 @@ extends Node2D
 enum tool_state {NONE, WALL, SPAWNS, WEAPONS}
 enum ui_state {MAP_EDITOR, MAP_RUNNING, MAP_SELECTIONS}
 
-var resolution := 24.0
-var rows := 0
-var columns := 0
-var grid_world = []
+
 var mouse_in := true
-var width := 0.0
-var height := 0.0
-var graph: RavenGraph
 
 var current_state: tool_state = tool_state.NONE
 var current_ui_state: ui_state = ui_state.MAP_EDITOR
 
-var cell_size
-var cell_space
 
 var selected_position
 
@@ -42,10 +34,6 @@ func _process(delta: float) -> void:
 		if Input.is_action_pressed("place"):
 			var wall_location = World.position_to_grid(get_global_mouse_position())
 			var node: RavenNode = World.grid_world[wall_location.y][wall_location.x]
-			#var cell_x = int(wall_location.y/cell_size)
-			#var cell_y = int(wall_location.x/cell_size)
-			#var key = Vector2i(cell_x, cell_y)
-			#print(cell_space[key])
 			if node.node_type == RavenNode.NodeType.TRAVERSAL:
 				node.node_type = RavenNode.NodeType.WALL
 				World.graph.remove_wall(node.id)
@@ -66,9 +54,6 @@ func _process(delta: float) -> void:
 			var node: RavenNode = World.grid_world[wall_location.y][wall_location.x]
 			if node.node_type == RavenNode.NodeType.TRAVERSAL:
 				node.node_type = RavenNode.NodeType.SPAWN
-				#print("spawn added")
-				#print("mous pos: ", get_global_mouse_position())
-				#print("grid_loc ", wall_location)
 		elif Input.is_action_pressed("remove"):
 			var wall_location = World.position_to_grid(get_global_mouse_position())
 			var node: RavenNode = World.grid_world[wall_location.y][wall_location.x]
@@ -83,15 +68,6 @@ func _process(delta: float) -> void:
 				current_state = tool_state.NONE
 				RavenServiceBus.selected_node =node
 				RavenServiceBus.weapon_popup.emit()
-				#var item_type := RavenNodeItemWeapon.new(RavenNodeItemWeapon.WeaponSubtype.SHOTGUN)
-				#node.set_item_type(item_type)
-				#node.node_type = RavenNode.NodeType.ITEM
-		#elif Input.is_action_pressed("remove"):
-			#var wall_location = position_to_grid(get_global_mouse_position())
-			#var node: RavenNode = grid_world[wall_location.y][wall_location.x]
-			#if node.node_type == RavenNode.NodeType.ITEM:
-				#node.item_type = null
-				#node.node_type = RavenNode.NodeType.TRAVERSAL
 
 
 func _draw() -> void:
@@ -145,11 +121,11 @@ func _draw() -> void:
 			color.a = 0.5
 			draw_rect(Rect2(mouse_grid.x * World.resolution, mouse_grid.y * World.resolution, World.resolution, World.resolution), color)
 		# Draw the Grid rows and columns:
-		for i in range(rows + 1):
+		for i in range(World.rows + 1):
 			var y = i * World.resolution
 			draw_line(Vector2(0, y), Vector2(World.width, y), Color.RED, 1.0)
 		
-		for c in range(columns + 1):
+		for c in range(World.columns + 1):
 			var x = c * World.resolution
 			draw_line(Vector2(x, 0), Vector2(x, World.height), Color.RED, 1.0)
 
