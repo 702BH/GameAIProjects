@@ -26,7 +26,6 @@ func _ready() -> void:
 	agents_container.connect("agent_selected", ui.on_agent_selected)
 	agents_container.connect("agent_deselected", ui.on_agent_deselected)
 
-
 func _unhandled_input(event: InputEvent) -> void:
 	if event.is_action_pressed("place"):
 		agents_container.query_selectable(get_global_mouse_position())
@@ -56,8 +55,10 @@ func spawn_agents() -> void:
 		if randf() > 0.3:
 			agent.rotate(randf_range(-2, 2))
 		agents_container.add_child(agent)
+		World.place_agent(agent, World.position_to_grid(agent.position))
 		agent.queue_redraw()
-
+	
+	print(World.cell_buckets_agents)
 
 func _on_ui_start_map_request() -> void:
 	spawn_agents()

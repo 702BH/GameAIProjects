@@ -6,7 +6,7 @@ var velocity := Vector2.ZERO
 
 
 @export var mass := 1.0
-@export var max_speed := 1.0
+@export var max_speed := 5.0
 @export var max_force := 1.0
 @export var max_turn_rate := 1.0
 @export var color : Color

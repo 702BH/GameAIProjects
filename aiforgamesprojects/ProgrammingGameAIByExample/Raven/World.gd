@@ -147,6 +147,24 @@ func save_world_to_file(file_name:String) -> void:
 	file.close()
 
 
+func move_agent(agent: RavenAgent, old_pos: Vector2, new_pos: Vector2) -> void:
+	var old_key = world_to_bucket(position_to_grid(old_pos))
+	var new_key = world_to_bucket(position_to_grid(new_pos))
+	
+	if old_key != new_key:
+		cell_buckets_agents[old_key].erase(agent)
+		if not cell_buckets_agents.has(new_key):
+			cell_buckets_agents[new_key] = []
+		cell_buckets_agents[new_key].append(agent)
+
+func place_agent(agent: RavenAgent, pos: Vector2) -> void:
+	var key = world_to_bucket(pos)
+	
+	if not cell_buckets_agents.has(key):
+		cell_buckets_agents[key] = []
+	cell_buckets_agents[key].append(agent)
+
+
 # Helper functions
 func position_to_grid(pos: Vector2) -> Vector2:
 	var col = clamp(int(pos.x / resolution), 0, columns - 1)
@@ -159,3 +177,7 @@ func grid_to_world(col:int, row:int, res: float= resolution) -> Vector2:
 		col * resolution + resolution / 2,
 		row * resolution + resolution / 2
 	)
+
+
+func world_to_bucket(pos: Vector2) -> Vector2:
+	return Vector2(int(pos.x / cell_size), int(pos.y) / cell_size)

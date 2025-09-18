@@ -3,8 +3,11 @@ extends Node
 
 enum Status {INACTIVE, ACTIVE, COMPLETED, FAILED}
 
+var owner_agent: RavenAgent
 var status: Status = Status.INACTIVE
 
+func _init(_agent: RavenAgent) -> void:
+	owner_agent = _agent
 
 # Logic to run when the goal is activated
 func activate() -> void:
