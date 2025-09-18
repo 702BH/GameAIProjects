@@ -1,0 +1,161 @@
+class_name RavenWorld
+extends Node
+
+var width : float
+var height: float
+var resolution : float
+var rows : int
+var columns: int
+
+
+var graph: RavenGraph
+var grid_world: Array = []
+var spawn_points: Array = []
+
+
+var cell_size : int
+var cell_buckets_agents: Dictionary ={}
+var cell_buckets_static: Dictionary ={}
+
+func initialise(_width:float, _height:float, _resolution:float, _cell_size:int) -> void:
+	width = _width
+	height = _height
+	resolution = _resolution
+	cell_size = _cell_size
+
+func generate_grid() -> void:
+	rows = int(height / resolution)
+	columns = int(width/ resolution)
+	grid_world.resize(rows)
+	cell_buckets_static.clear()
+	for i in range(rows):
+		grid_world[i] = []
+		for j in range(columns):
+			if i == 0 or i == rows-1 or j== 0 or j==columns-1:
+				#graph.add_vertex(RavenNode.NodeType.WALL, Vector2(j * resolution + resolution / 2, i * resolution + resolution / 2), true)
+				graph.add_vertex(RavenNode.NodeType.WALL, Vector2(j, i), true)
+				grid_world[i].append(graph.nodes[i * columns + j])
+			else:
+				#graph.add_vertex(RavenNode.NodeType.TRAVERSAL, Vector2(j * resolution + resolution / 2, i * resolution + resolution / 2), false)
+				graph.add_vertex(RavenNode.NodeType.TRAVERSAL, Vector2(j , i ), false)
+				grid_world[i].append(graph.nodes[i * columns + j])
+			var cell_x = int(j/cell_size)
+			var cell_y = int(i/cell_size)
+			var key = Vector2i(cell_x, cell_y)
+			if !cell_buckets_static.has(key):
+				cell_buckets_static[key] = []
+			cell_buckets_static[key].append(graph.nodes[i * columns + j])
+	
+	# generated edges
+	generate_edges(rows, columns)
+
+
+func generate_edges(rows, columns) ->void:
+	for i in range(rows):
+		for j in range(columns):
+			var node: RavenNode = grid_world[i][j]
+			if node.node_type == RavenNode.NodeType.WALL:
+				continue
+			for k in range(-1, 2):
+				for l in range(-1, 2):
+					var neighbor: RavenNode = grid_world[i+k][j+l]
+					if neighbor.node_type == RavenNode.NodeType.WALL:
+						continue
+					var distance = grid_to_world(graph.nodes[node.id].node_pos.x, graph.nodes[node.id].node_pos.y, resolution).distance_to(grid_to_world(graph.nodes[neighbor.id].node_pos.x, graph.nodes[neighbor.id].node_pos.y, resolution))
+					graph.add_edge(node.id, neighbor.id, distance)
+
+
+func load_world_from_file(file_path: String) -> void:
+	var file = FileAccess.open(file_path, FileAccess.READ)
+	if file == null:
+		push_error("Could not open file")
+		return
+	
+	var text = file.get_as_text()
+	var result = JSON.parse_string(text)
+	if result == null:
+		push_error("invalid Json")
+		return
+	
+	graph = RavenGraph.new(false)
+	grid_world = []
+	
+	var map_rows = result["rows"]
+	var map_columns = result["columns"]
+	var map_res = result["resolution"]
+	var nodes = result["nodes"]
+	
+	grid_world.resize(map_rows)
+	for i in range(map_rows):
+		grid_world[i] = []
+		grid_world[i].resize(map_columns)
+	
+	cell_buckets_static.clear()
+	
+	for node in nodes:
+		if node["row"] == 0 or node["row"] == map_rows-1 or node["column"]== 0 or node["column"]==map_columns-1:
+			var graph_node = graph.add_vertex(node["type"], Vector2(node["position"]["x"], node["position"]["y"]), true)
+			grid_world[node["row"]][node["column"]] = graph_node
+		else:
+			var graph_node = graph.add_vertex(node["type"], Vector2(node["position"]["x"], node["position"]["y"]), false)
+			grid_world[node["row"]][node["column"]] = graph_node
+			if node["item_type"] == RavenNodeItem.ItemType.WEAPON:
+				var item := RavenNodeItemWeapon.new(RavenNodeItemWeapon.WeaponSubtype.SHOTGUN)
+				graph_node.set_item_type(item)
+			if graph_node.node_type == RavenNode.NodeType.SPAWN:
+				spawn_points.append(graph_node)
+				#print("spawn loaded")
+				#print("node pos ", graph_node.node_pos)
+				#print("loc row: ", node["row"], " column: ", node["column"])
+				#print("grid to world: ", grid_to_world(graph_node.node_pos.x, graph_node.node_pos.y, resolution))
+				#print("world to grid: ", position_to_grid(graph_node.node_pos))
+			var cell_x = int(node["position"]["x"]/cell_size)
+			var cell_y = int(node["position"]["y"]/cell_size)
+			var key = Vector2i(cell_x, cell_y)
+			if !cell_buckets_static.has(key):
+				cell_buckets_static[key] = []
+			cell_buckets_static[key].append(graph.nodes[node["row"] * columns + node["column"]])
+	generate_edges(map_rows, map_columns)
+
+
+func save_world_to_file(file_name:String) -> void:
+	var save_data = {
+		"rows":rows,
+		"columns": columns,
+		"resolution": resolution,
+		"nodes": []
+	}
+	for row in range(rows):
+		for col in range(columns):
+			var node: RavenNode = grid_world[row][col]
+			var item_type= null
+			if node.item_type:
+				item_type = node.item_type.item_type
+			save_data["nodes"].append({
+				"type": node.node_type,
+				"item_type": item_type,
+				"position": {"x":node.node_pos.x, "y":node.node_pos.y},
+				"row": row,
+				"column": col
+			})
+	
+	var file_path = "res://ProgrammingGameAIByExample/Raven/Maps/" + file_name + ".json"
+	
+	var file = FileAccess.open(file_path, FileAccess.WRITE)
+	var json_string = JSON.stringify(save_data)
+	file.store_line(json_string)
+	file.close()
+
+
+# Helper functions
+func position_to_grid(pos: Vector2) -> Vector2:
+	var col = clamp(int(pos.x / resolution), 0, columns - 1)
+	var row = clamp(int(pos.y / resolution) , 0 , rows - 1)
+	return Vector2(col, row)
+
+
+func grid_to_world(col:int, row:int, res: float= resolution) -> Vector2:
+	return Vector2(
+		col * resolution + resolution / 2,
+		row * resolution + resolution / 2
+	)

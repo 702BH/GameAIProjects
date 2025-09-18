@@ -1,6 +1,7 @@
 extends Control
 
 signal map_load_request(file_path: String)
+signal map_save_request(file_name: String)
 signal start_map_request
 
 @onready var grid_container := $Container/GridContainer
@@ -12,21 +13,11 @@ signal start_map_request
 @onready var weapon_submit := $WeaponTypeSelector/VBoxContainer/VBoxContainer2/HBoxContainer2/HBoxContainer2/WeaponSubmit
 @onready var weapon_toggle := $Container/ButtonPanel/Buttons/Weapon
 
-var resolution := 24.0
-var rows := 0
-var columns := 0
-var grid_world = []
-var graph: RavenGraph
 var loaded_map := ""
 var map_drawer
 
 var selected_agent : RavenAgent
 
-
-
-
-
-var spawn_points := []
 
 func _ready() -> void:
 	$Container/ButtonPanel/Buttons.visible = true
@@ -52,32 +43,7 @@ func _on_spawn_toggled(toggled_on: bool) -> void:
 
 
 func _on_save_pressed() -> void:
-	var save_data = {
-		"rows":rows,
-		"columns": columns,
-		"resolution": resolution,
-		"nodes": []
-	}
-	for row in range(rows):
-		for col in range(columns):
-			var node: RavenNode = grid_world[row][col]
-			var item_type= null
-			if node.item_type:
-				item_type = node.item_type.item_type
-			save_data["nodes"].append({
-				"type": node.node_type,
-				"item_type": item_type,
-				"position": {"x":node.node_pos.x, "y":node.node_pos.y},
-				"row": row,
-				"column": col
-			})
-	
-	var file_path = "res://ProgrammingGameAIByExample/Raven/Maps/" + str($Container/ButtonPanel/Buttons/MapName.text + ".json")
-	
-	var file = FileAccess.open(file_path, FileAccess.WRITE)
-	var json_string = JSON.stringify(save_data)
-	file.store_line(json_string)
-	file.close()
+	map_save_request.emit(str($Container/ButtonPanel/Buttons/MapName.text))
 
 
 func _on_load_pressed() -> void:

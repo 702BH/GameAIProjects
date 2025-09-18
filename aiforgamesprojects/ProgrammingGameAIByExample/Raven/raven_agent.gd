@@ -36,11 +36,11 @@ func _draw() -> void:
 		#print("drawing target:")
 		var target_node:PathEdge = current_path[current_path.size()-1]
 		
-		draw_circle(to_local(grid_to_world(target_node.destination.x, target_node.destination.y, path_planner.resolution)), 6.0, Color.NAVY_BLUE)
+		draw_circle(to_local(World.grid_to_world(target_node.destination.x, target_node.destination.y)), 6.0, Color.NAVY_BLUE)
 		#draw_line(Vector2.ZERO, to_local(grid_to_world(current_path[0].node_pos.x, current_path[0].node_pos.y, path_planner.resolution)), "orange")
 		for edge:PathEdge in current_path:
 			var color := Color.ORANGE
-			draw_line(to_local(grid_to_world(edge.source.x, edge.source.y, path_planner.resolution)), to_local(grid_to_world(edge.destination.x, edge.destination.y, path_planner.resolution)), color)
+			draw_line(to_local(World.grid_to_world(edge.source.x, edge.source.y)), to_local(World.grid_to_world(edge.destination.x, edge.destination.y)), color)
 		
 		#for i in range(0, current_path.size() - 1):
 			#if i == current_path.size() - 1:
@@ -67,28 +67,3 @@ func _on_generate_paths_pressed() -> void:
 func follow_path(path:Array) -> void:
 	if path.is_empty():
 		return
-	
-	#if edge_timer == 0:
-		#edge_timer = Time.get_ticks_msec()
-		#exepected_time = (path[0].cost / max_speed + 2.0) * 1000.0
-		#print(exepected_time)
-	
-	#var elapsed := Time.get_ticks_msec() - edge_timer
-	#print(elapsed)
-	#if elapsed > exepected_time:
-		#print("Time passed, recalculating")
-		#_on_generate_paths_pressed()
-		#edge_timer = 0
-
-
-func position_to_grid(pos: Vector2) -> Vector2:
-	var col = clamp(int(pos.x / path_planner.resolution), 0, path_planner.columns - 1)
-	var row = clamp(int(pos.y / path_planner.resolution) , 0 , path_planner.rows - 1)
-	return Vector2(col, row)
-
-
-func grid_to_world(col:int, row:int, res: float) -> Vector2:
-	return Vector2(
-		col * res + res / 2,
-		row * res + res / 2
-	)

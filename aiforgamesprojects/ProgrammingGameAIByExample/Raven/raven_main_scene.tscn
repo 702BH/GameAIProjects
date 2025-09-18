@@ -7,6 +7,8 @@
 
 [node name="RavenMainScene" type="Node2D"]
 script = ExtResource("1_c0dl3")
+width = null
+height = null
 
 [node name="AgentContainer" type="Node2D" parent="."]
 z_index = 5
@@ -23,4 +25,5 @@ z_index = 25
 script = ExtResource("3_wa7ej")
 
 [connection signal="map_load_request" from="CanvasLayer/UI" to="." method="_on_ui_map_load_request"]
+[connection signal="map_save_request" from="CanvasLayer/UI" to="." method="_on_ui_map_save_request"]
 [connection signal="start_map_request" from="CanvasLayer/UI" to="." method="_on_ui_start_map_request"]

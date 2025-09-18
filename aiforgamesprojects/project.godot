@@ -17,6 +17,7 @@ config/icon="res://icon.svg"
 [autoload]
 
 RavenServiceBus="*res://ProgrammingGameAIByExample/Raven/Raven_Service_Bus.gd"
+World="*res://ProgrammingGameAIByExample/Raven/World.gd"
 
 [display]
 
