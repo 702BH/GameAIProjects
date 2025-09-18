@@ -7,7 +7,7 @@ var last_edge :bool
 var time_expected : float
 var start_time : float
 
-func _init(agent: RavenAgent, _edge: PathEdge, _last_edge:bool, _time_expected:float, _start_time:float) -> void:
+func _init(agent: RavenAgent, _edge: PathEdge, _last_edge:bool) -> void:
 	super(agent)
 	edge = _edge
 	last_edge = _last_edge

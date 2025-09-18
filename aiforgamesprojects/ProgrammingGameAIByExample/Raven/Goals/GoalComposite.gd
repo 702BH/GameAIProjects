@@ -7,7 +7,7 @@ var subgoals: Array[Goal] = []
 func add_subgoal(g: Goal) -> void:
 	subgoals.push_front(g)
 
-func process_subgoals() -> int:
+func process_subgoals() -> Status:
 	# Remove completed/failed from front
 	while !subgoals.is_empty() and (subgoals.front().is_completed() or subgoals.front().has_failed()):
 		subgoals.front().terminate()
