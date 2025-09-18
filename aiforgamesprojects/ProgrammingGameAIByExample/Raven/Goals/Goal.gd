@@ -37,3 +37,7 @@ func has_failed() -> bool:
 func activate_if_inactive() -> void:
 	if is_inactive():
 		activate()
+
+func reactivate_if_failed() -> void:
+	if has_failed():
+		status = Status.INACTIVE

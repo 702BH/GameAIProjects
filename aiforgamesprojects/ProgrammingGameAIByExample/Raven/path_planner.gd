@@ -12,6 +12,14 @@ func get_random_path(agent_pos: Vector2) -> Array:
 		return []
 
 
+func get_path_to_target(target_pos: Vector2, agent_pos: Vector2) -> Array:
+	var return_path = World.graph.A_star(get_nearest_node(agent_pos).id, get_nearest_node(target_pos).is, World.columns)
+	if !return_path.is_empty():
+		return smooth_path_edges_quick(return_path)
+		#return return_path
+	else:
+		return []
+
 func get_nearest_node(pos: Vector2) -> RavenNode:
 	var grid_pos = World.position_to_grid(pos)
 	var node = World.graph.nodes[grid_pos.y * World.columns + grid_pos.x]
