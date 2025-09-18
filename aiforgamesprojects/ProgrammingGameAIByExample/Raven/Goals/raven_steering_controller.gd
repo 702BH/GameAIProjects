@@ -1,6 +1,7 @@
 class_name RavenSteeringController
 extends Node
 
+const DecelerationTweaker := 0.3
 
 
 var owner_agent : RavenAgent
@@ -17,9 +18,13 @@ var pursuer
 
 var neighbors := []
 
+var target
+
 # Behaviour settings
 var behaviors = {
 	"seperation" : {"active": false, "weight": 1.0},
+	"seek": {"active": false, "weight": 1.0},
+	"arrive": {"active": false, "weight": 1.0},
 	"evade" : {"active": false, "weight":1.0},
 	"alignment": {"active": false, "weight": 1.0},
 	"cohesion" : {"active": false, "weight": 1.0},
@@ -36,6 +41,12 @@ func set_behaviour(behaviour:String, status:bool, weight:float) -> void:
 		if weight >= 0.0:
 			behaviors[behaviour]["weight"] = weight
 
+
+func set_target(_target: Vector2) -> void:
+	target = _target
+
+func reset_target() -> void:
+	target = null
 
 func calculate() -> Vector2:
 	var pos = World.position_to_grid(owner_agent.position)
@@ -59,6 +70,16 @@ func calculate() -> Vector2:
 	if behaviors["cohesion"]["active"]:
 		if not accumulate_force(cohesion(neighbors) * behaviors["cohesion"]["weight"]):
 			return steering_force
+	
+	if behaviors["seek"]["active"]:
+		if target:
+			if not accumulate_force(seek(target) * behaviors["seek"]["weight"]):
+				return steering_force
+	
+	if behaviors["arrive"]["active"]:
+		if target:
+			if not accumulate_force(arrive(target) * behaviors["arrive"]["weight"]):
+				return steering_force
 	
 	if behaviors["wander"]["active"]:
 		if not accumulate_force(wander() * behaviors["wander"]["weight"]):
@@ -155,6 +176,21 @@ func seek(target : Vector2) -> Vector2:
 	var steer = (desired_velocity - owner_agent.velocity).limit_length(owner_agent.max_force)
 	return steer
 
+func arrive(target: Vector2, decel:float = 1.0) -> Vector2:
+	if target == null:
+		return Vector2.ZERO
+	
+	var to_target = target - owner_agent.position
+	var dist = to_target.length()
+	if dist <= 0.001:
+		return Vector2.ZERO
+	
+	var speed = dist/ decel * DecelerationTweaker
+	speed = clamp(speed,0.0, owner_agent.max_speed)
+	
+	var desired_velocity = to_target * speed / dist
+	var steer = (desired_velocity - owner_agent.velocity).limit_length(owner_agent.max_force)
+	return steer
 
 func wander() -> Vector2:
 	var steer := Vector2.ZERO

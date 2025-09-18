@@ -9,5 +9,10 @@ func activate() -> void:
 	owner_agent.steering_controller.set_behaviour("wander", true, 0.9) 
 
 
-func process() -> void:
-	status = Status.ACTIVE
+func process() -> Status:
+	activate_if_inactive()
+	return status
+
+
+func terminate() -> void:
+	owner_agent.steering_controller.set_behaviour("wander", false, 1.0) 

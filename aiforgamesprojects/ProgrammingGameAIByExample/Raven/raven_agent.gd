@@ -89,3 +89,9 @@ func _on_generate_paths_pressed() -> void:
 func follow_path(path:Array) -> void:
 	if path.is_empty():
 		return
+
+
+func is_at_position(pos: Vector2) -> bool:
+	var tolerance := 10.0
+	
+	return position.distance_squared_to(pos) < tolerance * tolerance

@@ -14,8 +14,8 @@ func activate() -> void:
 	pass
 
 # Logic to run each update-step
-func process() -> void:
-	pass
+func process() -> Status:
+	return Status.INACTIVE
 
 # Logic to run when the goal is satisfied (used to switch off ative steering behaviours)
 func terminate() -> void:
@@ -25,8 +25,15 @@ func terminate() -> void:
 func is_active() -> bool:
 	return status == Status.ACTIVE
 
+func is_inactive() -> bool:
+	return status == Status.INACTIVE
+
 func is_completed() -> bool:
 	return status == Status.COMPLETED
 
 func has_failed() -> bool:
 	return status == Status.FAILED
+
+func activate_if_inactive() -> void:
+	if is_inactive():
+		activate()
