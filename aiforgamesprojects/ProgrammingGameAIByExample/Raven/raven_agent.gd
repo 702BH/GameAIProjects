@@ -14,6 +14,11 @@ var exepected_time := 0.0
 
 var last_cell
 
+
+# obstacle avoidance
+var closest_wall_point: Vector2
+
+
 func _ready() -> void:
 	last_cell = World.position_to_grid(position)
 
@@ -33,7 +38,6 @@ func _physics_process(delta: float) -> void:
 	if new_cell != last_cell:
 		World.move_agent(self, last_cell, new_cell)
 		last_cell = new_cell
-
 
 func _process(delta: float) -> void:
 	queue_redraw()
@@ -69,6 +73,7 @@ func _draw() -> void:
 				#continue
 			#else:
 				#draw_line(to_local(grid_to_world(current_path[i].node_pos.x, current_path[i].node_pos.y, path_planner.resolution)), to_local(grid_to_world(current_path[i+1].node_pos.x, current_path[i+1].node_pos.y, path_planner.resolution)), "orange")
+
 
 func _on_generate_paths_pressed() -> void:
 	current_path.clear()

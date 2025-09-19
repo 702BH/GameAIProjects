@@ -28,7 +28,8 @@ var behaviors = {
 	"evade" : {"active": false, "weight":1.0},
 	"alignment": {"active": false, "weight": 1.0},
 	"cohesion" : {"active": false, "weight": 1.0},
-	"wander": {"active": false, "weight":1.0}
+	"wander": {"active": false, "weight":1.0},
+	"obstacle_avoid": {"active": false, "weight":1.0}
 }
 
 func _init(_owner_agent : RavenAgent) -> void:
@@ -54,6 +55,11 @@ func calculate() -> Vector2:
 	neighbors = World.cell_buckets_agents[agent_bucket]
 	
 	steering_force = Vector2.ZERO
+	
+	
+	if behaviors["obstacle_avoid"]["active"]:
+		if not accumulate_force(wall_avoidance() * behaviors["obstacle_avoid"]["weight"]):
+			return steering_force
 	
 	if behaviors["evade"]["active"]:
 		if not accumulate_force(evade(pursuer) * behaviors["evade"]["weight"]):
@@ -213,5 +219,41 @@ func evade(pursuer : MoverBase) -> Vector2:
 	
 	var desired_velocity = (owner_agent.position - future_position).normalized() * owner_agent.flee_speed
 	steering = (desired_velocity - owner_agent.velocity).limit_length(owner_agent.flee_speed)
+	
+	return steering
+
+
+func wall_avoidance() -> Vector2:
+	var steering := Vector2.ZERO
+	
+	# find closest wall
+	var key = World.position_to_grid(owner_agent.position)
+	var bucket:Array = World.cell_buckets_static[key]
+	
+	if bucket.is_empty():
+		return Vector2.ZERO
+	
+	var closest_wall: RavenNode = null
+	var closest_dist_sq = INF
+	
+	for node:RavenNode in bucket:
+		if node.node_type != RavenNode.NodeType.WALL:
+			continue
+		var dist_sq = owner_agent.position.distance_squared_to(World.grid_to_world(node.node_pos.x, node.node_pos.y))
+		if dist_sq < closest_dist_sq:
+			closest_dist_sq = dist_sq
+			closest_wall = node
+	
+	if closest_wall == null:
+		return steering
+	
+	var detection_radius = 50.0
+	if closest_dist_sq > detection_radius * detection_radius:
+		return steering
+	
+	var away_vector = (owner_agent.position - World.grid_to_world(closest_wall.node_pos.x, closest_wall.node_pos.y))
+	var deisred_velocity = away_vector * owner_agent.max_speed
+	
+	steering = (deisred_velocity - owner_agent.velocity).limit_length(owner_agent.max_force)
 	
 	return steering
