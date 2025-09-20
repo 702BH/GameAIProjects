@@ -3,11 +3,11 @@ extends RavenMover
 
 @onready var body := $agent_body
 @onready var body_shape := $agent_body/body_collision
-@onready var vision := $agent_vision
+@onready var vision :Area2D= $agent_vision
 @onready var vision_shape := $agent_vision/vision_collision
 
 
-
+var sensory_memory := RavenSensoryMemory.new(self)
 var path_planner : RavenPathPlanner
 var steering_controller := RavenSteeringController.new(self)
 var click_radius := 15.0
@@ -47,6 +47,7 @@ func _ready() -> void:
 
 
 func _physics_process(delta: float) -> void:
+	rotation += 0.1 * delta
 	#hunger = max(hunger - hunger_depletion_rate * delta, 0)
 	var steering_force = steering_controller.calculate()
 	apply_force(steering_force)
