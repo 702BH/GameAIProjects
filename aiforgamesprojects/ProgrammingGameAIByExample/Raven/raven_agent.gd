@@ -1,5 +1,11 @@
 class_name RavenAgent
-extends MoverBase
+extends RavenMover
+
+@onready var body := $agent_body
+@onready var body_shape := $agent_body/body_collision
+@onready var vision := $agent_vision
+@onready var vision_shape := $agent_vision/vision_collision
+
 
 
 var path_planner : RavenPathPlanner
@@ -19,8 +25,25 @@ var last_cell
 var closest_wall_point: Vector2
 
 
+# vision
+var vision_points :PackedVector2Array = [
+	Vector2(0, -20.0),
+	Vector2(140, -75.0),
+	Vector2(165, -50.0),
+	Vector2(165, 50),
+	Vector2(140, 75),
+	Vector2(0, 20)
+	
+]
+
+
 func _ready() -> void:
 	last_cell = World.position_to_grid(position)
+	var collision_shape := CircleShape2D.new()
+	collision_shape.radius = radius
+	body_shape.shape = collision_shape
+	
+	vision_shape.polygon = vision_points
 
 
 func _physics_process(delta: float) -> void:

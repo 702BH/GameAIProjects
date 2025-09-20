@@ -209,7 +209,7 @@ func wander() -> Vector2:
 	steer = (desired_velocity - owner_agent.velocity).limit_length(owner_agent.max_force)
 	return steer
 
-func evade(pursuer : MoverBase) -> Vector2:
+func evade(pursuer : RavenMover) -> Vector2:
 	var steering := Vector2.ZERO
 	var to_pursuer = pursuer.position - owner_agent.position
 	

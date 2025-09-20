@@ -5,3 +5,16 @@
 [node name="RavenAgent" type="Node2D"]
 z_index = 50
 script = ExtResource("1_y4deu")
+radius = 4.0
+
+[node name="agent_vision" type="Area2D" parent="."]
+collision_layer = 0
+collision_mask = 2
+
+[node name="vision_collision" type="CollisionPolygon2D" parent="agent_vision"]
+
+[node name="agent_body" type="Area2D" parent="."]
+collision_layer = 2
+collision_mask = 0
+
+[node name="body_collision" type="CollisionShape2D" parent="agent_body"]
