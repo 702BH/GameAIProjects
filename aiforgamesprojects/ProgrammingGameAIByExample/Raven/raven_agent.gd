@@ -46,6 +46,17 @@ func _ready() -> void:
 	vision_shape.polygon = vision_points
 
 
+# debugging
+func _input(event: InputEvent) -> void:
+	if event.is_action_pressed("debug"):
+		var oppnents := sensory_memory.get_recently_sensed_opponents()
+		if oppnents.is_empty():
+			print("no enemies")
+		else:
+				print("Agent: ", self)
+				print("Opponents: ", oppnents)
+
+
 func _physics_process(delta: float) -> void:
 	rotation += 0.1 * delta
 	#hunger = max(hunger - hunger_depletion_rate * delta, 0)
@@ -62,20 +73,28 @@ func _physics_process(delta: float) -> void:
 	if new_cell != last_cell:
 		World.move_agent(self, last_cell, new_cell)
 		last_cell = new_cell
+	sensory_memory.update_agents_in_view()
 
 func _process(delta: float) -> void:
 	queue_redraw()
-	if !current_path.is_empty():
-		
-		if edge_timer == 0:
-			edge_timer = Time.get_ticks_msec()
-			exepected_time = (current_path[0].cost / max_speed + 2.0) * 1000.0
-		
-		var elapsed := Time.get_ticks_msec() - edge_timer
-		if elapsed > exepected_time:
-			print("Time passed, recalculating")
-			_on_generate_paths_pressed()
-			edge_timer = 0
+	#if !current_path.is_empty():
+		#
+		#if edge_timer == 0:
+			#edge_timer = Time.get_ticks_msec()
+			#exepected_time = (current_path[0].cost / max_speed + 2.0) * 1000.0
+		#
+		#var elapsed := Time.get_ticks_msec() - edge_timer
+		#if elapsed > exepected_time:
+			#print("Time passed, recalculating")
+			#_on_generate_paths_pressed()
+			#edge_timer = 0
+	
+	# Update vision
+	#sensory_memory.update_agents_in_view()
+	#var oppnents := sensory_memory.get_recently_sensed_opponents()
+	#if oppnents.is_empty():
+		#print("no enemies")
+	
 
 func _draw() -> void:
 	if selected:
