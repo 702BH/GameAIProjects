@@ -10,6 +10,7 @@ extends RavenMover
 var sensory_memory := RavenSensoryMemory.new(self)
 var path_planner : RavenPathPlanner
 var steering_controller := RavenSteeringController.new(self)
+var targeting_system := RavenTargetingSystem.new(self)
 var click_radius := 15.0
 var selected := false
 
@@ -74,6 +75,7 @@ func _physics_process(delta: float) -> void:
 		World.move_agent(self, last_cell, new_cell)
 		last_cell = new_cell
 	sensory_memory.update_agents_in_view()
+	targeting_system.update()
 
 func _process(delta: float) -> void:
 	queue_redraw()

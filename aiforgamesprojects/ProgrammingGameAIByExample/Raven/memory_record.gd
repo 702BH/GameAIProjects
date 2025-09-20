@@ -1,6 +1,7 @@
 class_name MemoryRecord
 extends Node
 
+var agent: RavenAgent
 var time_last_sensed: float = 0.0
 var time_became_visible: float = 0.0
 var time_last_visible: float = 0.0

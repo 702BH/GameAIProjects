@@ -33,6 +33,7 @@ func update_agents_in_view() -> void:
 			memory_dict[agent] = MemoryRecord.new()
 		var record: MemoryRecord = memory_dict[agent]
 		
+		record.agent = agent
 		record.time_last_sensed = Time.get_ticks_msec() / 1000.0
 		record.last_sensed_position = agent.position
 		record.within_fov = true
