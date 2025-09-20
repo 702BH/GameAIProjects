@@ -58,7 +58,7 @@ func spawn_agents() -> void:
 		World.place_agent(agent, World.position_to_grid(agent.position))
 		agent.queue_redraw()
 	
-	print(World.cell_buckets_agents)
+	#print(World.cell_buckets_agents)
 
 func _on_ui_start_map_request() -> void:
 	spawn_agents()

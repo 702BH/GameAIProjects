@@ -10,6 +10,7 @@ radius = 4.0
 [node name="agent_vision" type="Area2D" parent="."]
 collision_layer = 0
 collision_mask = 2
+monitorable = false
 
 [node name="vision_collision" type="CollisionPolygon2D" parent="agent_vision"]
 
