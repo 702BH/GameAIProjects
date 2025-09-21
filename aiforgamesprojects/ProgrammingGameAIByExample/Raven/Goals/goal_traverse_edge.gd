@@ -25,9 +25,11 @@ func activate() -> void:
 	owner_agent.steering_controller.set_target(edge.destination)
 	
 	if last_edge:
-		owner_agent.steering_controller.set_behaviour("arrive", true, 1.0)
+		owner_agent.steering_controller.set_behaviour("arrive", true, 0.4)
+		owner_agent.steering_controller.set_behaviour("obstacle_avoid", true, 0.5)
 	else:
-		owner_agent.steering_controller.set_behaviour("seek", true, 1.0) 
+		owner_agent.steering_controller.set_behaviour("seek", true, 0.4) 
+		owner_agent.steering_controller.set_behaviour("obstacle_avoid", true, 0.5)
 
 
 func process() -> Status:
@@ -45,7 +47,8 @@ func terminate() -> void:
 	# turn off steering behaviours
 	owner_agent.steering_controller.reset_target()
 	owner_agent.steering_controller.set_behaviour("arrive", false, 1.0)
-	owner_agent.steering_controller.set_behaviour("seek", false, 1.0) 
+	owner_agent.steering_controller.set_behaviour("seek", false, 1.0)
+	owner_agent.steering_controller.set_behaviour("obstacle_avoid", false, 1.5) 
 
 func is_stuck() -> bool:
 	var time_taken = Time.get_ticks_msec() - start_time
