@@ -2,9 +2,13 @@ class_name Goal
 extends Node
 
 enum Status {INACTIVE, ACTIVE, COMPLETED, FAILED}
+enum Type {GOAL_THINK, GOAL_EXPLORE, GOAL_ARRIVE_AT_POSITION,
+	GOAL_SEEK_TO_POSITION, GOAL_FOLLOW_PATH, GOAL_TRAVERSE_EDGE,
+	GOAL_MOVE_TO_POSITION, GOAL_WANDER, GOAL_ATTACK_TARGET}
 
 var owner_agent: RavenAgent
 var status: Status = Status.INACTIVE
+var goal_type: Type
 
 func _init(_agent: RavenAgent) -> void:
 	owner_agent = _agent

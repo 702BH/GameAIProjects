@@ -6,6 +6,7 @@ var destination: Vector2
 func _init(_agent: RavenAgent, _pos) -> void:
 	super(_agent)
 	destination = _pos
+	goal_type = Type.GOAL_MOVE_TO_POSITION
 
 
 func activate() -> void:

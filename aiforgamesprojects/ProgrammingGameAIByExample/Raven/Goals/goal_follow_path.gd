@@ -7,6 +7,7 @@ var path : Array[PathEdge]
 func _init(_agent: RavenAgent, _path: Array[PathEdge]) -> void:
 	super(_agent)
 	path = _path
+	goal_type = Type.GOAL_FOLLOW_PATH
 
 
 func activate() -> void:

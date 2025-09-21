@@ -11,6 +11,7 @@ func _init(agent: RavenAgent, _edge: PathEdge, _last_edge:bool) -> void:
 	super(agent)
 	edge = _edge
 	last_edge = _last_edge
+	goal_type = Type.GOAL_TRAVERSE_EDGE
 
 
 func activate() -> void:

@@ -11,6 +11,8 @@ var sensory_memory := RavenSensoryMemory.new(self)
 var path_planner : RavenPathPlanner
 var steering_controller := RavenSteeringController.new(self)
 var targeting_system := RavenTargetingSystem.new(self)
+var brain := GoalThink.new(self)
+
 var click_radius := 15.0
 var selected := false
 
