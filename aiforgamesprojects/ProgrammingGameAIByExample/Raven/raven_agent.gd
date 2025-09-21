@@ -8,7 +8,7 @@ extends RavenMover
 
 
 var sensory_memory := RavenSensoryMemory.new(self)
-var path_planner : RavenPathPlanner
+var path_planner := RavenPathPlanner.new(self)
 var steering_controller := RavenSteeringController.new(self)
 var targeting_system := RavenTargetingSystem.new(self)
 var brain := GoalThink.new(self)
@@ -52,17 +52,16 @@ func _ready() -> void:
 # debugging
 func _input(event: InputEvent) -> void:
 	if event.is_action_pressed("debug"):
-		var oppnents := sensory_memory.get_recently_sensed_opponents()
-		if oppnents.is_empty():
-			print("no enemies")
-		else:
-				print("Agent: ", self)
-				print("Opponents: ", oppnents)
+		print("Agent: ", self)
+		print("Target: ",steering_controller.target)
 
 
 func _physics_process(delta: float) -> void:
-	rotation += 0.1 * delta
-	#hunger = max(hunger - hunger_depletion_rate * delta, 0)
+	#rotation += 0.1 * delta
+	brain.process()
+	sensory_memory.update_agents_in_view()
+	targeting_system.update()
+	
 	var steering_force = steering_controller.calculate()
 	apply_force(steering_force)
 	velocity += acceleration * delta
@@ -76,8 +75,8 @@ func _physics_process(delta: float) -> void:
 	if new_cell != last_cell:
 		World.move_agent(self, last_cell, new_cell)
 		last_cell = new_cell
-	sensory_memory.update_agents_in_view()
-	targeting_system.update()
+	
+
 
 func _process(delta: float) -> void:
 	queue_redraw()
@@ -120,7 +119,8 @@ func _draw() -> void:
 				#continue
 			#else:
 				#draw_line(to_local(grid_to_world(current_path[i].node_pos.x, current_path[i].node_pos.y, path_planner.resolution)), to_local(grid_to_world(current_path[i+1].node_pos.x, current_path[i+1].node_pos.y, path_planner.resolution)), "orange")
-
+	if steering_controller.target:
+		draw_circle(to_local(steering_controller.target), 6.0, "green")
 
 func _on_generate_paths_pressed() -> void:
 	current_path.clear()

@@ -3,6 +3,8 @@ extends "res://ProgrammingGameAIByExample/Raven/Goals/goal_evaluator.gd"
 
 var desriability := 0.05
 
+func calculate_desirability(agent: RavenAgent) -> float:
+	return desriability
 
 func set_goal(agent: RavenAgent) -> void:
-	pass
+	agent.brain.add_goal_explore()

@@ -21,6 +21,7 @@ func activate() -> void:
 	time_expected = (edge.cost / owner_agent.max_speed + 2.0) * 1000.0
 	
 	# Set the steering target
+	#print(edge.destination)
 	owner_agent.steering_controller.set_target(edge.destination)
 	
 	if last_edge:
@@ -42,6 +43,7 @@ func process() -> Status:
 
 func terminate() -> void:
 	# turn off steering behaviours
+	owner_agent.steering_controller.reset_target()
 	owner_agent.steering_controller.set_behaviour("arrive", false, 1.0)
 	owner_agent.steering_controller.set_behaviour("seek", false, 1.0) 
 
