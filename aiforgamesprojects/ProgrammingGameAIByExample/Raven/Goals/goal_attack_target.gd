@@ -2,6 +2,10 @@ class_name GoalAttackTarget
 extends "res://ProgrammingGameAIByExample/Raven/Goals/GoalComposite.gd"
 
 
+func _init(_agent: RavenAgent) -> void:
+	super(_agent)
+	goal_type = Type.GOAL_ATTACK_TARGET
+
 func activate() -> void:
 	status = Status.ACTIVE
 	remove_all_subgoals()

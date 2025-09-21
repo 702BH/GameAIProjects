@@ -181,3 +181,7 @@ func grid_to_world(col:int, row:int, res: float= resolution) -> Vector2:
 
 func world_to_bucket(pos: Vector2) -> Vector2:
 	return Vector2(int(pos.x / cell_size), int(pos.y) / cell_size)
+
+
+func get_random_position() -> Vector2:
+	return Vector2(randi_range(0, width), randi_range(0, height))

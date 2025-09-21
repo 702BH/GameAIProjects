@@ -2,6 +2,10 @@ class_name GoalWander
 extends "res://ProgrammingGameAIByExample/Raven/Goals/Goal.gd"
 
 
+func _init(_agent: RavenAgent) -> void:
+	super(_agent)
+	goal_type = Type.GOAL_WANDER
+
 func activate() -> void:
 	status = Status.ACTIVE
 	
