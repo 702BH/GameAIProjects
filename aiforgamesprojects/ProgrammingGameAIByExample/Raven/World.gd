@@ -46,7 +46,7 @@ func generate_grid() -> void:
 			if !cell_buckets_static.has(key):
 				cell_buckets_static[key] = []
 			cell_buckets_static[key].append(graph.nodes[i * columns + j])
-	
+			
 	# generated edges
 	generate_edges(rows, columns)
 

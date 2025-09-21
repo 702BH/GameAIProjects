@@ -228,17 +228,35 @@ func evade(pursuer : RavenMover) -> Vector2:
 func wall_avoidance() -> Vector2:
 	var steering := Vector2.ZERO
 	
+	var buckets_to_check = []
+	
 	# find closest wall
-	var key = World.position_to_grid(owner_agent.position)
-	var bucket:Array = World.cell_buckets_static[key]
+	var key = World.world_to_bucket(World.position_to_grid(owner_agent.position))
+	var bucket:Array = World.cell_buckets_static.get(Vector2i(int(key.x), int(key.y)), [])
+	#print(key)
+	#print(bucket)
+	
+	#for k in range(-1, 2):
+		#for l in range(-1, 2):
+			#var new_key = Vector2i(int(key.x) + k, int(key.y) + l)
+			##print(new_key)
+			#var new_bucket: Array = World.cell_buckets_static.get(new_key, [])
+			#if new_bucket.is_empty():
+				#continue
+			#for value in new_bucket:
+				#buckets_to_check.append(value)
+	
+	#print(buckets_to_check)
 	
 	if bucket.is_empty():
 		return Vector2.ZERO
+	#print("bucket not empty")
 	
 	var closest_wall: RavenNode = null
 	var closest_dist_sq = INF
 	
 	for node:RavenNode in bucket:
+		#print(node)
 		if node.node_type != RavenNode.NodeType.WALL:
 			continue
 		var dist_sq = owner_agent.position.distance_squared_to(World.grid_to_world(node.node_pos.x, node.node_pos.y))
@@ -247,14 +265,16 @@ func wall_avoidance() -> Vector2:
 			closest_wall = node
 	
 	if closest_wall == null:
+		#print("no closest wall")
 		return steering
 	
 	var detection_radius = 50.0
 	if closest_dist_sq > detection_radius * detection_radius:
 		return steering
-	
-	var away_vector = (owner_agent.position - World.grid_to_world(closest_wall.node_pos.x, closest_wall.node_pos.y))
-	var deisred_velocity = away_vector * owner_agent.max_speed
+	#print("wall found")
+	var away_vector = (owner_agent.position - World.grid_to_world(closest_wall.node_pos.x, closest_wall.node_pos.y)).normalized()
+	var strength = clamp((detection_radius - sqrt(closest_dist_sq)) / detection_radius, 0.0, 1.0)
+	var deisred_velocity = away_vector * owner_agent.max_speed * strength
 	
 	steering = (deisred_velocity - owner_agent.velocity).limit_length(owner_agent.max_force)
 	
