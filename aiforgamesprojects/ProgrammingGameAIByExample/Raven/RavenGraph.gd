@@ -119,8 +119,12 @@ func dijkstras(source: int, item_predicate: Callable) -> Array[PathEdge]:
 
 
 
-func A_star(source: int, target: int, columns: int) -> Array[RavenNode]:
-	var result : Array[RavenNode] = []
+func A_star(source: int, target: int, columns: int) -> Array[PathEdge]:
+	print("A* called")
+	print("source: ", source )
+	print("target: ", target)
+	print("columns: ", columns)
+	var result : Array[PathEdge] = []
 	var costs : Dictionary = {}
 	var parents : Dictionary = {}
 	
@@ -153,11 +157,18 @@ func A_star(source: int, target: int, columns: int) -> Array[RavenNode]:
 				open_set.push(edge.to, f_cost)
 				#queue.sort_custom(func(a, b): return costs[a] + heuristic(a, target_grid_pos, columns)  < costs[b] + heuristic(b, target_grid_pos, columns))
 	
-	var path_to_target: Array[RavenNode]  = []
+	var path_to_target: Array[PathEdge]  = []
 	var current = target
-	while current != null:
-		path_to_target.push_front(nodes[current])
-		current = parents.get(current, null)
+	while parents.has(current):
+		var parent = parents[current]
+		if parent == null:
+			break
+		var from_node: RavenNode = nodes[parent]
+		var to_node: RavenNode = nodes[current]
+		var edge: NavGraphEdge = get_edge_between(parent, current)
+		var behaviour = edge.behaviour_type if edge != null else PathEdge.BehaviourType.WALK
+		path_to_target.push_front(PathEdge.new(from_node.node_pos, to_node.node_pos, behaviour, edge.cost))
+		current = parent
 	return path_to_target
 
 

@@ -44,7 +44,9 @@ func set_behaviour(behaviour:String, status:bool, weight:float) -> void:
 
 
 func set_target(_target: Vector2) -> void:
-	target = _target
+	target =  World.grid_to_world(_target.x, _target.y)
+	print("SET TARGET")
+	print(target)
 
 func reset_target() -> void:
 	target = null
@@ -52,7 +54,7 @@ func reset_target() -> void:
 func calculate() -> Vector2:
 	var pos = World.position_to_grid(owner_agent.position)
 	var agent_bucket = World.world_to_bucket(pos)
-	neighbors = World.cell_buckets_agents[agent_bucket]
+	neighbors = World.cell_buckets_agents.get(agent_bucket, [])
 	
 	steering_force = Vector2.ZERO
 	

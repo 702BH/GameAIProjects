@@ -17,6 +17,7 @@ var cell_size : int
 var cell_buckets_agents: Dictionary ={}
 var cell_buckets_static: Dictionary ={}
 
+
 func initialise(_width:float, _height:float, _resolution:float, _cell_size:int) -> void:
 	width = _width
 	height = _height
@@ -184,4 +185,4 @@ func world_to_bucket(pos: Vector2) -> Vector2:
 
 
 func get_random_position() -> Vector2:
-	return Vector2(randi_range(0, width), randi_range(0, height))
+	return Vector2(randi_range(30, int(width)), randi_range(30, int(height)))

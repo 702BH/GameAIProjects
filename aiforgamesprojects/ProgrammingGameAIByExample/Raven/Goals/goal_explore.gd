@@ -3,11 +3,13 @@ extends "res://ProgrammingGameAIByExample/Raven/Goals/GoalComposite.gd"
 
 var current_destination : Vector2
 var destination_is_set : bool
+var rng := RandomNumberGenerator.new()
 
 func _init(_agent: RavenAgent) -> void:
 	super(_agent)
 	goal_type = Type.GOAL_EXPLORE
 	destination_is_set = false
+	rng.randomize()
 
 
 func activate() -> void:

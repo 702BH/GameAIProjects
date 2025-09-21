@@ -50,7 +50,6 @@ func _on_ui_map_load_request(file_path: String) -> void:
 func spawn_agents() -> void:
 	for node:RavenNode in World.spawn_points:
 		var agent : RavenAgent = agent_prefab.instantiate()
-		agent.path_planner = RavenPathPlanner.new()
 		agent.position = World.grid_to_world(node.node_pos.x, node.node_pos.y)
 		if randf() > 0.3:
 			agent.rotate(randf_range(-2, 2))

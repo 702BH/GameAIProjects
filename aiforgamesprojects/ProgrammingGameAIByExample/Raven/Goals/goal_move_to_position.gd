@@ -17,8 +17,12 @@ func activate() -> void:
 	
 	# request a new path
 	var path  = owner_agent.path_planner.get_path_to_target(destination, owner_agent.position)
+	print("Path for Agent: ", owner_agent)
+	print("Path: ", path)
 	if !path.is_empty():
 		add_subgoal(GoalFollowPath.new(owner_agent, path))
+	else:
+		status = Status.FAILED
 
 func process() -> Status:
 	activate_if_inactive()

@@ -1,7 +1,10 @@
 class_name RavenPathPlanner
 extends Node
 
+var owner_agent:RavenAgent
 
+func _init(_agent: RavenAgent) -> void:
+	owner_agent = _agent
 
 func get_random_path(agent_pos: Vector2) -> Array:
 	var return_path = World.graph.dijkstras(get_nearest_node(agent_pos).id, is_shotgun)
@@ -13,7 +16,9 @@ func get_random_path(agent_pos: Vector2) -> Array:
 
 
 func get_path_to_target(target_pos: Vector2, agent_pos: Vector2) -> Array:
-	var return_path = World.graph.A_star(get_nearest_node(agent_pos).id, get_nearest_node(target_pos).is, World.columns)
+	var return_path = World.graph.A_star(get_nearest_node(agent_pos).id, get_nearest_node(target_pos).id, World.columns)
+	#print("ORIGINAL")
+	#print(return_path)
 	if !return_path.is_empty():
 		return smooth_path_edges_quick(return_path)
 		#return return_path
@@ -50,6 +55,8 @@ func smooth_path_edges_quick(path: Array[PathEdge]) -> Array[PathEdge]:
 				e1 = e2
 				e2 +=1
 		
+		#print("SMOOTH")
+		#print(return_path)
 		return return_path
 
 

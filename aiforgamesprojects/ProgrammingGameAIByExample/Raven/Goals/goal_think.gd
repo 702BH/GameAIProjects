@@ -2,9 +2,43 @@ class_name GoalThink
 extends "res://ProgrammingGameAIByExample/Raven/Goals/GoalComposite.gd"
 
 
+var evaluators : Array[GoalEvaluator] = []
+
+
 func _init(_agent: RavenAgent) -> void:
 	super(_agent)
 	goal_type = Type.GOAL_THINK
+	
+	# create the evalutor objects
+	evaluators.push_back(ExploreGoalEvaluator.new())
+
+
+func activate() -> void:
+	arbitrate()
+	status = Status.ACTIVE
+
+func process() -> Status:
+	activate_if_inactive()
+	
+	var sub_goal_status: Status = process_subgoals()
+	if sub_goal_status == Status.COMPLETED or sub_goal_status == Status.FAILED:
+		status = Status.INACTIVE
+	
+	return status
+
+
+func arbitrate() -> void:
+	var best := 0.0
+	
+	var most_desirable: GoalEvaluator
+	
+	for eval:GoalEvaluator in evaluators:
+		var desire :float = eval.calculate_desirability(owner_agent)
+		if desire >= best:
+			best = desire
+			most_desirable = eval
+	
+	most_desirable.set_goal(owner_agent)
 
 
 func not_present(_type: Type) -> bool:
