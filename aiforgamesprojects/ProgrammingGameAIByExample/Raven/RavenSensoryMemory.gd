@@ -37,6 +37,7 @@ func update_agents_in_view() -> void:
 		record.time_last_sensed = Time.get_ticks_msec() / 1000.0
 		record.last_sensed_position = agent.position
 		record.within_fov = true
+		record.shootable = true
 	
 	# debugging
 	#if !memory_dict.is_empty():
@@ -56,3 +57,9 @@ func get_recently_sensed_opponents() -> Array:
 		return []
 	
 	return opponents
+
+
+func is_opponent_shootable(opponent: RavenAgent) -> bool:
+	if memory_dict.has(opponent):
+		return memory_dict[opponent].shootable
+	return false
