@@ -52,9 +52,11 @@ func _ready() -> void:
 # debugging
 func _input(event: InputEvent) -> void:
 	if event.is_action_pressed("debug"):
-		print("Agent: ", self)
-		print(World.world_to_bucket(World.position_to_grid(position)))
-		print(World.cell_buckets_static[Vector2i(1, 2)])
+		#print("Agent: ", self)
+		#print(World.world_to_bucket(World.position_to_grid(position)))
+		#print(World.cell_buckets_static[Vector2i(1, 2)])
+		print(self)
+		print("target: ", targeting_system.current_target)
 
 
 func _physics_process(delta: float) -> void:

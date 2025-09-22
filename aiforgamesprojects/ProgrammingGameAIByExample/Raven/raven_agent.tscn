@@ -5,8 +5,9 @@
 [node name="RavenAgent" type="Node2D"]
 z_index = 50
 script = ExtResource("1_y4deu")
-max_speed = 8.0
-max_force = 3.0
+max_speed = 20.0
+max_force = 30.0
+max_turn_rate = 3.0
 radius = 4.0
 
 [node name="agent_vision" type="Area2D" parent="."]
