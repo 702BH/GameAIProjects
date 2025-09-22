@@ -268,14 +268,22 @@ func wall_avoidance() -> Vector2:
 		#print("no closest wall")
 		return steering
 	
-	var detection_radius = 50.0
+	var detection_radius = 40.0
 	if closest_dist_sq > detection_radius * detection_radius:
 		return steering
-	#print("wall found")
-	var away_vector = (owner_agent.position - World.grid_to_world(closest_wall.node_pos.x, closest_wall.node_pos.y)).normalized()
-	var strength = clamp((detection_radius - sqrt(closest_dist_sq)) / detection_radius, 0.0, 1.0)
-	var deisred_velocity = away_vector * owner_agent.max_speed * strength
 	
-	steering = (deisred_velocity - owner_agent.velocity).limit_length(owner_agent.max_force)
+	# dot products
+	var agent_velocity = owner_agent.velocity.normalized()
+	var wall_vector = (World.grid_to_world(closest_wall.node_pos.x, closest_wall.node_pos.y) - owner_agent.position).normalized()
+	var dot_product = agent_velocity.dot(wall_vector)
+	
+	if dot_product >= cos(deg_to_rad(60)):
+		#print("wall found")
+		var away_vector = (owner_agent.position - World.grid_to_world(closest_wall.node_pos.x, closest_wall.node_pos.y)).normalized()
+		var strength = clamp((detection_radius - sqrt(closest_dist_sq)) / detection_radius, 0.0, 1.0)
+		var forward = owner_agent.velocity.normalized()
+		var deisred_velocity = (away_vector * owner_agent.max_speed * strength *0.5 + forward)
+		
+		steering = (deisred_velocity - owner_agent.velocity).limit_length(owner_agent.max_force)
 	
 	return steering

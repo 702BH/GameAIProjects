@@ -25,11 +25,11 @@ func activate() -> void:
 	owner_agent.steering_controller.set_target(edge.destination)
 	
 	if last_edge:
-		owner_agent.steering_controller.set_behaviour("arrive", true, 0.4)
-		owner_agent.steering_controller.set_behaviour("obstacle_avoid", true, 0.5)
+		owner_agent.steering_controller.set_behaviour("arrive", true, 0.7)
+		owner_agent.steering_controller.set_behaviour("obstacle_avoid", true, 1.5)
 	else:
-		owner_agent.steering_controller.set_behaviour("seek", true, 0.4) 
-		owner_agent.steering_controller.set_behaviour("obstacle_avoid", true, 0.5)
+		owner_agent.steering_controller.set_behaviour("seek", true, 0.7) 
+		owner_agent.steering_controller.set_behaviour("obstacle_avoid", true, 1.5)
 
 
 func process() -> Status:
