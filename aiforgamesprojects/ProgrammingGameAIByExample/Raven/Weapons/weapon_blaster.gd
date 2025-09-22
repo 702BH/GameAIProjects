@@ -15,4 +15,6 @@ func shoot_at(pos: Vector2) -> void:
 	if is_ready_for_next_shot():
 		# fire
 		# add bullet to world
+		var bullet = ProjectileBolt.new(pos)
+		RavenServiceBus.fire_bullet.emit()
 		update_time_weapon_is_next_available()
