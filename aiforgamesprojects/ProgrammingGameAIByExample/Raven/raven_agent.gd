@@ -12,6 +12,8 @@ var path_planner := RavenPathPlanner.new(self)
 var steering_controller := RavenSteeringController.new(self)
 var targeting_system := RavenTargetingSystem.new(self)
 var brain := GoalThink.new(self)
+var weapon_system := RavenWeaponSystem.new(self, 1.0, 1.0)
+
 
 var click_radius := 15.0
 var selected := false
