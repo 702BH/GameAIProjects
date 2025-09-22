@@ -29,3 +29,14 @@ func update() -> void:
 	# debug
 	#if current_target:
 		#print(current_target)
+
+func get_time_target_has_been_visible() -> float:
+	if current_target:
+		return owner_agent.sensory_memory.get_time_opponent_has_been_visible(current_target)
+	return 0.0
+
+
+func is_target_shootable() -> bool:
+	if current_target:
+		return owner_agent.sensory_memory.is_opponent_shootable(current_target)
+	return false

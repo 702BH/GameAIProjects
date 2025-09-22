@@ -25,11 +25,19 @@ func _init(_agent: RavenAgent, _react_time: float, _acc: float) -> void:
 func predict_future_position_of_target() -> Vector2:
 	return Vector2.ZERO
 
-func add_noise_to_aim(aiming_pos: Vector2) -> void:
-	pass
+func add_noise_to_aim(aiming_pos: Vector2) -> Vector2:
+	return Vector2(aiming_pos.x + randf_range(-0.5, 0.5), aiming_pos.y + randf_range(-0.5, 0.5))
 
 func take_aim_and_shoot() -> void:
-	pass
+	if owner_agent.targeting_system.is_target_shootable():
+		var aiming_pos: Vector2 = owner_agent.targeting_system.current_target.position
+		
+		# if weapon aimed correctly
+		# if been in view for period longer than reaction time
+		# shoot
+		if owner_agent.targeting_system.get_time_target_has_been_visible() > reaction_time:
+			aiming_pos = add_noise_to_aim(aiming_pos)
+			current_weapon.shoot_at(aiming_pos)
 
 func select_weapon() -> void:
 	current_weapon = weapon_map[RavenWeapon.WeaponType.BLASTER]

@@ -59,6 +59,12 @@ func get_recently_sensed_opponents() -> Array:
 	return opponents
 
 
+func get_time_opponent_has_been_visible(opponent: RavenAgent) -> float:
+	if memory_dict.has(opponent):
+		return Time.get_ticks_msec() / 1000.0 - memory_dict[opponent].time_last_sensed
+	return 0.0
+
+
 func is_opponent_shootable(opponent: RavenAgent) -> bool:
 	if memory_dict.has(opponent):
 		return memory_dict[opponent].shootable
