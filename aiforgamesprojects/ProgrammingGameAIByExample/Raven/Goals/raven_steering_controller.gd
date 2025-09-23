@@ -251,7 +251,7 @@ func wall_avoidance() -> Vector2:
 			if m1 != tl_tr_m:
 				# solve for x
 				var x = (m1 * f.x - tl_tr_m * top_left.x + top_left.y - f.y) / (m1 - tl_tr_m)
-				
+				var y = m1 * (x - f.x) + f.y
 	
 	
 	var buckets_to_check = []
