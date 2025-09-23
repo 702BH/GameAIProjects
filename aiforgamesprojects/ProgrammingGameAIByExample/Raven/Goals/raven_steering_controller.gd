@@ -230,6 +230,7 @@ func wall_avoidance() -> Vector2:
 	
 	# loop over agent feelers
 	for f:Vector2 in owner_agent.feelers:
+		var m1 = (f.y - owner_agent.position.y) / (f.x - owner_agent.x)
 		var key = World.world_to_bucket(World.position_to_grid(f))
 		var bucket:Array = World.cell_buckets_static.get(Vector2i(int(key.x), int(key.y)), [])
 		for node:RavenNode in bucket:
@@ -244,6 +245,13 @@ func wall_avoidance() -> Vector2:
 			var bottom_right := Vector2(top_left.x + World.resolution, top_left.y + World.resolution)
 			
 			# Wall segment tests
+			# top left -> top right
+			# calculate slopes
+			var tl_tr_m = (top_right.y - top_left.y) / (top_right.x - top_right.x)
+			if m1 != tl_tr_m:
+				# solve for x
+				var x = (m1 * f.x - tl_tr_m * top_left.x + top_left.y - f.y) / (m1 - tl_tr_m)
+				
 	
 	
 	var buckets_to_check = []
