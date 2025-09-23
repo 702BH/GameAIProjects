@@ -228,6 +228,24 @@ func evade(pursuer : RavenMover) -> Vector2:
 func wall_avoidance() -> Vector2:
 	var steering := Vector2.ZERO
 	
+	# loop over agent feelers
+	for f:Vector2 in owner_agent.feelers:
+		var key = World.world_to_bucket(World.position_to_grid(f))
+		var bucket:Array = World.cell_buckets_static.get(Vector2i(int(key.x), int(key.y)), [])
+		for node:RavenNode in bucket:
+			#print(node)
+			if node.node_type != RavenNode.NodeType.WALL:
+				continue
+			
+			# Wall points
+			var top_left: Vector2 = World.grid_to_world(node.node_pos.x, node.node_pos.y)
+			var top_right: Vector2 = Vector2(top_left.x + World.resolution, top_left.y)
+			var bottom_left:= Vector2(top_left.x, top_left.y + World.resolution)
+			var bottom_right := Vector2(top_left.x + World.resolution, top_left.y + World.resolution)
+			
+			# Wall segment tests
+	
+	
 	var buckets_to_check = []
 	
 	# find closest wall

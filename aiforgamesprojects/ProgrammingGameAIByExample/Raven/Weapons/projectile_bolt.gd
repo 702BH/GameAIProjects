@@ -20,9 +20,9 @@ func _physics_process(delta: float) -> void:
 		print("SHOULD DIE")
 		queue_free()
 	
-	if _wall_collision():
-		print("AHHHHHH")
-		queue_free()
+	#if _wall_collision():
+		#print("AHHHHHH")
+		#queue_free()
 
 
 func _process(delta: float) -> void:

@@ -45,6 +45,7 @@ func initialise_map_drawer() -> void:
 
 func _on_ui_map_load_request(file_path: String) -> void:
 	World.load_world_from_file(file_path)
+	map_drawing.queue_redraw()
 
 
 
