@@ -9,6 +9,7 @@ extends Node2D
 @onready var agent_prefab := preload("res://ProgrammingGameAIByExample/Raven/raven_agent.tscn")
 @onready var agents_container := $AgentContainer
 @onready var map_drawing := $MapDrawing
+@onready var projectile_container := $ProjectileContainer
 
 var resolution := 24.0
 var loaded_map := ""
@@ -25,6 +26,7 @@ func _ready() -> void:
 	initialise_map_drawer()
 	agents_container.connect("agent_selected", ui.on_agent_selected)
 	agents_container.connect("agent_deselected", ui.on_agent_deselected)
+	RavenServiceBus.fire_projectile.connect(_on_projectile_fired.bind())
 
 func _unhandled_input(event: InputEvent) -> void:
 	if event.is_action_pressed("place"):
@@ -65,3 +67,7 @@ func _on_ui_start_map_request() -> void:
 
 func _on_ui_map_save_request(file_name: String) -> void:
 	World.save_world_to_file(file_name)
+
+
+func _on_projectile_fired(projectile: RavenProjectile) -> void:
+	print("Fired")

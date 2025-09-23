@@ -45,8 +45,8 @@ func set_behaviour(behaviour:String, status:bool, weight:float) -> void:
 
 func set_target(_target: Vector2) -> void:
 	target =  World.grid_to_world(_target.x, _target.y)
-	print("SET TARGET")
-	print(target)
+	#print("SET TARGET")
+	#print(target)
 
 func reset_target() -> void:
 	target = null
@@ -268,7 +268,7 @@ func wall_avoidance() -> Vector2:
 		#print("no closest wall")
 		return steering
 	
-	var detection_radius = 40.0
+	var detection_radius = 50.0
 	if closest_dist_sq > detection_radius * detection_radius:
 		return steering
 	
@@ -277,7 +277,7 @@ func wall_avoidance() -> Vector2:
 	var wall_vector = (World.grid_to_world(closest_wall.node_pos.x, closest_wall.node_pos.y) - owner_agent.position).normalized()
 	var dot_product = agent_velocity.dot(wall_vector)
 	
-	if dot_product >= cos(deg_to_rad(60)):
+	if dot_product >= cos(deg_to_rad(70)):
 		#print("wall found")
 		var away_vector = (owner_agent.position - World.grid_to_world(closest_wall.node_pos.x, closest_wall.node_pos.y)).normalized()
 		var strength = clamp((detection_radius - sqrt(closest_dist_sq)) / detection_radius, 0.0, 1.0)

@@ -22,6 +22,8 @@ mouse_force_pass_scroll_events = false
 z_index = 25
 script = ExtResource("3_wa7ej")
 
+[node name="ProjectileContainer" type="Node2D" parent="."]
+
 [connection signal="map_load_request" from="CanvasLayer/UI" to="." method="_on_ui_map_load_request"]
 [connection signal="map_save_request" from="CanvasLayer/UI" to="." method="_on_ui_map_save_request"]
 [connection signal="start_map_request" from="CanvasLayer/UI" to="." method="_on_ui_start_map_request"]

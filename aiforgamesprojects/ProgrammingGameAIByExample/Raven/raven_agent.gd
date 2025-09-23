@@ -66,6 +66,8 @@ func _physics_process(delta: float) -> void:
 	brain.process()
 	sensory_memory.update_agents_in_view()
 	targeting_system.update()
+	weapon_system.select_weapon()
+	weapon_system.take_aim_and_shoot()
 	
 	var steering_force = steering_controller.calculate()
 	apply_force(steering_force)
@@ -149,6 +151,6 @@ func follow_path(path:Array) -> void:
 
 
 func is_at_position(pos: Vector2) -> bool:
-	var tolerance := 10.0
+	var tolerance := 20.0
 	
 	return position.distance_squared_to(pos) < tolerance * tolerance
