@@ -7,7 +7,7 @@ func _init(_agent: RavenAgent) -> void:
 	weapon_type = WeaponType.BLASTER
 	num_rounds_left = 5
 	max_rounds_carried = 15
-	time_next_available = 2.0
+	time_next_available = 0.0
 	rate_of_fire = 1.0
 
 
@@ -16,5 +16,5 @@ func shoot_at(pos: Vector2) -> void:
 		# fire
 		# add bullet to world
 		var bullet = ProjectileBolt.new(pos)
-		RavenServiceBus.fire_bullet.emit()
+		RavenServiceBus.fire_projectile.emit(bullet)
 		update_time_weapon_is_next_available()

@@ -30,14 +30,30 @@ func update_agents_in_view() -> void:
 	for a:Area2D in agents_in_view:
 		var agent :RavenAgent = a.get_parent()
 		if !memory_dict.has(agent):
-			memory_dict[agent] = MemoryRecord.new()
+			memory_dict[agent] = MemoryRecord.new(agent)
 		var record: MemoryRecord = memory_dict[agent]
 		
-		record.agent = agent
-		record.time_last_sensed = Time.get_ticks_msec() / 1000.0
-		record.last_sensed_position = agent.position
-		record.within_fov = true
-		record.shootable = true
+		# FOV check
+		var agent_velocity = owner_agent.velocity.normalized()
+		var target_vector = (agent.position - owner_agent.position).normalized()
+		var dot_product = agent_velocity.dot(target_vector)
+		
+		if dot_product >= cos(deg_to_rad(40)):
+			# in fov
+			if !record.within_fov:
+				# was not in view before
+				record.within_fov = true
+				record.time_became_visible  =  Time.get_ticks_msec() / 1000.0
+				record.time_last_sensed = Time.get_ticks_msec() / 1000.0
+				record.last_sensed_position = agent.position
+				record.shootable = true
+			else:
+				record.time_last_sensed = Time.get_ticks_msec() / 1000.0
+				record.last_sensed_position = agent.position
+				record.shootable = true
+		else:
+			record.within_fov = false
+			record.shootable = false
 	
 	# debugging
 	#if !memory_dict.is_empty():
@@ -61,7 +77,7 @@ func get_recently_sensed_opponents() -> Array:
 
 func get_time_opponent_has_been_visible(opponent: RavenAgent) -> float:
 	if memory_dict.has(opponent):
-		return Time.get_ticks_msec() / 1000.0 - memory_dict[opponent].time_last_sensed
+		return Time.get_ticks_msec() / 1000.0 - memory_dict[opponent].time_became_visible
 	return 0.0
 
 

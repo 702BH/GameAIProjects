@@ -120,10 +120,10 @@ func dijkstras(source: int, item_predicate: Callable) -> Array[PathEdge]:
 
 
 func A_star(source: int, target: int, columns: int) -> Array[PathEdge]:
-	print("A* called")
-	print("source: ", source )
-	print("target: ", target)
-	print("columns: ", columns)
+	#print("A* called")
+	#print("source: ", source )
+	#print("target: ", target)
+	#print("columns: ", columns)
 	var result : Array[PathEdge] = []
 	var costs : Dictionary = {}
 	var parents : Dictionary = {}

@@ -30,6 +30,7 @@ func add_noise_to_aim(aiming_pos: Vector2) -> Vector2:
 
 func take_aim_and_shoot() -> void:
 	if owner_agent.targeting_system.is_target_shootable():
+		#print("target shootable")
 		var aiming_pos: Vector2 = owner_agent.targeting_system.current_target.position
 		
 		# if weapon aimed correctly

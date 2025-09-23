@@ -8,4 +8,4 @@ signal mode_changed(mode: MapDrawing.tool_state)
 signal weapon_popup()
 signal submitted_weapon(weapon: RavenNodeItemWeapon.WeaponSubtype)
 
-signal fire_bullet(bullet: RavenProjectile)
+signal fire_projectile(bullet: RavenProjectile)
