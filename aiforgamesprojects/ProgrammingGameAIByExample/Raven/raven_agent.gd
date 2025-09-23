@@ -12,7 +12,7 @@ var path_planner := RavenPathPlanner.new(self)
 var steering_controller := RavenSteeringController.new(self)
 var targeting_system := RavenTargetingSystem.new(self)
 var brain := GoalThink.new(self)
-var weapon_system := RavenWeaponSystem.new(self, 1.0, 1.0)
+var weapon_system := RavenWeaponSystem.new(self, 0.01, 1.0)
 
 
 var click_radius := 15.0
@@ -41,6 +41,10 @@ var vision_points :PackedVector2Array = [
 	
 ]
 
+var feeler_length 
+
+
+var feelers = [Vector2.ZERO,Vector2.ZERO, Vector2.ZERO]
 
 func _ready() -> void:
 	last_cell = World.position_to_grid(position)
@@ -49,6 +53,7 @@ func _ready() -> void:
 	body_shape.shape = collision_shape
 	
 	vision_shape.polygon = vision_points
+	feeler_length = World.cell_size 
 
 
 # debugging
@@ -58,7 +63,8 @@ func _input(event: InputEvent) -> void:
 		#print(World.world_to_bucket(World.position_to_grid(position)))
 		#print(World.cell_buckets_static[Vector2i(1, 2)])
 		print(self)
-		print("target: ", targeting_system.current_target)
+		print(position)
+		print(feelers)
 
 
 func _physics_process(delta: float) -> void:
@@ -76,6 +82,12 @@ func _physics_process(delta: float) -> void:
 	position += velocity * delta
 	acceleration = Vector2.ZERO
 	rotateVehicle(delta)
+	
+	var heading :Vector2= velocity.normalized() * max_speed
+	feelers[0] = Vector2(heading.x, heading.y) + position
+	feelers[1] = Vector2(heading.x, heading.y).rotated(45) + Vector2(position.x, position.y)
+	feelers[2] = Vector2(heading.x, heading.y).rotated(-45) + Vector2(position.x, position.y)
+	
 	
 	var new_cell = World.position_to_grid(position)
 	
@@ -111,6 +123,11 @@ func _draw() -> void:
 		draw_circle(Vector2.ZERO, 10.0, Color(1.0, 0.3, 0.4, 0.6), true)
 	draw_circle(Vector2.ZERO, 4.0, Color.GOLD)
 	draw_line(Vector2.ZERO, Vector2(10.0,0.0), "red")
+	
+	draw_circle(to_local(feelers[0]), 5.0, Color.BLACK)
+	draw_circle(to_local(feelers[1]), 5.0, Color.BLACK)
+	draw_circle(to_local(feelers[2]), 5.0, Color.BLACK)
+	
 	if !current_path.is_empty():
 		#print("drawing target:")
 		var target_node:PathEdge = current_path[current_path.size()-1]

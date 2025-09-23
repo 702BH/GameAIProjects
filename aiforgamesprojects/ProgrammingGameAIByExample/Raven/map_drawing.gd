@@ -29,7 +29,6 @@ func _on_submitted(weapon: RavenNodeItemWeapon.WeaponSubtype) -> void:
 		RavenServiceBus.selected_node = null
 
 func _process(delta: float) -> void:
-	queue_redraw()
 	if current_state == tool_state.WALL:
 		if Input.is_action_pressed("place"):
 			var wall_location = World.position_to_grid(get_global_mouse_position())
@@ -37,6 +36,7 @@ func _process(delta: float) -> void:
 			if node.node_type == RavenNode.NodeType.TRAVERSAL:
 				node.node_type = RavenNode.NodeType.WALL
 				World.graph.remove_wall(node.id)
+			queue_redraw()
 		elif Input.is_action_pressed("remove"):
 			var wall_location = World.position_to_grid(get_global_mouse_position())
 			var node: RavenNode = World.grid_world[wall_location.y][wall_location.x]
@@ -48,17 +48,20 @@ func _process(delta: float) -> void:
 						if neighbor.node_type == RavenNode.NodeType.WALL:
 							continue
 						World.graph.add_edge(node.id, neighbor.id, 1.0)
+			queue_redraw()
 	elif current_state == tool_state.SPAWNS:
 		if Input.is_action_pressed("place"):
 			var wall_location = World.position_to_grid(get_global_mouse_position())
 			var node: RavenNode = World.grid_world[wall_location.y][wall_location.x]
 			if node.node_type == RavenNode.NodeType.TRAVERSAL:
 				node.node_type = RavenNode.NodeType.SPAWN
+			queue_redraw()
 		elif Input.is_action_pressed("remove"):
 			var wall_location = World.position_to_grid(get_global_mouse_position())
 			var node: RavenNode = World.grid_world[wall_location.y][wall_location.x]
 			if node.node_type == RavenNode.NodeType.SPAWN:
 				node.node_type = RavenNode.NodeType.TRAVERSAL
+			queue_redraw()
 	elif current_state == tool_state.WEAPONS:
 		if Input.is_action_just_pressed("place"):
 			var wall_location = World.position_to_grid(get_global_mouse_position())
@@ -68,6 +71,7 @@ func _process(delta: float) -> void:
 				current_state = tool_state.NONE
 				RavenServiceBus.selected_node =node
 				RavenServiceBus.weapon_popup.emit()
+			queue_redraw()
 
 
 func _draw() -> void:

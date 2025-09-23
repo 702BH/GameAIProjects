@@ -1,5 +1,5 @@
 class_name GraphEdge
-extends Node
+extends RefCounted
 
 
 var from : int

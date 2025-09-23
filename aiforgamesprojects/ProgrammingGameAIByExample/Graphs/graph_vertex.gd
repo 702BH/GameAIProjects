@@ -1,5 +1,5 @@
 class_name GraphVertex
-extends Node
+extends RefCounted
 
 
 var id : int

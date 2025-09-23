@@ -31,14 +31,15 @@ func add_noise_to_aim(aiming_pos: Vector2) -> Vector2:
 func take_aim_and_shoot() -> void:
 	if owner_agent.targeting_system.is_target_shootable():
 		#print("target shootable")
-		var aiming_pos: Vector2 = owner_agent.targeting_system.current_target.position
-		
-		# if weapon aimed correctly
-		# if been in view for period longer than reaction time
-		# shoot
-		if owner_agent.targeting_system.get_time_target_has_been_visible() > reaction_time:
-			aiming_pos = add_noise_to_aim(aiming_pos)
-			current_weapon.shoot_at(aiming_pos)
+		if owner_agent.targeting_system.current_target:
+			var aiming_pos: Vector2 = owner_agent.targeting_system.current_target.position
+			
+			# if weapon aimed correctly
+			# if been in view for period longer than reaction time
+			# shoot
+			if owner_agent.targeting_system.get_time_target_has_been_visible() > reaction_time:
+				#aiming_pos = add_noise_to_aim(aiming_pos)
+				current_weapon.shoot_at(aiming_pos)
 
 func select_weapon() -> void:
 	current_weapon = weapon_map[RavenWeapon.WeaponType.BLASTER]
