@@ -5,15 +5,19 @@ extends "res://ProgrammingGameAIByExample/Raven/Weapons/raven_projectile.gd"
 func _init(_target: Vector2) -> void:
 	super(_target)
 	damage_inflicted = 1.0
-	max_speed = 7.0
+	max_speed = 50.0
 	max_force = 5.0
 
 
 
 func _physics_process(delta: float) -> void:
-	velocity = max_speed * (target - position)
+	velocity = max_speed * heading
 	
-	position += velocity
+	position += velocity * delta
+	#print(position)
+	if _out_of_world():
+		print("SHOULD DIE")
+		queue_free()
 
 
 func _process(delta: float) -> void:

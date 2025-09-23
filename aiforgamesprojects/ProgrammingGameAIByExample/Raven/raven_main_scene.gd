@@ -71,3 +71,4 @@ func _on_ui_map_save_request(file_name: String) -> void:
 
 func _on_projectile_fired(projectile: RavenProjectile) -> void:
 	print("Fired")
+	projectile_container.add_child(projectile)
