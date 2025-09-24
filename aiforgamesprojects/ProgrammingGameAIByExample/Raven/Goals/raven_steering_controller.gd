@@ -227,40 +227,53 @@ func evade(pursuer : RavenMover) -> Vector2:
 
 func wall_avoidance() -> Vector2:
 	var steering := Vector2.ZERO
+	var collision_point := Vector2.ZERO
 	
 	# loop over agent feelers
-	for f:Vector2 in owner_agent.feelers:
+	#for f:Vector2 in owner_agent.feelers:
 		# slope = y2-y1/x2-x1
 		#var m1 = (f.y - owner_agent.position.y) / (f.x - owner_agent.position.x)
 		## b = y - mx
 		#var b = f.y - m1*f.x
 		
-		var key = World.world_to_bucket(World.position_to_grid(f))
-		var bucket:Array = World.cell_buckets_static.get(Vector2i(int(key.x), int(key.y)), [])
-		
-		if bucket.is_empty():
-			continue
-		
-		for node:RavenNode in bucket:
-			#print(node)
-			if node.node_type != RavenNode.NodeType.WALL:
-				continue
-				
-			
-			# Wall points
-			var top_left: Vector2 = World.grid_to_world(node.node_pos.x, node.node_pos.y)
-			var top_right: Vector2 = Vector2(top_left.x + World.resolution, top_left.y)
-			var bottom_left:= Vector2(top_left.x, top_left.y + World.resolution)
-			var bottom_right := Vector2(top_left.x + World.resolution, top_left.y + World.resolution)
-			
+		#var key = World.world_to_bucket(World.position_to_grid(f))
+		#var bucket:Array = World.cell_buckets_static.get(Vector2i(int(key.x), int(key.y)), [])
+		#
+		#if bucket.is_empty():
+			#continue
+		#
+		#for node:RavenNode in bucket:
+			##print(node)
+			#if node.node_type != RavenNode.NodeType.WALL:
+				#continue
+				#
+			#
+			## Wall points
+			#var top_left: Vector2 = World.grid_to_world(node.node_pos.x, node.node_pos.y)
+			#var top_right: Vector2 = Vector2(top_left.x + World.resolution, top_left.y)
+			#var bottom_left:= Vector2(top_left.x, top_left.y + World.resolution)
+			#var bottom_right := Vector2(top_left.x + World.resolution, top_left.y + World.resolution)
+			#
+			#var wall_segments:Array = [
+				#[top_left, top_right],
+				#[bottom_left, bottom_right],
+				#[top_left, bottom_left],
+				#[top_right, bottom_right]
+			#]
+			#
+			#for segment:Array in wall_segments:
+				#var calc_point : Vector2 = line_intersection2D(owner_agent.position, f, segment[0], segment[1])
+				#if calc_point == Vector2.ZERO:
+					#continue
+				#collision_point = calc_point
 			
 			# Wall segment tests
 			# top left -> top right
-			var collision_point :Vector2 = line_intersection2D(owner_agent.position, f, top_left, top_right)
-			if collision_point != Vector2.ZERO:
-				print("top left")
-				print(top_left)
-				print("Top Left -> Top Right: COLISSIOn")
+			#var collision_point :Vector2 = line_intersection2D(owner_agent.position, f, top_left, top_right)
+			#if collision_point != Vector2.ZERO:
+				#print("top left")
+				#print(top_left)
+				#print("Top Left -> Top Right: COLISSIOn")
 			
 			# calculate slopes
 			#var tl_tr_m = (top_right.y - top_left.y) / (top_right.x - top_right.x)
@@ -291,8 +304,8 @@ func wall_avoidance() -> Vector2:
 	#var buckets_to_check = []
 	#
 	## find closest wall
-	#var key = World.world_to_bucket(World.position_to_grid(owner_agent.position))
-	#var bucket:Array = World.cell_buckets_static.get(Vector2i(int(key.x), int(key.y)), [])
+	var key = World.world_to_bucket(World.position_to_grid(owner_agent.position))
+	var bucket:Array = World.cell_buckets_static.get(Vector2i(int(key.x), int(key.y)), [])
 	##print(key)
 	##print(bucket)
 	#
@@ -308,43 +321,43 @@ func wall_avoidance() -> Vector2:
 	#
 	##print(buckets_to_check)
 	#
-	#if bucket.is_empty():
-		#return Vector2.ZERO
+	if bucket.is_empty():
+		return Vector2.ZERO
 	##print("bucket not empty")
 	#
-	#var closest_wall: RavenNode = null
-	#var closest_dist_sq = INF
-	#
-	#for node:RavenNode in bucket:
-		##print(node)
-		#if node.node_type != RavenNode.NodeType.WALL:
-			#continue
-		#var dist_sq = owner_agent.position.distance_squared_to(World.grid_to_world(node.node_pos.x, node.node_pos.y))
-		#if dist_sq < closest_dist_sq:
-			#closest_dist_sq = dist_sq
-			#closest_wall = node
-	#
-	#if closest_wall == null:
-		##print("no closest wall")
-		#return steering
-	#
-	#var detection_radius = 50.0
-	#if closest_dist_sq > detection_radius * detection_radius:
-		#return steering
-	#
-	## dot products
-	#var agent_velocity = owner_agent.velocity.normalized()
-	#var wall_vector = (World.grid_to_world(closest_wall.node_pos.x, closest_wall.node_pos.y) - owner_agent.position).normalized()
-	#var dot_product = agent_velocity.dot(wall_vector)
-	#
-	#if dot_product >= cos(deg_to_rad(70)):
-		##print("wall found")
-		#var away_vector = (owner_agent.position - World.grid_to_world(closest_wall.node_pos.x, closest_wall.node_pos.y)).normalized()
-		#var strength = clamp((detection_radius - sqrt(closest_dist_sq)) / detection_radius, 0.0, 1.0)
-		#var forward = owner_agent.velocity.normalized()
-		#var deisred_velocity = (away_vector * owner_agent.max_speed * strength *0.5 + forward)
-		#
-		#steering = (deisred_velocity - owner_agent.velocity).limit_length(owner_agent.max_force)
+	var closest_wall: RavenNode = null
+	var closest_dist_sq = INF
+	
+	for node:RavenNode in bucket:
+		#print(node)
+		if node.node_type != RavenNode.NodeType.WALL:
+			continue
+		var dist_sq = owner_agent.position.distance_squared_to(World.grid_to_world(node.node_pos.x, node.node_pos.y))
+		if dist_sq < closest_dist_sq:
+			closest_dist_sq = dist_sq
+			closest_wall = node
+	
+	if closest_wall == null:
+		#print("no closest wall")
+		return steering
+	
+	var detection_radius = 50.0
+	if closest_dist_sq > detection_radius * detection_radius:
+		return steering
+	
+	# dot products
+	var agent_velocity = owner_agent.velocity.normalized()
+	var wall_vector = (World.grid_to_world(closest_wall.node_pos.x, closest_wall.node_pos.y) - owner_agent.position).normalized()
+	var dot_product = agent_velocity.dot(wall_vector)
+	
+	if dot_product >= cos(deg_to_rad(70)):
+		#print("wall found")
+		var away_vector = (owner_agent.position - World.grid_to_world(closest_wall.node_pos.x, closest_wall.node_pos.y)).normalized()
+		var strength = clamp((detection_radius - sqrt(closest_dist_sq)) / detection_radius, 0.0, 1.0)
+		var forward = owner_agent.velocity.normalized()
+		var deisred_velocity = (away_vector * owner_agent.max_speed * strength *0.5 + forward)
+		
+		steering = (deisred_velocity - owner_agent.velocity).limit_length(owner_agent.max_force)
 	#
 	return steering
 
