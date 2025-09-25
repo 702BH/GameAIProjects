@@ -13,7 +13,7 @@ var steering_controller := RavenSteeringController.new(self)
 var targeting_system := RavenTargetingSystem.new(self)
 var brain := GoalThink.new(self)
 var weapon_system := RavenWeaponSystem.new(self, 0.01, 1.0)
-
+var stats := RavenAgentStats.new()
 
 var click_radius := 15.0
 var selected := false
@@ -44,6 +44,13 @@ var vision_points :PackedVector2Array = [
 
 var feeler_length = 50.0
 var feelers = [Vector2.ZERO,Vector2.ZERO, Vector2.ZERO]
+
+
+# Agent vals
+var health := 100.0
+var max_health := 100.0
+
+
 
 func _ready() -> void:
 	last_cell = World.position_to_grid(position)
