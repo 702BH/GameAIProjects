@@ -3,7 +3,18 @@ extends RefCounted
 
 
 static func distance_to_item(bot: RavenAgent, type: RavenNodeItem.ItemType) -> float:
-	return 0.0
+	
+	var distance_to_item = bot.path_planner.get_cost_to_closest_item(type)
+	
+	if distance_to_item == 0.0:
+		return 1
+	
+	var max_distance = 500.0
+	var min_distance = 50.0
+	
+	clamp(distance_to_item, min_distance, max_distance)
+	
+	return distance_to_item / max_distance
 
 
 
