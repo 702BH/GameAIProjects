@@ -3,6 +3,10 @@ extends Node
 
 var owner_agent:RavenAgent
 
+var type_map = {
+	RavenNodeItem.ItemType.WEAPON : Callable(self, "is_weapon")
+}
+
 func _init(_agent: RavenAgent) -> void:
 	owner_agent = _agent
 
@@ -38,6 +42,12 @@ func is_shotgun(node: RavenNode) -> bool:
 		return true
 	return false
 
+func is_weapon(node: RavenNode) -> bool:
+	if node.node_type == null:
+		return false
+	if node.item_type is RavenNodeItemWeapon:
+		return true
+	return false
 
 
 func smooth_path_edges_quick(path: Array[PathEdge]) -> Array[PathEdge]:
@@ -73,3 +83,20 @@ func _can_walk_between(source:Vector2, dest:Vector2) -> bool:
 			return false
 		distance += World.resolution
 	return true
+
+
+func get_cost_to_closest_item(type : RavenNodeItem.ItemType) -> float:
+	
+	var agent_pos_id = get_nearest_node(owner_agent.position).id
+	var function : Callable = type_map.get(type, null)
+	
+	var cost_sum := 0.0
+	
+	if function:
+		var return_path = World.graph.dijkstras(agent_pos_id, function)
+		if !return_path.is_empty():
+			for p:PathEdge in return_path:
+				cost_sum += p.cost
+	
+	
+	return cost_sum
