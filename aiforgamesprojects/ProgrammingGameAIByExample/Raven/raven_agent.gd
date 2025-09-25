@@ -41,9 +41,8 @@ var vision_points :PackedVector2Array = [
 	
 ]
 
-var feeler_length 
 
-
+var feeler_length = 50.0
 var feelers = [Vector2.ZERO,Vector2.ZERO, Vector2.ZERO]
 
 func _ready() -> void:
@@ -83,10 +82,10 @@ func _physics_process(delta: float) -> void:
 	acceleration = Vector2.ZERO
 	rotateVehicle(delta)
 	
-	var heading :Vector2= velocity.normalized() * max_speed
+	var heading :Vector2= velocity.normalized() * (max_speed + feeler_length)
 	feelers[0] = Vector2(heading.x, heading.y) + position
-	feelers[1] = Vector2(heading.x, heading.y).rotated(45) + Vector2(position.x, position.y)
-	feelers[2] = Vector2(heading.x, heading.y).rotated(-45) + Vector2(position.x, position.y)
+	feelers[1] = Vector2(heading.x, heading.y).rotated(0.5)  + Vector2(position.x, position.y)
+	feelers[2] = Vector2(heading.x, heading.y).rotated(-0.5) + Vector2(position.x, position.y)
 	
 	
 	var new_cell = World.position_to_grid(position)
@@ -94,11 +93,11 @@ func _physics_process(delta: float) -> void:
 	if new_cell != last_cell:
 		World.move_agent(self, last_cell, new_cell)
 		last_cell = new_cell
-	
-
-
-func _process(delta: float) -> void:
 	queue_redraw()
+
+#
+#func _process(delta: float) -> void:
+	#queue_redraw()
 	#if !current_path.is_empty():
 		#
 		#if edge_timer == 0:
@@ -124,9 +123,10 @@ func _draw() -> void:
 	draw_circle(Vector2.ZERO, 4.0, Color.GOLD)
 	draw_line(Vector2.ZERO, Vector2(10.0,0.0), "red")
 	
-	draw_circle(to_local(feelers[0]), 5.0, Color.BLACK)
-	draw_circle(to_local(feelers[1]), 5.0, Color.BLACK)
-	draw_circle(to_local(feelers[2]), 5.0, Color.BLACK)
+	
+	draw_circle(to_local(feelers[0]), 3.0, Color.RED)
+	draw_circle(to_local(feelers[1]), 3.0, Color.RED)
+	draw_circle(to_local(feelers[2]), 3.0, Color.RED)
 	
 	if !current_path.is_empty():
 		#print("drawing target:")
