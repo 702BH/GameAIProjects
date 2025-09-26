@@ -76,6 +76,7 @@ func _input(event: InputEvent) -> void:
 func _physics_process(delta: float) -> void:
 	#rotation += 0.1 * delta
 	brain.process()
+	brain.arbitrate()
 	sensory_memory.update_agents_in_view()
 	targeting_system.update()
 	weapon_system.select_weapon()

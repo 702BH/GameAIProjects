@@ -290,8 +290,8 @@ func wall_avoidance() -> Vector2:
 							closest_normal = -closest_normal
 						hit_feeler = i
 	if closest_point != Vector2.ZERO and hit_feeler != -1:
-		print("Collision at", closest_point)
-		print("Feeler position: ", owner_agent.feelers[hit_feeler])
+		#print("Collision at", closest_point)
+		#print("Feeler position: ", owner_agent.feelers[hit_feeler])
 		#print(owner_agent.feelers[i])
 		#print(collision_point)
 		#print(owner_agent.position)

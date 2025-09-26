@@ -11,6 +11,7 @@ func _init(_agent: RavenAgent) -> void:
 	
 	# create the evalutor objects
 	evaluators.push_back(ExploreGoalEvaluator.new())
+	evaluators.push_back(AttackTargetGoalEvaluator.new())
 
 
 func activate() -> void:
@@ -38,6 +39,7 @@ func arbitrate() -> void:
 			best = desire
 			most_desirable = eval
 	
+	#print("most desirable: ", most_desirable.goal_type)
 	most_desirable.set_goal(owner_agent)
 
 
@@ -52,3 +54,9 @@ func add_goal_explore() -> void:
 	if not_present(Type.GOAL_EXPLORE):
 		remove_all_subgoals()
 		add_subgoal(GoalExplore.new(owner_agent))
+
+
+func add_goal_attack_target() -> void:
+	if not_present(Type.GOAL_ATTACK_TARGET):
+		remove_all_subgoals()
+		add_subgoal(GoalAttackTarget.new(owner_agent))
