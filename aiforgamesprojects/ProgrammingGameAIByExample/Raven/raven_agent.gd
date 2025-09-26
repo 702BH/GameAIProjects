@@ -15,6 +15,12 @@ var brain := GoalThink.new(self)
 var weapon_system := RavenWeaponSystem.new(self, 0.01, 1.0)
 var stats := RavenAgentStats.new()
 
+# Create the regulators
+var weapon_selection_regulator = Regulator.new(2.0)
+var goal_arbitration_regulator = Regulator.new(4.0)
+var target_selection_regulator = Regulator.new(2.0)
+var vision_update_regulator = Regulator.new(4.0)
+
 var click_radius := 15.0
 var selected := false
 
@@ -90,10 +96,21 @@ func _input(event: InputEvent) -> void:
 func _physics_process(delta: float) -> void:
 	#rotation += 0.1 * delta
 	brain.process()
-	brain.arbitrate()
-	sensory_memory.update_agents_in_view()
-	targeting_system.update()
-	weapon_system.select_weapon()
+	
+	if target_selection_regulator.is_ready():
+		targeting_system.update()
+	
+	if goal_arbitration_regulator.is_ready():
+		brain.arbitrate()
+	
+	if vision_update_regulator.is_ready():
+		sensory_memory.update_agents_in_view()
+	
+	if weapon_selection_regulator.is_ready():
+		weapon_system.select_weapon()
+	
+	
+	
 	weapon_system.take_aim_and_shoot()
 	
 	var steering_force = steering_controller.calculate()
