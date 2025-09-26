@@ -7,7 +7,7 @@ func _init(_target: Vector2) -> void:
 	damage_inflicted = 1.0
 	max_speed = 50.0
 	max_force = 5.0
-	radius = 7.0
+	radius = 3.0
 
 
 
@@ -29,4 +29,4 @@ func _process(delta: float) -> void:
 	queue_redraw()
 
 func _draw() -> void:
-	draw_circle(Vector2.ZERO, radius, Color.ORANGE_RED)
+	draw_circle(Vector2.ZERO, radius, Color.AQUAMARINE)
