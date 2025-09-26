@@ -17,11 +17,11 @@ func _physics_process(delta: float) -> void:
 	position += velocity * delta
 	#print(position)
 	if _out_of_world():
-		print("SHOULD DIE")
+		#print("SHOULD DIE")
 		queue_free()
 	
 	if _wall_collision():
-		print("AHHHHHH")
+		#print("AHHHHHH")
 		queue_free()
 
 

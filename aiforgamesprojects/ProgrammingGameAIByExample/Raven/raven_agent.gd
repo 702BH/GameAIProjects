@@ -79,7 +79,8 @@ func _input(event: InputEvent) -> void:
 		#print("Agent: ", self)
 		#print(World.world_to_bucket(World.position_to_grid(position)))
 		#print(World.cell_buckets_static[Vector2i(1, 2)])
-		print(current_goal)
+		print(brain.subgoals)
+		
 
 
 func _physics_process(delta: float) -> void:
