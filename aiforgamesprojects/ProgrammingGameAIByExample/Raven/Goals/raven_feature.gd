@@ -41,7 +41,7 @@ static func total_weapon_strength(agent:RavenAgent) -> float:
 	
 	var total_rounds_carrying := 0.0
 	for weapon in agent.weapon_system.weapon_map:
-		total_rounds_carrying += agent.weapon_system.weapon_map.get(weapon, 0.0)
+		total_rounds_carrying += agent.weapon_system.weapon_map.get(weapon, 0.0).num_rounds_left
 	
 	var tweaker := 0.1
 	return tweaker + (1-tweaker)*(total_rounds_carrying)/total_rounds_carryable

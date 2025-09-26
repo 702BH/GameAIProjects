@@ -29,6 +29,11 @@ var last_cell
 # obstacle avoidance
 var closest_wall_point: Vector2
 
+var current_goal : GoalEvaluator.GoalType
+var goal_colors := {
+	GoalEvaluator.GoalType.EXPLORE : Color.GREEN,
+	GoalEvaluator.GoalType.ATTACK_TARGET : Color.RED
+}
 
 # vision
 var vision_points :PackedVector2Array = [
@@ -60,7 +65,13 @@ func _ready() -> void:
 	
 	vision_shape.polygon = vision_points
 	feeler_length = World.cell_size 
+	RavenServiceBus.agent_goal_changed.connect(_on_goal_changed.bind())
 
+
+func _on_goal_changed(agent: RavenAgent, type: GoalEvaluator.GoalType) -> void:
+	if agent == self:
+		print("Current goal changed to: ", type)
+		current_goal = type
 
 # debugging
 func _input(event: InputEvent) -> void:
@@ -68,14 +79,13 @@ func _input(event: InputEvent) -> void:
 		#print("Agent: ", self)
 		#print(World.world_to_bucket(World.position_to_grid(position)))
 		#print(World.cell_buckets_static[Vector2i(1, 2)])
-		print(self)
-		print(position)
-		print(feelers)
+		print(current_goal)
 
 
 func _physics_process(delta: float) -> void:
 	#rotation += 0.1 * delta
 	brain.process()
+	brain.arbitrate()
 	sensory_memory.update_agents_in_view()
 	targeting_system.update()
 	weapon_system.select_weapon()
@@ -127,8 +137,13 @@ func _physics_process(delta: float) -> void:
 func _draw() -> void:
 	if selected:
 		draw_circle(Vector2.ZERO, 10.0, Color(1.0, 0.3, 0.4, 0.6), true)
-	draw_circle(Vector2.ZERO, 4.0, Color.GOLD)
+	
+	if current_goal != null:
+		draw_circle(Vector2.ZERO, 4.0, goal_colors[current_goal])
+	else:
+		draw_circle(Vector2.ZERO, 4.0, Color.GOLD)
 	draw_line(Vector2.ZERO, Vector2(10.0,0.0), "red")
+	
 	
 	
 	draw_circle(to_local(feelers[0]), 3.0, Color.RED)

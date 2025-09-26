@@ -2,6 +2,9 @@ class_name GoalEvaluator
 extends Node
 
 
+enum GoalType {EXPLORE, ATTACK_TARGET}
+var goal_type: GoalType
+
 func calculate_desirability(agent: RavenAgent) -> float:
 	return 0
 
