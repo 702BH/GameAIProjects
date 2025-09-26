@@ -79,7 +79,11 @@ func _input(event: InputEvent) -> void:
 		#print("Agent: ", self)
 		#print(World.world_to_bucket(World.position_to_grid(position)))
 		#print(World.cell_buckets_static[Vector2i(1, 2)])
-		print(brain.subgoals)
+		print("Goals for Agent: ", self)
+		if !brain.subgoals.is_empty():
+			for b:Goal in brain.subgoals:
+				print(b.Type.keys()[b.goal_type])
+		#print(brain.subgoals)
 		
 
 
