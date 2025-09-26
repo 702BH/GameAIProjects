@@ -1,5 +1,5 @@
 class_name RavenPathPlanner
-extends Node
+extends RefCounted
 
 var owner_agent:RavenAgent
 

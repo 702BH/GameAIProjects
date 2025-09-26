@@ -1,5 +1,5 @@
 class_name GoalEvaluator
-extends Node
+extends RefCounted
 
 
 enum GoalType {EXPLORE, ATTACK_TARGET}

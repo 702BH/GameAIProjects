@@ -1,5 +1,5 @@
 class_name RavenEventBus
-extends Node
+extends RefCounted
 
 
 var selected_node: RavenNode = null

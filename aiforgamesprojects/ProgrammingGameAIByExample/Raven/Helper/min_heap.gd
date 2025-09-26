@@ -1,5 +1,5 @@
 class_name MinHeap
-extends Node
+extends RefCounted
 
 var data: Array = []
 

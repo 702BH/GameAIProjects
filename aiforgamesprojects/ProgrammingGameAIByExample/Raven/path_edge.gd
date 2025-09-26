@@ -1,5 +1,5 @@
 class_name PathEdge
-extends Node
+extends RefCounted
 
 enum BehaviourType {WALK, RUN, STEALTH}
 

@@ -1,5 +1,5 @@
 class_name RavenWeapon
-extends Node
+extends RefCounted
 
 enum WeaponType {SHOTGUN, BLASTER}
 

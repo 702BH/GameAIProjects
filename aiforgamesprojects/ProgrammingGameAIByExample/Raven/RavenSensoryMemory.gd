@@ -1,5 +1,5 @@
 class_name RavenSensoryMemory
-extends Node2D
+extends RefCounted
 
 
 var owner_agent: RavenAgent

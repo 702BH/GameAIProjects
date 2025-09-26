@@ -1,5 +1,5 @@
 class_name RavenNodeItem
-extends Node
+extends RefCounted
 
 enum ItemType {WEAPON, HEALTH}
 
