@@ -30,3 +30,6 @@ func process() -> Status:
 		activate()
 	
 	return status
+
+func terminate() -> void:
+	remove_all_subgoals()

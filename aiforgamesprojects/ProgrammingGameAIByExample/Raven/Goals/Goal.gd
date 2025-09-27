@@ -1,5 +1,5 @@
 class_name Goal
-extends Node
+extends RefCounted
 
 enum Status {INACTIVE, ACTIVE, COMPLETED, FAILED}
 enum Type {GOAL_THINK, GOAL_EXPLORE, GOAL_ARRIVE_AT_POSITION,

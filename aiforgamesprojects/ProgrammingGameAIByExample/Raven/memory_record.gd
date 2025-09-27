@@ -1,5 +1,5 @@
 class_name MemoryRecord
-extends Node
+extends RefCounted
 
 var agent: RavenAgent
 var time_last_sensed: float = 0.0

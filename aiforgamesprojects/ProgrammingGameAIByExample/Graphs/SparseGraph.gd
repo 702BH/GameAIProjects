@@ -1,5 +1,5 @@
 class_name SparseGraph
-extends Node
+extends RefCounted
 
 
 
