@@ -11,16 +11,18 @@ enum Config {NUM_SAMPLES = 15}
 var variable_map = {}
 
 # Array of FuzzyRule
-var rules = []
+var rules:Array[FuzzyRule] = []
 
 
 
-func add_rule(antecdent, consequence) -> void:
-	pass
+func add_rule(antecdent: FuzzyTerm, consequence: FuzzyTerm) -> void:
+	rules.push_back(FuzzyRule.new(antecdent, consequence))
 
 
-func create_flv(var_name: String) -> void:
-	pass
+func create_flv(var_name: String) -> FuzzyVariable:
+	variable_map[var_name] = FuzzyVariable.new()
+	
+	return variable_map[var_name]
 
 
 
