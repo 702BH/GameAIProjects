@@ -56,8 +56,13 @@ func select_weapon() -> void:
 				if score > best_so_far:
 					best_so_far = score
 					current_weapon = curr_weapon
+		print("Target found.")
+		print("Weapon selected: ")
+		print(RavenWeapon.WeaponType.keys()[current_weapon.weapon_type])
 	else:
+		print("No target, selecting: ", )
 		current_weapon = weapon_map[RavenWeapon.WeaponType.BLASTER]
+		print(RavenWeapon.WeaponType.keys()[current_weapon.weapon_type])
 
 func add_weapon(weapon_type: RavenWeapon.WeaponType) -> void:
 	

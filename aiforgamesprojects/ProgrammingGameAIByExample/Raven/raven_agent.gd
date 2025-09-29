@@ -107,6 +107,7 @@ func _physics_process(delta: float) -> void:
 		sensory_memory.update_agents_in_view()
 	
 	if weapon_selection_regulator.is_ready():
+		print("Selecting weapon: ")
 		weapon_system.select_weapon()
 	
 	
