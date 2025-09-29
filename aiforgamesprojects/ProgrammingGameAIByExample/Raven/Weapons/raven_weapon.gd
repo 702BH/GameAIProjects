@@ -5,13 +5,16 @@ enum WeaponType {SHOTGUN, BLASTER}
 
 var owner_agent : RavenAgent
 var weapon_type : WeaponType
+var fuzzy_module : FuzzyModule
 var num_rounds_left : int
 var max_rounds_carried: int
 var time_next_available : float
 var rate_of_fire : float
+var last_desirability_score:float
 
 func _init(_agent: RavenAgent) -> void:
 	owner_agent = _agent
+	fuzzy_module = FuzzyModule.new()
 
 
 func aim_at(target: Vector2) -> bool:
@@ -20,6 +23,11 @@ func aim_at(target: Vector2) -> bool:
 func shoot_at(pos: Vector2) -> void:
 	pass
 
+func get_desirability(dis_to_target:float) -> float:
+	return 0.0
+
+func initialise_fuzzy_module() -> void:
+	pass
 
 func increment_rounds(num: int) -> void:
 	num_rounds_left += num

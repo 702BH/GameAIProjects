@@ -51,28 +51,28 @@ func defuzzify_centroid(num_samples:int) -> float:
 	return sum_of_moments / total_area
 
 
-func add_triangular_set(name: String, min_bound:float, peak:float, max_bound:float) -> FuzzySet:
+func add_triangular_set(name: String, min_bound:float, peak:float, max_bound:float) -> FzSet:
 	member_sets[name] = FuzzySetTriangle.new(peak, peak-min_bound, max_bound-peak)
 	
 	adjust_range_to_fit(min_bound, max_bound)
 	
-	return member_sets[name]
+	return  FzSet.new(member_sets[name]) 
 
 
-func add_right_shoulder_set(name:String, min_bound:float, peak:float, max_bound:float) -> FuzzySet:
+func add_right_shoulder_set(name:String, min_bound:float, peak:float, max_bound:float) -> FzSet:
 	member_sets[name] = FuzzySetRightShoulder.new(peak, peak-min_bound, max_bound-peak)
 	
 	adjust_range_to_fit(min_bound, max_bound)
 	
-	return member_sets[name]
+	return FzSet.new(member_sets[name]) 
 
 
-func add_left_shoulder_set(name:String, min_bound:float, peak:float, max_bound:float) -> FuzzySet:
+func add_left_shoulder_set(name:String, min_bound:float, peak:float, max_bound:float) -> FzSet:
 	member_sets[name] = FuzzySetLeftShoulder.new(peak, peak-min_bound, max_bound-peak)
 	
 	adjust_range_to_fit(min_bound, max_bound)
 	
-	return member_sets[name]
+	return FzSet.new(member_sets[name]) 
 
 
 
