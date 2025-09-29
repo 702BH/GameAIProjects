@@ -67,6 +67,14 @@ func add_right_shoulder_set(name:String, min_bound:float, peak:float, max_bound:
 	return member_sets[name]
 
 
+func add_left_shoulder_set(name:String, min_bound:float, peak:float, max_bound:float) -> FuzzySet:
+	member_sets[name] = FuzzySetLeftShoulder.new(peak, peak-min_bound, max_bound-peak)
+	
+	adjust_range_to_fit(min_bound, max_bound)
+	
+	return member_sets[name]
+
+
 
 func adjust_range_to_fit(min_bound:float, max_bound:float) -> void:
 	if min_bound < min_range:
