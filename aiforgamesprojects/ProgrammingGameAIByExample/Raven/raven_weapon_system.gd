@@ -42,7 +42,22 @@ func take_aim_and_shoot() -> void:
 				current_weapon.shoot_at(aiming_pos)
 
 func select_weapon() -> void:
-	current_weapon = weapon_map[RavenWeapon.WeaponType.BLASTER]
+	if owner_agent.targeting_system.current_target:
+		# calculate distance to the target
+		var dist_target = owner_agent.position.distance_to(owner_agent.targeting_system.current_target.position)
+		
+		# for each weapon in the inventory calculate its desirability
+		# most desirable weapon is selected
+		var best_so_far : float  = -INF
+		for key in weapon_map:
+			var curr_weapon = weapon_map.get(key,null)
+			if curr_weapon:
+				var score: float = curr_weapon.get_desirability(dist_target)
+				if score > best_so_far:
+					best_so_far = score
+					current_weapon = curr_weapon
+	else:
+		current_weapon = weapon_map[RavenWeapon.WeaponType.BLASTER]
 
 func add_weapon(weapon_type: RavenWeapon.WeaponType) -> void:
 	
