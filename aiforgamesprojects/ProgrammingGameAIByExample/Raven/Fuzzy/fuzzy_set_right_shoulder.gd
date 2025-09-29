@@ -1,5 +1,5 @@
-class_name FuzzySetLeftShoulder
-extends "res://ProgrammingGameAIByExample/Fuzzy/fuzz_set.gd"
+class_name FuzzySetRightShoulder
+extends "res://ProgrammingGameAIByExample/Raven/Fuzzy/fuzz_set.gd"
 
 var peak_point : float
 var left_offset : float
@@ -18,13 +18,13 @@ func calculate_dom(val: float) -> float:
 	if (right_offset == 0.0 and peak_point == val) or (left_offset == 0 and peak_point == val):
 		return 1.0
 	
-	# find DOM if right of center
-	elif val >= peak_point and (val < (peak_point + right_offset)):
-		var grad:float = 1.0/-right_offset
-		return grad * (val-peak_point) + 1.0
+	# find DOM if left of center
+	elif val <= peak_point and (val > (peak_point - left_offset)):
+		var grad:float = 1.0/left_offset
+		return grad * (val-(peak_point-left_offset))
 	
-	#find dom if left of center
-	elif val < peak_point and val >= peak_point - left_offset:
+	#find dom if right of center
+	elif val > peak_point and val <= peak_point + right_offset:
 		return 1.0
 	
 	return 0.0

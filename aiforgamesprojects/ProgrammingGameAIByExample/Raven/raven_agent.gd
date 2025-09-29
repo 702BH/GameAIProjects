@@ -76,7 +76,7 @@ func _ready() -> void:
 
 func _on_goal_changed(agent: RavenAgent, type: GoalEvaluator.GoalType) -> void:
 	if agent == self:
-		print("Current goal changed to: ", type)
+		#print("Current goal changed to: ", type)
 		current_goal = type
 
 # debugging

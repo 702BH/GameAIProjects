@@ -13,10 +13,11 @@ var max_range: float
 
 
 func fuzzify(val:float) -> void:
-	assert(val >= min_range and val <= min_range, "Value out of range")
+	assert(val >= min_range and val <= max_range, "Value out of range")
 	
 	for key in member_sets:
-		member_sets[key].calculate_dom(val)
+		print(key)
+		member_sets[key].set_dom(member_sets[key].calculate_dom(val))
 
 
 func defuzzify_max_av() -> float:

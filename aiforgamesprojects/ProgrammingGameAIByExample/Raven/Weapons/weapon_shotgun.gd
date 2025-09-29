@@ -8,8 +8,8 @@ var spread: float
 func _init(_agent: RavenAgent) -> void:
 	super(_agent)
 	weapon_type = WeaponType.SHOTGUN
-	num_rounds_left = 2
-	max_rounds_carried = 6
+	num_rounds_left = 30
+	max_rounds_carried = 30
 	time_next_available = 2.5
 	rate_of_fire = 0.5
 	initialise_fuzzy_module()
@@ -17,7 +17,9 @@ func _init(_agent: RavenAgent) -> void:
 func get_desirability(dis_to_target:float) -> float:
 	if num_rounds_left == 0:
 		last_desirability_score = 0
+		print("SHOTGUN NO AMMO")
 	else:
+		print("FUZZYING SHOTGUN")
 		fuzzy_module.fuzzify("DisToTarget", dis_to_target)
 		fuzzy_module.fuzzify("AmmoStatus", float(num_rounds_left))
 		last_desirability_score = fuzzy_module.defuzzify("Desirability", FuzzyModule.Defuzzify_Method.MAX_AV)
