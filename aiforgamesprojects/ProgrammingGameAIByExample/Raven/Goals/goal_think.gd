@@ -54,7 +54,7 @@ func add_goal_explore() -> void:
 	if not_present(Type.GOAL_EXPLORE):
 		remove_all_subgoals()
 		add_subgoal(GoalExplore.new(owner_agent))
-		print("SHOULD EXPLORE PLEASE")
+		#print("SHOULD EXPLORE PLEASE")
 		RavenServiceBus.agent_goal_changed.emit(owner_agent, GoalEvaluator.GoalType.EXPLORE)
 
 

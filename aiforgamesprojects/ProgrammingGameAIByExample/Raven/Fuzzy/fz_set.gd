@@ -1,5 +1,5 @@
 class_name FzSet
-extends "res://ProgrammingGameAIByExample/Fuzzy/fuzzy_term.gd"
+extends "res://ProgrammingGameAIByExample/Raven/Fuzzy/fuzzy_term.gd"
 
 
 var set_ref : FuzzySet

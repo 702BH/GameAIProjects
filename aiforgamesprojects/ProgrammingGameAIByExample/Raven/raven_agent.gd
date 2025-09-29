@@ -76,7 +76,7 @@ func _ready() -> void:
 
 func _on_goal_changed(agent: RavenAgent, type: GoalEvaluator.GoalType) -> void:
 	if agent == self:
-		print("Current goal changed to: ", type)
+		#print("Current goal changed to: ", type)
 		current_goal = type
 
 # debugging
@@ -107,6 +107,7 @@ func _physics_process(delta: float) -> void:
 		sensory_memory.update_agents_in_view()
 	
 	if weapon_selection_regulator.is_ready():
+		print("Selecting weapon: ")
 		weapon_system.select_weapon()
 	
 	

@@ -1,5 +1,5 @@
 class_name FuzzyOr
-extends "res://ProgrammingGameAIByExample/Fuzzy/fuzzy_operators.gd"
+extends "res://ProgrammingGameAIByExample/Raven/Fuzzy/fuzzy_operators.gd"
 
 func get_dom() -> float:
 	

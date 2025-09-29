@@ -20,7 +20,7 @@ func _init(_agent: RavenAgent, _react_time: float, _acc: float) -> void:
 	weapon_map.clear()
 	
 	weapon_map[RavenWeapon.WeaponType.BLASTER] = current_weapon
-
+	weapon_map[RavenWeapon.WeaponType.SHOTGUN] = WeaponShotgun.new(owner_agent)
 
 func predict_future_position_of_target() -> Vector2:
 	return Vector2.ZERO
@@ -42,7 +42,33 @@ func take_aim_and_shoot() -> void:
 				current_weapon.shoot_at(aiming_pos)
 
 func select_weapon() -> void:
-	current_weapon = weapon_map[RavenWeapon.WeaponType.BLASTER]
+	if owner_agent.targeting_system.current_target:
+		# calculate distance to the target
+		var dist_target = owner_agent.position.distance_to(owner_agent.targeting_system.current_target.position)
+		
+		if dist_target > 1000.0:
+			return
+		
+		# for each weapon in the inventory calculate its desirability
+		# most desirable weapon is selected
+		var best_so_far : float  = -INF
+		for key in weapon_map:
+			var curr_weapon = weapon_map.get(key,null)
+			print("Current weapon evaluating: ", RavenWeapon.WeaponType.keys()[curr_weapon.weapon_type])
+			if curr_weapon:
+				var score: float = curr_weapon.get_desirability(dist_target)
+				print("Current weapon evaluating: ", RavenWeapon.WeaponType.keys()[curr_weapon.weapon_type])
+				print("Score: ", score)
+				if score > best_so_far:
+					best_so_far = score
+					current_weapon = curr_weapon
+		print("Target found.")
+		print("Weapon selected: ")
+		print(RavenWeapon.WeaponType.keys()[current_weapon.weapon_type])
+	else:
+		print("No target, selecting: ", )
+		current_weapon = weapon_map[RavenWeapon.WeaponType.BLASTER]
+		print(RavenWeapon.WeaponType.keys()[current_weapon.weapon_type])
 
 func add_weapon(weapon_type: RavenWeapon.WeaponType) -> void:
 	

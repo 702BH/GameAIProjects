@@ -1,5 +1,5 @@
 class_name FzFairly
-extends "res://ProgrammingGameAIByExample/Fuzzy/fuzzy_term.gd"
+extends "res://ProgrammingGameAIByExample/Raven/Fuzzy/fuzzy_term.gd"
 
 var ref_set : FuzzySet
 
