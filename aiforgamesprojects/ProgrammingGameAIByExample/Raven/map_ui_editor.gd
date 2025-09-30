@@ -95,3 +95,7 @@ func _on_weapon_cancel_pressed() -> void:
 func _on_weapon_submit_pressed() -> void:
 	weapon_popup.visible = false
 	RavenServiceBus.submitted_weapon.emit(RavenNodeItemWeapon.WeaponSubtype.SHOTGUN)
+
+
+func _on_debug_pressed() -> void:
+	pass # Replace with function body.
