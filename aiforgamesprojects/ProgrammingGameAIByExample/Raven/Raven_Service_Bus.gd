@@ -12,3 +12,7 @@ signal fire_projectile(bullet: RavenProjectile)
 
 
 signal agent_goal_changed(agent: RavenAgent, goal: GoalEvaluator.GoalType)
+
+
+
+# Map signals
