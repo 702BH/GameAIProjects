@@ -9,8 +9,13 @@ extends Node2D
 @onready var agent_prefab := preload("res://ProgrammingGameAIByExample/Raven/raven_agent.tscn")
 @onready var dummy_prefab := preload("res://ProgrammingGameAIByExample/Raven/Agent/dummy_agent.tscn")
 @onready var agents_container := $AgentContainer
-@onready var map_drawing := $MapDrawing
+@onready var map_drawing := $MapDrawingInput
 @onready var projectile_container := $ProjectileContainer
+
+
+@onready var sub_view := $MapDrawingInput/SubViewport
+
+
 
 var resolution := 24.0
 var loaded_map := ""
@@ -30,7 +35,8 @@ func _ready() -> void:
 	RavenServiceBus.fire_projectile.connect(_on_projectile_fired.bind())
 	RavenServiceBus.game_start_requested.connect(_on_map_start_requested.bind())
 	RavenServiceBus.dummy_agent_requested.connect(_on_dummy_agent_requested.bind())
-
+	sub_view.size.x = width
+	sub_view.size.y = height
 
 func _on_dummy_agent_requested() -> void:
 	if agents_container.dummy_count < 1:
