@@ -14,7 +14,7 @@ func _init(mid:float, left:float, right:float) -> void:
 
 
 func calculate_dom(val: float) -> float:
-	print("Calculating DOM for triangle set")
+	#print("Calculating DOM for triangle set")
 	# prevent divide by zero errors
 	if (right_offset == 0.0 and peak_point == val) or (left_offset == 0 and peak_point == val):
 		return 1.0
@@ -22,17 +22,17 @@ func calculate_dom(val: float) -> float:
 	# left slope
 	if val <= peak_point and val >= (peak_point-left_offset):
 		var grad:float = 1.0/ left_offset
-		print("LEFT SLOPE")
-		print(grad * (val - (peak_point-left_offset)))
+		#print("LEFT SLOPE")
+		#print(grad * (val - (peak_point-left_offset)))
 		return grad * (val - (peak_point-left_offset))
 	
 	# right slope
 	elif val > peak_point and val < (peak_point + right_offset):
 		var grad:float = 1.0 / -right_offset
-		print("RIGHT SLOPE")
-		print(grad * (val - peak_point) + 1.0)
+		#print("RIGHT SLOPE")
+		#print(grad * (val - peak_point) + 1.0)
 		return grad * (val - peak_point) + 1.0
 	
 	else:
-		print("SOMETGHING VERY WRONG HERE")
+		#print("SOMETGHING VERY WRONG HERE")
 		return 0.0

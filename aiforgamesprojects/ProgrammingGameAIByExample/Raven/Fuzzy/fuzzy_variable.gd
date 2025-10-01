@@ -16,7 +16,7 @@ func fuzzify(val:float) -> void:
 	assert(val >= min_range and val <= max_range, "Value out of range")
 	
 	for key in member_sets:
-		print(key)
+		#print(key)
 		member_sets[key].set_dom(member_sets[key].calculate_dom(val))
 
 

@@ -15,7 +15,7 @@ func activate() -> void:
 	remove_all_subgoals()
 	
 	if !owner_agent.targeting_system.current_target:
-		print("NO TARGET")
+		#print("NO TARGET")
 		status = Status.COMPLETED
 		return
 	

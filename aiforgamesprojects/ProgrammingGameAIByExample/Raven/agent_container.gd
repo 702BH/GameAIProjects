@@ -22,7 +22,9 @@ func query_selectable(pos: Vector2) -> void:
 			break
 	
 	if agent_found:
-		agent_selected.emit(selected_agent)
+		RavenServiceBus.agent_selected.emit(selected_agent)
+		#agent_selected.emit(selected_agent)
 	else:
 		selected_agent = null
-		agent_deselected.emit()
+		RavenServiceBus.agent_delesected.emit()
+		#agent_deselected.emit()

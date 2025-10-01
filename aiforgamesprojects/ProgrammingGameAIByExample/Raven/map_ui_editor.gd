@@ -28,6 +28,12 @@ func _ready() -> void:
 	$Container/ButtonPanel/Buttons.visible = true
 	$Container/ButtonPanel/RunMapUI.visible = false
 	RavenServiceBus.weapon_popup.connect(_on_weapon_popup.bind())
+	RavenServiceBus.agent_selected.connect(on_agent_selected.bind())
+	RavenServiceBus.agent_delesected.connect(on_agent_deselected.bind())
+
+
+
+
 
 func _on_weapon_popup() -> void:
 	print("should be visible")
@@ -74,10 +80,12 @@ func _on_run_map_pressed() -> void:
 func on_agent_selected(agent: RavenAgent) -> void:
 	selected_agent = agent
 	agent_name_label.text = str(agent)
+	update_debug_ui(true)
 
 func on_agent_deselected() -> void:
 	selected_agent = null
 	agent_name_label.text = "None"
+	update_debug_ui(false)
 
 func _on_random_path_pressed() -> void:
 	print(selected_agent)
@@ -113,3 +121,11 @@ func _on_debug_pressed() -> void:
 
 func _on_play_pressed() -> void:
 	RavenServiceBus.game_start_requested.emit()
+
+
+func update_debug_ui(selected: bool) -> void:
+	if selected:
+		# set agent name
+		$Container/ButtonPanel/DebugMapUI/HBoxContainer/AgentUI/selectedName.text = str(selected_agent)
+	else:
+		$Container/ButtonPanel/DebugMapUI/HBoxContainer/AgentUI/selectedName.text = "None"

@@ -22,7 +22,7 @@ func activate() -> void:
 	if !path.is_empty():
 		add_subgoal(GoalFollowPath.new(owner_agent, path))
 	else:
-		print("NO PATH")
+		#print("NO PATH")
 		status = Status.FAILED
 
 func process() -> Status:

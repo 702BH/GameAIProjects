@@ -41,6 +41,10 @@ func arbitrate() -> void:
 	
 	#print("most desirable: ", most_desirable.goal_type)
 	most_desirable.set_goal(owner_agent)
+	var debug_json = {
+		"message":"Hi"
+	}
+	RavenServiceBus.debug_event.emit(RavenServiceBus.System.BRAIN, debug_json)
 
 
 func not_present(_type: Type) -> bool:

@@ -1,6 +1,9 @@
 class_name RavenEventBus
 extends Node
 
+enum System {BRAIN}
+
+
 
 var selected_node: RavenNode = null
 
@@ -22,3 +25,7 @@ signal game_start_requested()
 # agent selections
 signal agent_selected(agent: RavenAgent)
 signal agent_delesected()
+
+
+# debugging system
+signal debug_event(system: System  ,json_dict: Dictionary)
