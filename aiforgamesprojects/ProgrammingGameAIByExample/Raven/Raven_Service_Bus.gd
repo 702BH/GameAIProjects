@@ -16,3 +16,9 @@ signal agent_goal_changed(agent: RavenAgent, goal: GoalEvaluator.GoalType)
 
 
 # Map signals
+signal game_start_requested()
+
+
+# agent selections
+signal agent_selected(agent: RavenAgent)
+signal agent_delesected()

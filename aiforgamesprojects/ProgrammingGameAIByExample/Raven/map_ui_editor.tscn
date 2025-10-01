@@ -43,6 +43,7 @@ size_flags_vertical = 4
 theme_override_styles/panel = SubResource("StyleBoxFlat_itxlc")
 
 [node name="Buttons" type="HBoxContainer" parent="Container/ButtonPanel"]
+visible = false
 layout_mode = 2
 theme_override_constants/separation = 19
 alignment = 1
@@ -128,6 +129,45 @@ text = "Play"
 layout_mode = 2
 theme_override_constants/margin_right = 4
 
+[node name="DebugMapUI" type="HBoxContainer" parent="Container/ButtonPanel"]
+visible = false
+layout_mode = 2
+alignment = 1
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Container/ButtonPanel/DebugMapUI"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="AgentUI" type="HBoxContainer" parent="Container/ButtonPanel/DebugMapUI/HBoxContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="Container/ButtonPanel/DebugMapUI/HBoxContainer/AgentUI"]
+layout_mode = 2
+text = "Agent Selected: "
+
+[node name="selectedName" type="Label" parent="Container/ButtonPanel/DebugMapUI/HBoxContainer/AgentUI"]
+layout_mode = 2
+text = "None"
+
+[node name="PlayControls" type="HBoxContainer" parent="Container/ButtonPanel/DebugMapUI"]
+layout_mode = 2
+
+[node name="Play" type="Button" parent="Container/ButtonPanel/DebugMapUI/PlayControls"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+text = "Play"
+
+[node name="Pause" type="Button" parent="Container/ButtonPanel/DebugMapUI/PlayControls"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+text = "Pause"
+
+[node name="MarginContainer" type="MarginContainer" parent="Container/ButtonPanel/DebugMapUI/PlayControls"]
+layout_mode = 2
+theme_override_constants/margin_right = 4
+
 [node name="LoadMapDialog" type="FileDialog" parent="."]
 title = "Open a File"
 ok_button_text = "Open"
@@ -209,6 +249,7 @@ layout_mode = 2
 text = "Submit"
 
 [node name="CollapsableDebug" type="Control" parent="."]
+visible = false
 custom_minimum_size = Vector2(300, 200)
 layout_mode = 1
 anchors_preset = 1
@@ -235,9 +276,10 @@ layout_mode = 2
 [node name="TabContainer" type="TabContainer" parent="CollapsableDebug/PanelContainer/Panels"]
 layout_mode = 2
 tab_alignment = 1
-current_tab = 0
+deselect_enabled = true
 
 [node name="Brain" type="ScrollContainer" parent="CollapsableDebug/PanelContainer/Panels/TabContainer"]
+visible = false
 custom_minimum_size = Vector2(300, 200)
 layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_62kta")
@@ -259,7 +301,6 @@ layout_mode = 2
 custom_minimum_size = Vector2(300, 100)
 layout_mode = 2
 editable = false
-delimiter_strings = Array[String](["\" \"", "' '"])
 
 [node name="CodeEdit3" type="CodeEdit" parent="CollapsableDebug/PanelContainer/Panels/TabContainer/Brain/VBoxContainer"]
 custom_minimum_size = Vector2(300, 100)
@@ -270,22 +311,31 @@ editable = false
 custom_minimum_size = Vector2(300, 100)
 layout_mode = 2
 editable = false
-delimiter_strings = Array[String](["\" \"", "' '"])
 
-[node name="Control" type="Control" parent="CollapsableDebug/PanelContainer/Panels/TabContainer"]
+[node name="Memory" type="ScrollContainer" parent="CollapsableDebug/PanelContainer/Panels/TabContainer"]
 visible = false
 layout_mode = 2
 metadata/_tab_index = 1
 
-[node name="Control2" type="Control" parent="CollapsableDebug/PanelContainer/Panels/TabContainer"]
+[node name="Paths" type="ScrollContainer" parent="CollapsableDebug/PanelContainer/Panels/TabContainer"]
 visible = false
 layout_mode = 2
 metadata/_tab_index = 2
 
-[node name="Control3" type="Control" parent="CollapsableDebug/PanelContainer/Panels/TabContainer"]
+[node name="Steering" type="ScrollContainer" parent="CollapsableDebug/PanelContainer/Panels/TabContainer"]
 visible = false
 layout_mode = 2
 metadata/_tab_index = 3
+
+[node name="Targeting" type="ScrollContainer" parent="CollapsableDebug/PanelContainer/Panels/TabContainer"]
+visible = false
+layout_mode = 2
+metadata/_tab_index = 4
+
+[node name="Weapons" type="ScrollContainer" parent="CollapsableDebug/PanelContainer/Panels/TabContainer"]
+visible = false
+layout_mode = 2
+metadata/_tab_index = 5
 
 [connection signal="mouse_entered" from="Container/GridContainer" to="Container/GridContainer" method="_on_mouse_entered"]
 [connection signal="mouse_exited" from="Container/GridContainer" to="Container/GridContainer" method="_on_mouse_exited"]
@@ -297,6 +347,7 @@ metadata/_tab_index = 3
 [connection signal="pressed" from="Container/ButtonPanel/Buttons/RunMap" to="." method="_on_run_map_pressed"]
 [connection signal="pressed" from="Container/ButtonPanel/Buttons/Debug" to="." method="_on_debug_pressed"]
 [connection signal="pressed" from="Container/ButtonPanel/RunMapUI/HBoxContainer/AgentUI/RandomPath" to="." method="_on_random_path_pressed"]
+[connection signal="pressed" from="Container/ButtonPanel/DebugMapUI/PlayControls/Play" to="." method="_on_play_pressed"]
 [connection signal="file_selected" from="LoadMapDialog" to="." method="_on_load_map_dialog_file_selected"]
 [connection signal="pressed" from="WeaponTypeSelector/VBoxContainer/VBoxContainer2/HBoxContainer2/HBoxContainer/WeaponCancel" to="." method="_on_weapon_cancel_pressed"]
 [connection signal="pressed" from="WeaponTypeSelector/VBoxContainer/VBoxContainer2/HBoxContainer2/HBoxContainer2/WeaponSubmit" to="." method="_on_weapon_submit_pressed"]

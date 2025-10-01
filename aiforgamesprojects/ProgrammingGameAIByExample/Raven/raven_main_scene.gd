@@ -27,6 +27,15 @@ func _ready() -> void:
 	agents_container.connect("agent_selected", ui.on_agent_selected)
 	agents_container.connect("agent_deselected", ui.on_agent_deselected)
 	RavenServiceBus.fire_projectile.connect(_on_projectile_fired.bind())
+	RavenServiceBus.game_start_requested.connect(_on_map_start_requested.bind())
+
+func _on_map_start_requested() -> void:
+	print("MAP START REQUESTED")
+	start_map()
+
+func start_map() -> void:
+	if World.loaded_map:
+		spawn_agents()
 
 func _unhandled_input(event: InputEvent) -> void:
 	if event.is_action_pressed("place"):

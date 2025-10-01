@@ -13,6 +13,11 @@ signal start_map_request
 @onready var weapon_submit := $WeaponTypeSelector/VBoxContainer/VBoxContainer2/HBoxContainer2/HBoxContainer2/WeaponSubmit
 @onready var weapon_toggle := $Container/ButtonPanel/Buttons/Weapon
 
+
+@onready var agent_debugger := $CollapsableDebug
+@onready var debug_buttons_container := $Container/ButtonPanel/DebugMapUI
+
+
 var loaded_map := ""
 var map_drawer
 
@@ -98,4 +103,13 @@ func _on_weapon_submit_pressed() -> void:
 
 
 func _on_debug_pressed() -> void:
-	pass # Replace with function body.
+	map_editor_ui.visible = false
+	map_run_ui.visible = false
+	debug_buttons_container.visible = true
+	agent_debugger.visible = true
+
+
+
+
+func _on_play_pressed() -> void:
+	RavenServiceBus.game_start_requested.emit()

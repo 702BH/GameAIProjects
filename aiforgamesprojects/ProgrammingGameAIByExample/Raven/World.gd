@@ -17,6 +17,8 @@ var cell_size : int
 var cell_buckets_agents: Dictionary ={}
 var cell_buckets_static: Dictionary ={}
 
+var loaded_map : bool = false
+
 
 func initialise(_width:float, _height:float, _resolution:float, _cell_size:int) -> void:
 	width = _width
@@ -117,6 +119,7 @@ func load_world_from_file(file_path: String) -> void:
 				cell_buckets_static[key] = []
 			cell_buckets_static[key].append(graph.nodes[node["row"] * columns + node["column"]])
 	generate_edges(map_rows, map_columns)
+	loaded_map = true
 
 
 func save_world_to_file(file_name:String) -> void:
