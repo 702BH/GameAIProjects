@@ -55,9 +55,10 @@ func _process(delta: float) -> void:
 			var node: RavenNode = World.grid_world[wall_location.y][wall_location.x]
 			if node.node_type == RavenNode.NodeType.TRAVERSAL:
 				node.node_type = RavenNode.NodeType.WALL
-				World.graph.remove_wall(node.id)
+				#World.graph.remove_wall(node.id)
 			drawer.dirty_nodes.append(node)
 			drawer.queue_redraw()
+			#World.graph.remove_wall(node.id) 
 		elif Input.is_action_pressed("remove"):
 			var wall_location = World.position_to_grid(get_global_mouse_position())
 			var node: RavenNode = World.grid_world[wall_location.y][wall_location.x]
