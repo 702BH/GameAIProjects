@@ -12,16 +12,25 @@ extends Control
 @onready var weapons : TabDebugNode = $PanelContainer/Panels/TabContainer/Weapons
 
 # key = service bus sytem Enum
-var systems_dict = {
-	RavenServiceBus.System.BRAIN : brain
-}
+var systems_dict : Dictionary
+
+var selected_agent: RavenAgent
 
 
 func _ready() -> void:
 	RavenServiceBus.debug_event.connect(on_debug_event.bind())
+	systems_dict = {
+		DebugData.Systems.BRAIN : brain
+	}
+
+func on_debug_event(data: DebugData) -> void:
+	if data != null:
+		if systems_dict.has(data.system):
+			var selected_system: TabDebugNode = systems_dict.get(data.system)
+			if data.agent == selected_agent:
+				selected_system.handle_debug_event(data)
 
 
-func on_debug_event(system: RavenServiceBus.System, event: Dictionary) -> void:
-	var selected_system: TabDebugNode = systems_dict.get(system)
-	if selected_system:
-		selected_system.handle_debug_event(event)
+func clear_systems() -> void:
+	for key in systems_dict:
+		systems_dict[key].clear_debug()

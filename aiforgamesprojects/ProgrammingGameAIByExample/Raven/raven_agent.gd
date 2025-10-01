@@ -7,6 +7,10 @@ extends RavenMover
 @onready var vision_shape := $agent_vision/vision_collision
 
 
+# for debug purposes
+var names = ["Jarvan", "Lulu", "Malphite", "Ryze"]
+var agent_name
+
 var sensory_memory := RavenSensoryMemory.new(self)
 var path_planner := RavenPathPlanner.new(self)
 var steering_controller := RavenSteeringController.new(self)
@@ -20,6 +24,7 @@ var weapon_selection_regulator = Regulator.new(2.0)
 var goal_arbitration_regulator = Regulator.new(4.0)
 var target_selection_regulator = Regulator.new(2.0)
 var vision_update_regulator = Regulator.new(4.0)
+var debug_regulator = Regulator.new(1.0)
 
 var click_radius := 15.0
 var selected := false
@@ -61,6 +66,9 @@ var feelers = [Vector2.ZERO,Vector2.ZERO, Vector2.ZERO]
 var health := 100.0
 var max_health := 100.0
 
+
+func _init() -> void:
+	agent_name = names[randi_range(0, names.size() - 1)]
 
 
 func _ready() -> void:

@@ -27,6 +27,8 @@ var selected_agent : RavenAgent
 func _ready() -> void:
 	$Container/ButtonPanel/Buttons.visible = true
 	$Container/ButtonPanel/RunMapUI.visible = false
+	agent_debugger.visible = false
+	debug_buttons_container.visible = false
 	RavenServiceBus.weapon_popup.connect(_on_weapon_popup.bind())
 	RavenServiceBus.agent_selected.connect(on_agent_selected.bind())
 	RavenServiceBus.agent_delesected.connect(on_agent_deselected.bind())
@@ -124,8 +126,15 @@ func _on_play_pressed() -> void:
 
 
 func update_debug_ui(selected: bool) -> void:
+	agent_debugger.clear_systems()
 	if selected:
+		agent_debugger.selected_agent = selected_agent
 		# set agent name
-		$Container/ButtonPanel/DebugMapUI/HBoxContainer/AgentUI/selectedName.text = str(selected_agent)
+		$Container/ButtonPanel/DebugMapUI/HBoxContainer/AgentUI/selectedName.text = str(selected_agent.agent_name)
 	else:
 		$Container/ButtonPanel/DebugMapUI/HBoxContainer/AgentUI/selectedName.text = "None"
+		agent_debugger.selected_agent = null
+
+
+func _on_add_dummy_pressed() -> void:
+	RavenServiceBus.dummy_agent_requested.emit()

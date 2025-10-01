@@ -5,6 +5,7 @@ extends "res://ProgrammingGameAIByExample/Raven/Goals/GoalComposite.gd"
 var evaluators : Array[GoalEvaluator] = []
 
 
+
 func _init(_agent: RavenAgent) -> void:
 	super(_agent)
 	goal_type = Type.GOAL_THINK
@@ -41,10 +42,12 @@ func arbitrate() -> void:
 	
 	#print("most desirable: ", most_desirable.goal_type)
 	most_desirable.set_goal(owner_agent)
-	var debug_json = {
-		"message":"Hi"
-	}
-	RavenServiceBus.debug_event.emit(RavenServiceBus.System.BRAIN, debug_json)
+			#var data = PlayerStateData.build().set_shot_power(shot_power).set_shot_direction(shot_direction)
+	
+	if owner_agent.debug_regulator.is_ready():
+		var data = BrainData.build().set_agent(owner_agent).set_system(DebugData.Systems.BRAIN).set_step(BrainData.Steps.ARBITRATION)
+		data.add_message("Most Desirable Goal: " + str( GoalEvaluator.GoalType.keys()[most_desirable.goal_type]))
+		RavenServiceBus.debug_event.emit(data)
 
 
 func not_present(_type: Type) -> bool:

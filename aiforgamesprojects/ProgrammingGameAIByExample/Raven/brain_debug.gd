@@ -1,8 +1,21 @@
 extends "res://ProgrammingGameAIByExample/Raven/tab_debug_node.gd"
 
+var process_functions = {
+	BrainData.Steps.ARBITRATION : Callable(debug_arbitration)
+}
 
-func handle_debug_event(event: Dictionary) -> void:
-	var message = event.get("message")
-	if message:
-		print("BRAIN DEBUGGER")
-		print(message)
+@onready var output := $VBoxContainer/Arbitration/Output
+
+
+func handle_debug_event(data: DebugData) -> void:
+	var function = process_functions.get(data.step)
+	function.call(data)
+
+func debug_arbitration(data: DebugData) -> void:
+	for message in data.messages:
+		output.text += message + "\n"
+	output.scroll_vertical = output.get_line_count()
+
+
+func clear_debug() -> void:
+	output.text = ""
