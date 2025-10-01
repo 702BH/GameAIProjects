@@ -5,6 +5,7 @@ enum tool_state {NONE, WALL, SPAWNS, WEAPONS}
 enum ui_state {MAP_EDITOR, MAP_RUNNING, MAP_SELECTIONS}
 
 @onready var drawer := $SubViewport/MapDrawing
+@onready var viewport := $SubViewport
 
 var mouse_in := true
 var selected_position
@@ -26,7 +27,9 @@ func _ready() -> void:
 
 
 func _on_grid_generated() -> void:
+	viewport.render_target_clear_mode = SubViewport.CLEAR_MODE_ONCE
 	drawer.dirty_nodes = World.graph.nodes.duplicate()
+	drawer.queue_redraw()
 
 func _on_mode_changed(mode: tool_state) -> void:
 	print(mode)

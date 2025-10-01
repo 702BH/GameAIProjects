@@ -34,7 +34,6 @@ func _draw() -> void:
 				neighbors = World.graph.edges[node.id]
 			else:
 				draw_rect(Rect2(node.node_pos.x * World.resolution, node.node_pos.y * World.resolution, World.resolution, World.resolution), Color.BLACK)
-	
 			if !neighbors.is_empty():
 				for neighbor: GraphEdge in neighbors:
 					
