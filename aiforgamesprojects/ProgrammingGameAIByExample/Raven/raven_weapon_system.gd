@@ -54,21 +54,21 @@ func select_weapon() -> void:
 		var best_so_far : float  = -INF
 		for key in weapon_map:
 			var curr_weapon = weapon_map.get(key,null)
-			print("Current weapon evaluating: ", RavenWeapon.WeaponType.keys()[curr_weapon.weapon_type])
+			#print("Current weapon evaluating: ", RavenWeapon.WeaponType.keys()[curr_weapon.weapon_type])
 			if curr_weapon:
 				var score: float = curr_weapon.get_desirability(dist_target)
-				print("Current weapon evaluating: ", RavenWeapon.WeaponType.keys()[curr_weapon.weapon_type])
-				print("Score: ", score)
+				#print("Current weapon evaluating: ", RavenWeapon.WeaponType.keys()[curr_weapon.weapon_type])
+				#print("Score: ", score)
 				if score > best_so_far:
 					best_so_far = score
 					current_weapon = curr_weapon
-		print("Target found.")
-		print("Weapon selected: ")
-		print(RavenWeapon.WeaponType.keys()[current_weapon.weapon_type])
+		#print("Target found.")
+		#print("Weapon selected: ")
+		#print(RavenWeapon.WeaponType.keys()[current_weapon.weapon_type])
 	else:
-		print("No target, selecting: ", )
+		#print("No target, selecting: ", )
 		current_weapon = weapon_map[RavenWeapon.WeaponType.BLASTER]
-		print(RavenWeapon.WeaponType.keys()[current_weapon.weapon_type])
+		#print(RavenWeapon.WeaponType.keys()[current_weapon.weapon_type])
 
 func add_weapon(weapon_type: RavenWeapon.WeaponType) -> void:
 	

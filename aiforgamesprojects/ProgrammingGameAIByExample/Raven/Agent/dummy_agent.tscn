@@ -1,0 +1,11 @@
+[gd_scene load_steps=3 format=3 uid="uid://ct4t063d2l8m1"]
+
+[ext_resource type="PackedScene" uid="uid://bw8n4rlrth5ch" path="res://ProgrammingGameAIByExample/Raven/raven_agent.tscn" id="1_2sgce"]
+[ext_resource type="Script" uid="uid://d3g8qhssinnkk" path="res://ProgrammingGameAIByExample/Raven/Agent/dummy_agent.gd" id="2_7kolo"]
+
+[node name="DummyAgent" instance=ExtResource("1_2sgce")]
+script = ExtResource("2_7kolo")
+max_speed = 5.0
+max_force = 1.0
+max_turn_rate = 1.0
+radius = 1.0

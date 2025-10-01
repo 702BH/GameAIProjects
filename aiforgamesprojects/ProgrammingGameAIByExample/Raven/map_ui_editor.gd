@@ -13,6 +13,11 @@ signal start_map_request
 @onready var weapon_submit := $WeaponTypeSelector/VBoxContainer/VBoxContainer2/HBoxContainer2/HBoxContainer2/WeaponSubmit
 @onready var weapon_toggle := $Container/ButtonPanel/Buttons/Weapon
 
+
+@onready var agent_debugger := $CollapsableDebug
+@onready var debug_buttons_container := $Container/ButtonPanel/DebugMapUI
+
+
 var loaded_map := ""
 var map_drawer
 
@@ -22,7 +27,15 @@ var selected_agent : RavenAgent
 func _ready() -> void:
 	$Container/ButtonPanel/Buttons.visible = true
 	$Container/ButtonPanel/RunMapUI.visible = false
+	agent_debugger.visible = false
+	debug_buttons_container.visible = false
 	RavenServiceBus.weapon_popup.connect(_on_weapon_popup.bind())
+	RavenServiceBus.agent_selected.connect(on_agent_selected.bind())
+	RavenServiceBus.agent_delesected.connect(on_agent_deselected.bind())
+
+
+
+
 
 func _on_weapon_popup() -> void:
 	print("should be visible")
@@ -69,10 +82,12 @@ func _on_run_map_pressed() -> void:
 func on_agent_selected(agent: RavenAgent) -> void:
 	selected_agent = agent
 	agent_name_label.text = str(agent)
+	update_debug_ui(true)
 
 func on_agent_deselected() -> void:
 	selected_agent = null
 	agent_name_label.text = "None"
+	update_debug_ui(false)
 
 func _on_random_path_pressed() -> void:
 	print(selected_agent)
@@ -98,4 +113,28 @@ func _on_weapon_submit_pressed() -> void:
 
 
 func _on_debug_pressed() -> void:
-	pass # Replace with function body.
+	map_editor_ui.visible = false
+	map_run_ui.visible = false
+	debug_buttons_container.visible = true
+	agent_debugger.visible = true
+
+
+
+
+func _on_play_pressed() -> void:
+	RavenServiceBus.game_start_requested.emit()
+
+
+func update_debug_ui(selected: bool) -> void:
+	agent_debugger.clear_systems()
+	if selected:
+		agent_debugger.selected_agent = selected_agent
+		# set agent name
+		$Container/ButtonPanel/DebugMapUI/HBoxContainer/AgentUI/selectedName.text = str(selected_agent.agent_name)
+	else:
+		$Container/ButtonPanel/DebugMapUI/HBoxContainer/AgentUI/selectedName.text = "None"
+		agent_debugger.selected_agent = null
+
+
+func _on_add_dummy_pressed() -> void:
+	RavenServiceBus.dummy_agent_requested.emit()

@@ -7,6 +7,7 @@ extends Node2D
 @onready var ui := $CanvasLayer/UI
 @onready var grid_container := $CanvasLayer/UI/Container/GridContainer
 @onready var agent_prefab := preload("res://ProgrammingGameAIByExample/Raven/raven_agent.tscn")
+@onready var dummy_prefab := preload("res://ProgrammingGameAIByExample/Raven/Agent/dummy_agent.tscn")
 @onready var agents_container := $AgentContainer
 @onready var map_drawing := $MapDrawing
 @onready var projectile_container := $ProjectileContainer
@@ -27,6 +28,24 @@ func _ready() -> void:
 	agents_container.connect("agent_selected", ui.on_agent_selected)
 	agents_container.connect("agent_deselected", ui.on_agent_deselected)
 	RavenServiceBus.fire_projectile.connect(_on_projectile_fired.bind())
+	RavenServiceBus.game_start_requested.connect(_on_map_start_requested.bind())
+	RavenServiceBus.dummy_agent_requested.connect(_on_dummy_agent_requested.bind())
+
+
+func _on_dummy_agent_requested() -> void:
+	if agents_container.dummy_count < 1:
+		agents_container.dummy_count += 1
+		var agent: DummyAgent = dummy_prefab.instantiate()
+		spawn_agent(agent)
+
+
+func _on_map_start_requested() -> void:
+	print("MAP START REQUESTED")
+	start_map()
+
+func start_map() -> void:
+	if World.loaded_map:
+		spawn_agents()
 
 func _unhandled_input(event: InputEvent) -> void:
 	if event.is_action_pressed("place"):
@@ -61,6 +80,14 @@ func spawn_agents() -> void:
 		agent.queue_redraw()
 	
 	#print(World.cell_buckets_agents)
+
+func spawn_agent(_agent: RavenAgent) -> void:
+	if _agent is DummyAgent:
+		agents_container.add_child(_agent)
+		World.place_agent(_agent, World.position_to_grid(_agent.position))
+		_agent.queue_redraw()
+		_agent.selected = true
+
 
 func _on_ui_start_map_request() -> void:
 	spawn_agents()
