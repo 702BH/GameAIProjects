@@ -26,3 +26,6 @@ signal agent_delesected()
 
 # debugging system
 signal debug_event(data: DebugData)
+
+# Map drawing
+signal grid_generated()

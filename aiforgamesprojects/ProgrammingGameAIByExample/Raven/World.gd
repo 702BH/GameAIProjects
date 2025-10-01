@@ -51,7 +51,7 @@ func generate_grid() -> void:
 			
 	# generated edges
 	generate_edges(rows, columns)
-
+	RavenServiceBus.grid_generated.emit()
 
 func generate_edges(rows, columns) ->void:
 	for i in range(rows):
@@ -119,6 +119,7 @@ func load_world_from_file(file_path: String) -> void:
 				cell_buckets_static[key] = []
 			cell_buckets_static[key].append(graph.nodes[node["row"] * columns + node["column"]])
 	generate_edges(map_rows, map_columns)
+	RavenServiceBus.grid_generated.emit()
 	loaded_map = true
 
 
