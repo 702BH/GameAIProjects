@@ -24,7 +24,6 @@ z_index = 50
 script = ExtResource("4_83dyp")
 
 [node name="SubViewport" type="SubViewport" parent="MapDrawingInput"]
-transparent_bg = true
 gui_disable_input = true
 gui_snap_controls_to_pixels = false
 render_target_clear_mode = 1

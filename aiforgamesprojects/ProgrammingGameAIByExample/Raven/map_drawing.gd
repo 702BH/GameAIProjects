@@ -16,10 +16,18 @@ var selected_position
 
 var dirty_nodes : Array = []
 
+var draw_start :int
+var draw_end: int
+
+
 
 func _draw() -> void:
+	#if !World.graph.nodes.is_empty():
+		#for i in range(draw_start, draw_end):
+			#var
+	
+	
 	if !dirty_nodes.is_empty():
-		
 		for node:RavenNode in dirty_nodes:
 			var neighbors : Array
 			if node.node_type == RavenNode.NodeType.TRAVERSAL:
