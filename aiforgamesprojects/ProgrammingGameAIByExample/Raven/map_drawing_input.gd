@@ -5,6 +5,7 @@ enum tool_state {NONE, WALL, SPAWNS, WEAPONS}
 enum ui_state {MAP_EDITOR, MAP_RUNNING, MAP_SELECTIONS}
 
 @onready var drawer := $SubViewport/MapDrawing
+@onready var viewport := $SubViewport
 
 var mouse_in := true
 var selected_position
@@ -26,7 +27,9 @@ func _ready() -> void:
 
 
 func _on_grid_generated() -> void:
+	viewport.render_target_clear_mode = SubViewport.CLEAR_MODE_ONCE
 	drawer.dirty_nodes = World.graph.nodes.duplicate()
+	drawer.queue_redraw()
 
 func _on_mode_changed(mode: tool_state) -> void:
 	print(mode)
@@ -52,9 +55,10 @@ func _process(delta: float) -> void:
 			var node: RavenNode = World.grid_world[wall_location.y][wall_location.x]
 			if node.node_type == RavenNode.NodeType.TRAVERSAL:
 				node.node_type = RavenNode.NodeType.WALL
-				World.graph.remove_wall(node.id)
+				#World.graph.remove_wall(node.id)
 			drawer.dirty_nodes.append(node)
 			drawer.queue_redraw()
+			#World.graph.remove_wall(node.id) 
 		elif Input.is_action_pressed("remove"):
 			var wall_location = World.position_to_grid(get_global_mouse_position())
 			var node: RavenNode = World.grid_world[wall_location.y][wall_location.x]
