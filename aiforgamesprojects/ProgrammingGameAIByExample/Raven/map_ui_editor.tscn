@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=3 uid="uid://c5uea86dlcivm"]
+[gd_scene load_steps=20 format=3 uid="uid://c5uea86dlcivm"]
 
 [ext_resource type="Script" uid="uid://cmclv6r6mrl5b" path="res://ProgrammingGameAIByExample/Raven/map_ui_editor.gd" id="1_ad81b"]
 [ext_resource type="StyleBox" uid="uid://b8a81fdlk5ted" path="res://ProgrammingGameAIByExample/Raven/button_pressed.tres" id="3_birsf"]
@@ -19,6 +19,27 @@ bg_color = Color(0.6, 0.6, 0.6, 0.207843)
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_62kta"]
 bg_color = Color(0.6, 0.6, 0.6, 0.027451)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_72r2y"]
+bg_color = Color(0.764706, 0.545098, 0.380392, 0.466667)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_xka71"]
+bg_color = Color(0.6, 0.6, 0.6, 0)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_f7lml"]
+bg_color = Color(0.6, 0.6, 0.6, 0)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_2eej5"]
+bg_color = Color(0.6, 0.6, 0.6, 0)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_rytgg"]
+bg_color = Color(0.6, 0.6, 0.6, 0)
+
+[sub_resource type="Theme" id="Theme_xka71"]
+OptionButton/styles/hover_pressed = SubResource("StyleBoxFlat_xka71")
+OptionButton/styles/pressed = SubResource("StyleBoxFlat_f7lml")
+PopupMenu/styles/hover = SubResource("StyleBoxFlat_2eej5")
+PopupMenu/styles/panel = SubResource("StyleBoxFlat_rytgg")
 
 [node name="UI" type="Control"]
 layout_mode = 3
@@ -50,7 +71,6 @@ size_flags_vertical = 4
 theme_override_styles/panel = SubResource("StyleBoxFlat_itxlc")
 
 [node name="Buttons" type="HBoxContainer" parent="Container/ButtonPanel"]
-visible = false
 layout_mode = 2
 theme_override_constants/separation = 19
 alignment = 1
@@ -357,6 +377,87 @@ visible = false
 layout_mode = 2
 script = ExtResource("10_2eej5")
 metadata/_tab_index = 5
+
+[node name="PlaceablePopup" type="Panel" parent="."]
+clip_contents = true
+custom_minimum_size = Vector2(300, 300)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_72r2y")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="PlaceablePopup"]
+clip_contents = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="PlaceablePopup/VBoxContainer"]
+custom_minimum_size = Vector2(0, 3)
+layout_mode = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="PlaceablePopup/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="Label" type="Label" parent="PlaceablePopup/VBoxContainer/VBoxContainer"]
+layout_mode = 2
+text = "Select Placeable"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="OptionButton" type="OptionButton" parent="PlaceablePopup/VBoxContainer/VBoxContainer"]
+layout_mode = 2
+theme = SubResource("Theme_xka71")
+flat = true
+alignment = 1
+text_overrun_behavior = 1
+autowrap_mode = 2
+selected = 0
+fit_to_longest_item = false
+item_count = 3
+popup/item_0/text = "Health"
+popup/item_0/id = 0
+popup/item_1/text = "Weapon"
+popup/item_1/id = 1
+popup/item_2/text = "Spawn"
+popup/item_2/id = 2
+
+[node name="VBoxContainer2" type="HBoxContainer" parent="PlaceablePopup/VBoxContainer"]
+custom_minimum_size = Vector2(0, 50)
+layout_mode = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="PlaceablePopup/VBoxContainer/VBoxContainer2"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/margin_left = 6
+theme_override_constants/margin_top = 3
+theme_override_constants/margin_right = 6
+theme_override_constants/margin_bottom = 3
+
+[node name="Button" type="Button" parent="PlaceablePopup/VBoxContainer/VBoxContainer2/MarginContainer"]
+layout_mode = 2
+size_flags_horizontal = 0
+text = "Cancel"
+flat = true
+
+[node name="Button2" type="Button" parent="PlaceablePopup/VBoxContainer/VBoxContainer2/MarginContainer"]
+layout_mode = 2
+size_flags_horizontal = 8
+text = "Accept"
+flat = true
+
+[node name="MarginContainer2" type="MarginContainer" parent="PlaceablePopup/VBoxContainer"]
+custom_minimum_size = Vector2(0, 3)
+layout_mode = 2
 
 [connection signal="mouse_entered" from="Container/GridContainer" to="Container/GridContainer" method="_on_mouse_entered"]
 [connection signal="mouse_exited" from="Container/GridContainer" to="Container/GridContainer" method="_on_mouse_exited"]
