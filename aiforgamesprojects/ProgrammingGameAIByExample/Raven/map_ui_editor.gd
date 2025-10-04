@@ -152,3 +152,7 @@ func _on_add_dummy_pressed() -> void:
 
 func _on_cancel_popup_pressed() -> void:
 	weapon_toggle.button_pressed = false
+
+
+func _on_placeable_popup_submitted() -> void:
+	weapon_toggle.button_pressed = false

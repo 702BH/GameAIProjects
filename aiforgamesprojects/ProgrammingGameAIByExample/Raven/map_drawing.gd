@@ -34,8 +34,12 @@ func _draw() -> void:
 				draw_rect(Rect2(node.node_pos.x * World.resolution, node.node_pos.y * World.resolution, World.resolution, World.resolution), Color.WHITE)
 				neighbors = World.graph.edges[node.id]
 				if node.item_type:
-					if node.item_type.item_type == RavenNodeItem.ItemType.WEAPON:
-						draw_circle(World.grid_to_world(node.node_pos.x, node.node_pos.y), 6.0, Color.CRIMSON)
+					match node.item_type.item_type:
+						RavenNodeItem.ItemType.HEALTH:
+							draw_circle(World.grid_to_world(node.node_pos.x, node.node_pos.y), 20.0, Color.GREEN_YELLOW)
+						RavenNodeItem.ItemType.WEAPON:
+							if node.item_type.weapon_type == RavenNodeItemWeapon.WeaponSubtype.SHOTGUN:
+								draw_circle(World.grid_to_world(node.node_pos.x, node.node_pos.y), 20.0, Color.CRIMSON)
 			elif node.node_type == RavenNode.NodeType.SPAWN:
 				draw_rect(Rect2(node.node_pos.x * World.resolution, node.node_pos.y * World.resolution, World.resolution, World.resolution), Color.WHITE)
 				draw_circle(World.grid_to_world(node.node_pos.x, node.node_pos.y), 4.0, Color.REBECCA_PURPLE)

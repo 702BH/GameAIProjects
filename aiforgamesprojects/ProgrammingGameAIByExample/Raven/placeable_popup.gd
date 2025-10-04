@@ -1,6 +1,8 @@
 class_name PlaceablePopUp
 extends Panel
 
+signal submitted
+
 @onready var selection := %PopupSelection
 @onready var cancel := %CancelPopup
 @onready var accept := %AcceptPopup
@@ -42,4 +44,10 @@ func _on_accept_popup_pressed() -> void:
 	# at the selectable
 	#var selected_placeable = selection.get_selected_id()
 	#processing_data.set_placeable_type()
-	processing_data.set_placeable_type(selection.get_selected_id())
+	processing_data.set_placeable_type(selection.get_selected_id()).set_weapon_sub_type(weapon_selection.get_selected_id())
+	#processing_data.s
+	RavenServiceBus.placeable_popup_submitted.emit(processing_data)
+	processing_data = null
+	weapon_selection_container.visible = false
+	visible = false
+	submitted.emit()
