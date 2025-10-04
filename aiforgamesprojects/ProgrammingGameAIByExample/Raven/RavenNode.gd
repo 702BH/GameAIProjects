@@ -2,6 +2,7 @@ class_name RavenNode
 extends "res://ProgrammingGameAIByExample/Graphs/graph_vertex.gd"
 
 enum NodeType {TRAVERSAL, WALL, SPAWN, ITEM}
+enum PlaceableType {Health, Weapon, Spawn}
 var node_type : NodeType
 var node_pos : Vector2
 var is_border : bool

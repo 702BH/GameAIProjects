@@ -427,13 +427,26 @@ text_overrun_behavior = 1
 autowrap_mode = 2
 selected = 0
 fit_to_longest_item = false
-item_count = 3
-popup/item_0/text = "Health"
-popup/item_0/id = 0
-popup/item_1/text = "Weapon"
-popup/item_1/id = 1
-popup/item_2/text = "Spawn"
-popup/item_2/id = 2
+
+[node name="WeaponSelectable" type="VBoxContainer" parent="PlaceablePopup/VBoxContainer/VBoxContainer"]
+visible = false
+layout_mode = 2
+
+[node name="Label" type="Label" parent="PlaceablePopup/VBoxContainer/VBoxContainer/WeaponSelectable"]
+layout_mode = 2
+text = "Select Weapon"
+horizontal_alignment = 1
+
+[node name="WeaponSelection" type="OptionButton" parent="PlaceablePopup/VBoxContainer/VBoxContainer/WeaponSelectable"]
+unique_name_in_owner = true
+layout_mode = 2
+mouse_default_cursor_shape = 2
+theme = SubResource("Theme_xka71")
+flat = true
+alignment = 1
+text_overrun_behavior = 1
+autowrap_mode = 2
+fit_to_longest_item = false
 
 [node name="VBoxContainer2" type="HBoxContainer" parent="PlaceablePopup/VBoxContainer"]
 custom_minimum_size = Vector2(0, 50)
@@ -482,5 +495,7 @@ layout_mode = 2
 [connection signal="file_selected" from="LoadMapDialog" to="." method="_on_load_map_dialog_file_selected"]
 [connection signal="pressed" from="WeaponTypeSelector/VBoxContainer/VBoxContainer2/HBoxContainer2/HBoxContainer/WeaponCancel" to="." method="_on_weapon_cancel_pressed"]
 [connection signal="pressed" from="WeaponTypeSelector/VBoxContainer/VBoxContainer2/HBoxContainer2/HBoxContainer2/WeaponSubmit" to="." method="_on_weapon_submit_pressed"]
+[connection signal="item_selected" from="PlaceablePopup/VBoxContainer/VBoxContainer/PopupSelection" to="PlaceablePopup" method="_on_popup_selection_item_selected"]
 [connection signal="pressed" from="PlaceablePopup/VBoxContainer/VBoxContainer2/MarginContainer/CancelPopup" to="." method="_on_cancel_popup_pressed"]
 [connection signal="pressed" from="PlaceablePopup/VBoxContainer/VBoxContainer2/MarginContainer/CancelPopup" to="PlaceablePopup" method="_on_cancel_popup_pressed"]
+[connection signal="pressed" from="PlaceablePopup/VBoxContainer/VBoxContainer2/MarginContainer/AcceptPopup" to="PlaceablePopup" method="_on_accept_popup_pressed"]

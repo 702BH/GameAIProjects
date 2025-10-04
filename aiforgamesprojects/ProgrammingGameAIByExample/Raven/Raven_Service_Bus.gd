@@ -20,7 +20,7 @@ signal game_start_requested()
 signal dummy_agent_requested()
 
 ## Placeable popup requested from map -> UI
-signal placeable_popup_requested(node: RavenNode)
+signal placeable_popup_requested(data: SelectableData)
 
 ## UI to map change mode
 signal mode_changed(mode: MapDrawing.tool_state)

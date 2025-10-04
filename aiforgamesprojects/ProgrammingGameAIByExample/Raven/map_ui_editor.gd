@@ -42,9 +42,9 @@ func _ready() -> void:
 	RavenServiceBus.placeable_popup_requested.connect(_on_placeable_popup_request.bind())
 
 
-func _on_placeable_popup_request(node: RavenNode) -> void:
+func _on_placeable_popup_request(data: SelectableData) -> void:
 	popup_placebale.visible = true
-	popup_placebale.processing_node = node
+	popup_placebale.processing_data = data
 	
 
 func _on_weapon_popup() -> void:
