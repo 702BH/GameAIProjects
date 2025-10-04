@@ -33,14 +33,18 @@ func _on_popup_submitted(data: SelectableData) -> void:
 		SelectableData.PlaceableType.Health:
 			#print("Health submitted")
 			data.node.set_item_type(RavenNodeItemHealth.new())
+			
 		SelectableData.PlaceableType.Weapon:
+			match data.weapon_sub_type:
+				SelectableData.WeaponSubtype.SHOTGUN:
+					data.node.set_item_type(RavenNodeItemWeapon.new(RavenNodeItemWeapon.WeaponSubtype.SHOTGUN))
 			print("Weapon submitted")
 		SelectableData.PlaceableType.Spawn:
 			#print("Spawn submitted")
 			if data.node.node_type == RavenNode.NodeType.TRAVERSAL:
 				data.node.node_type = RavenNode.NodeType.SPAWN
-			drawer.dirty_nodes.append(data.node)
-			drawer.queue_redraw()
+	drawer.dirty_nodes.append(data.node)
+	drawer.queue_redraw()
 
 func _on_grid_generated() -> void:
 	viewport.render_target_clear_mode = SubViewport.CLEAR_MODE_ONCE
