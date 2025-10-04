@@ -25,6 +25,8 @@ signal placeable_popup_requested(data: SelectableData)
 ## UI to map change mode
 signal mode_changed(mode: MapDrawing.tool_state)
 
+signal placeable_popup_submitted(data: SelectableData)
+
 
 # agent selections
 signal agent_selected(agent: RavenAgent)

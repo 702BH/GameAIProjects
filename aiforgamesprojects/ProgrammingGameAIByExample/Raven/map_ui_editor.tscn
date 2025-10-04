@@ -425,7 +425,6 @@ flat = true
 alignment = 1
 text_overrun_behavior = 1
 autowrap_mode = 2
-selected = 0
 fit_to_longest_item = false
 
 [node name="WeaponSelectable" type="VBoxContainer" parent="PlaceablePopup/VBoxContainer/VBoxContainer"]
@@ -495,6 +494,7 @@ layout_mode = 2
 [connection signal="file_selected" from="LoadMapDialog" to="." method="_on_load_map_dialog_file_selected"]
 [connection signal="pressed" from="WeaponTypeSelector/VBoxContainer/VBoxContainer2/HBoxContainer2/HBoxContainer/WeaponCancel" to="." method="_on_weapon_cancel_pressed"]
 [connection signal="pressed" from="WeaponTypeSelector/VBoxContainer/VBoxContainer2/HBoxContainer2/HBoxContainer2/WeaponSubmit" to="." method="_on_weapon_submit_pressed"]
+[connection signal="submitted" from="PlaceablePopup" to="." method="_on_placeable_popup_submitted"]
 [connection signal="item_selected" from="PlaceablePopup/VBoxContainer/VBoxContainer/PopupSelection" to="PlaceablePopup" method="_on_popup_selection_item_selected"]
 [connection signal="pressed" from="PlaceablePopup/VBoxContainer/VBoxContainer2/MarginContainer/CancelPopup" to="." method="_on_cancel_popup_pressed"]
 [connection signal="pressed" from="PlaceablePopup/VBoxContainer/VBoxContainer2/MarginContainer/CancelPopup" to="PlaceablePopup" method="_on_cancel_popup_pressed"]

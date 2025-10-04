@@ -24,7 +24,23 @@ func _ready() -> void:
 	RavenServiceBus.mode_changed.connect(_on_mode_changed.bind())
 	RavenServiceBus.submitted_weapon.connect(_on_submitted.bind())
 	RavenServiceBus.grid_generated.connect(_on_grid_generated.bind())
+	RavenServiceBus.placeable_popup_submitted.connect(_on_popup_submitted.bind())
 
+
+func _on_popup_submitted(data: SelectableData) -> void:
+	#print("Popup sucessfuly submitted")
+	match data.placeable_type:
+		SelectableData.PlaceableType.Health:
+			#print("Health submitted")
+			data.node.set_item_type(RavenNodeItemHealth.new())
+		SelectableData.PlaceableType.Weapon:
+			print("Weapon submitted")
+		SelectableData.PlaceableType.Spawn:
+			#print("Spawn submitted")
+			if data.node.node_type == RavenNode.NodeType.TRAVERSAL:
+				data.node.node_type = RavenNode.NodeType.SPAWN
+			drawer.dirty_nodes.append(data.node)
+			drawer.queue_redraw()
 
 func _on_grid_generated() -> void:
 	viewport.render_target_clear_mode = SubViewport.CLEAR_MODE_ONCE
