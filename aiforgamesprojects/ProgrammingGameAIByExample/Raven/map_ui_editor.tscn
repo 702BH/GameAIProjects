@@ -1,4 +1,4 @@
-[gd_scene load_steps=20 format=3 uid="uid://c5uea86dlcivm"]
+[gd_scene load_steps=21 format=3 uid="uid://c5uea86dlcivm"]
 
 [ext_resource type="Script" uid="uid://cmclv6r6mrl5b" path="res://ProgrammingGameAIByExample/Raven/map_ui_editor.gd" id="1_ad81b"]
 [ext_resource type="StyleBox" uid="uid://b8a81fdlk5ted" path="res://ProgrammingGameAIByExample/Raven/button_pressed.tres" id="3_birsf"]
@@ -10,6 +10,7 @@
 [ext_resource type="Script" uid="uid://cww7upfvyeedd" path="res://ProgrammingGameAIByExample/Raven/steering_debug.gd" id="8_xka71"]
 [ext_resource type="Script" uid="uid://cshd82ydb2vec" path="res://ProgrammingGameAIByExample/Raven/targeting_debug.gd" id="9_rytgg"]
 [ext_resource type="Script" uid="uid://cpo3h6d7vb6h4" path="res://ProgrammingGameAIByExample/Raven/weapons_debug.gd" id="10_2eej5"]
+[ext_resource type="Script" uid="uid://ci8ky6tb4kk2l" path="res://ProgrammingGameAIByExample/Raven/placeable_popup.gd" id="11_f7lml"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_itxlc"]
 bg_color = Color(0.6, 0.6, 0.6, 0.231373)
@@ -21,7 +22,7 @@ bg_color = Color(0.6, 0.6, 0.6, 0.207843)
 bg_color = Color(0.6, 0.6, 0.6, 0.027451)
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_72r2y"]
-bg_color = Color(0.764706, 0.545098, 0.380392, 0.466667)
+bg_color = Color(0.764706, 0.545098, 0.380392, 0.792157)
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_xka71"]
 bg_color = Color(0.6, 0.6, 0.6, 0)
@@ -94,7 +95,7 @@ layout_mode = 2
 theme_override_styles/pressed = ExtResource("3_birsf")
 toggle_mode = true
 button_group = ExtResource("4_62kta")
-text = "Add Weapon"
+text = "Add Placeable"
 
 [node name="Save" type="Button" parent="Container/ButtonPanel/Buttons"]
 layout_mode = 2
@@ -390,6 +391,7 @@ anchor_bottom = 0.5
 grow_horizontal = 2
 grow_vertical = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_72r2y")
+script = ExtResource("11_f7lml")
 
 [node name="VBoxContainer" type="VBoxContainer" parent="PlaceablePopup"]
 clip_contents = true
@@ -414,8 +416,10 @@ text = "Select Placeable"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="OptionButton" type="OptionButton" parent="PlaceablePopup/VBoxContainer/VBoxContainer"]
+[node name="PopupSelection" type="OptionButton" parent="PlaceablePopup/VBoxContainer/VBoxContainer"]
+unique_name_in_owner = true
 layout_mode = 2
+mouse_default_cursor_shape = 2
 theme = SubResource("Theme_xka71")
 flat = true
 alignment = 1
@@ -443,15 +447,19 @@ theme_override_constants/margin_top = 3
 theme_override_constants/margin_right = 6
 theme_override_constants/margin_bottom = 3
 
-[node name="Button" type="Button" parent="PlaceablePopup/VBoxContainer/VBoxContainer2/MarginContainer"]
+[node name="CancelPopup" type="Button" parent="PlaceablePopup/VBoxContainer/VBoxContainer2/MarginContainer"]
+unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 0
+mouse_default_cursor_shape = 2
 text = "Cancel"
 flat = true
 
-[node name="Button2" type="Button" parent="PlaceablePopup/VBoxContainer/VBoxContainer2/MarginContainer"]
+[node name="AcceptPopup" type="Button" parent="PlaceablePopup/VBoxContainer/VBoxContainer2/MarginContainer"]
+unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 8
+mouse_default_cursor_shape = 2
 text = "Accept"
 flat = true
 
@@ -474,3 +482,5 @@ layout_mode = 2
 [connection signal="file_selected" from="LoadMapDialog" to="." method="_on_load_map_dialog_file_selected"]
 [connection signal="pressed" from="WeaponTypeSelector/VBoxContainer/VBoxContainer2/HBoxContainer2/HBoxContainer/WeaponCancel" to="." method="_on_weapon_cancel_pressed"]
 [connection signal="pressed" from="WeaponTypeSelector/VBoxContainer/VBoxContainer2/HBoxContainer2/HBoxContainer2/WeaponSubmit" to="." method="_on_weapon_submit_pressed"]
+[connection signal="pressed" from="PlaceablePopup/VBoxContainer/VBoxContainer2/MarginContainer/CancelPopup" to="." method="_on_cancel_popup_pressed"]
+[connection signal="pressed" from="PlaceablePopup/VBoxContainer/VBoxContainer2/MarginContainer/CancelPopup" to="PlaceablePopup" method="_on_cancel_popup_pressed"]

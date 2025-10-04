@@ -1,7 +1,7 @@
 class_name MapDrawingInput
 extends Node2D
 
-enum tool_state {NONE, WALL, SPAWNS, WEAPONS}
+enum tool_state {NONE, WALL, SPAWNS, WEAPONS, PLACEABLE}
 enum ui_state {MAP_EDITOR, MAP_RUNNING, MAP_SELECTIONS}
 
 @onready var drawer := $SubViewport/MapDrawing
@@ -34,6 +34,8 @@ func _on_grid_generated() -> void:
 func _on_mode_changed(mode: tool_state) -> void:
 	print(mode)
 	current_state = mode
+	print("MAP STATE CHANGED: ")
+	print(current_state)
 
 func _on_submitted(weapon: RavenNodeItemWeapon.WeaponSubtype) -> void:
 	if RavenServiceBus.selected_node:
@@ -99,7 +101,16 @@ func _process(delta: float) -> void:
 				RavenServiceBus.weapon_popup.emit()
 			drawer.dirty_nodes.append(node)
 			drawer.queue_redraw()
-	
+	elif current_state == tool_state.PLACEABLE:
+		# We are in the placeable state
+		if Input.is_action_pressed("place"):
+			var location = World.position_to_grid(get_global_mouse_position())
+			var node: RavenNode = World.grid_world[location.y][location.x]
+			# if node is valid
+			if node.node_type == RavenNode.NodeType.TRAVERSAL:
+				current_state = tool_state.NONE
+				selected_position = location
+				RavenServiceBus.placeable_popup_requested.emit(node)
 
 func update_tool_state(state: tool_state) -> void:
 	current_state = state
