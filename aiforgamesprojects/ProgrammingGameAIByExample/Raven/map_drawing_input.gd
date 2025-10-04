@@ -110,7 +110,9 @@ func _process(delta: float) -> void:
 			if node.node_type == RavenNode.NodeType.TRAVERSAL:
 				current_state = tool_state.NONE
 				selected_position = location
-				RavenServiceBus.placeable_popup_requested.emit(node)
+				var selectable_data := SelectableData.new()
+				selectable_data.set_node(node)
+				RavenServiceBus.placeable_popup_requested.emit(selectable_data)
 
 func update_tool_state(state: tool_state) -> void:
 	current_state = state
