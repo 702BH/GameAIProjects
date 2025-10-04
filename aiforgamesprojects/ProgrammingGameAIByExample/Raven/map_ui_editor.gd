@@ -18,24 +18,34 @@ signal start_map_request
 @onready var debug_buttons_container := $Container/ButtonPanel/DebugMapUI
 
 
+@onready var popup_placebale : PlaceablePopUp = $PlaceablePopup
+
+
+
 var loaded_map := ""
 var map_drawer
 
 var selected_agent : RavenAgent
 
+var processing_node: RavenNode
+
 
 func _ready() -> void:
 	$Container/ButtonPanel/Buttons.visible = true
 	$Container/ButtonPanel/RunMapUI.visible = false
+	popup_placebale.visible = false
 	agent_debugger.visible = false
 	debug_buttons_container.visible = false
 	RavenServiceBus.weapon_popup.connect(_on_weapon_popup.bind())
 	RavenServiceBus.agent_selected.connect(on_agent_selected.bind())
 	RavenServiceBus.agent_delesected.connect(on_agent_deselected.bind())
+	RavenServiceBus.placeable_popup_requested.connect(_on_placeable_popup_request.bind())
 
 
-
-
+func _on_placeable_popup_request(node: RavenNode) -> void:
+	popup_placebale.visible = true
+	popup_placebale.processing_node = node
+	
 
 func _on_weapon_popup() -> void:
 	print("should be visible")
@@ -97,9 +107,9 @@ func _on_random_path_pressed() -> void:
 
 func _on_weapon_toggled(toggled_on: bool) -> void:
 	if toggled_on:
-		RavenServiceBus.mode_changed.emit(MapDrawing.tool_state.WEAPONS)
+		RavenServiceBus.mode_changed.emit(MapDrawingInput.tool_state.PLACEABLE)
 	else:
-		RavenServiceBus.mode_changed.emit(MapDrawing.tool_state.NONE)
+		RavenServiceBus.mode_changed.emit(MapDrawingInput.tool_state.NONE)
 
 
 func _on_weapon_cancel_pressed() -> void:
@@ -138,3 +148,7 @@ func update_debug_ui(selected: bool) -> void:
 
 func _on_add_dummy_pressed() -> void:
 	RavenServiceBus.dummy_agent_requested.emit()
+
+
+func _on_cancel_popup_pressed() -> void:
+	weapon_toggle.button_pressed = false

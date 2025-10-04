@@ -3,7 +3,7 @@ extends Node
 
 var selected_node: RavenNode = null
 
-signal mode_changed(mode: MapDrawing.tool_state)
+
 signal weapon_popup()
 signal submitted_weapon(weapon: RavenNodeItemWeapon.WeaponSubtype)
 
@@ -18,6 +18,13 @@ signal agent_goal_changed(agent: RavenAgent, goal: GoalEvaluator.GoalType)
 # UI Requests
 signal game_start_requested()
 signal dummy_agent_requested()
+
+## Placeable popup requested from map -> UI
+signal placeable_popup_requested(node: RavenNode)
+
+## UI to map change mode
+signal mode_changed(mode: MapDrawing.tool_state)
+
 
 # agent selections
 signal agent_selected(agent: RavenAgent)
