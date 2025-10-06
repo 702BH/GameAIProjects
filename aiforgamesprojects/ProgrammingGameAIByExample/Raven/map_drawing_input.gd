@@ -38,6 +38,12 @@ func _on_popup_submitted(data: SelectableData) -> void:
 			match data.weapon_sub_type:
 				SelectableData.WeaponSubtype.SHOTGUN:
 					data.node.set_item_type(RavenNodeItemWeapon.new(RavenNodeItemWeapon.WeaponSubtype.SHOTGUN))
+				SelectableData.WeaponSubtype.ROCKET_LAUNCHER:
+					data.node.set_item_type(RavenNodeItemWeapon.new(RavenNodeItemWeapon.WeaponSubtype.ROCKET_LAUNCHER))
+				SelectableData.WeaponSubtype.BLASTER:
+					data.node.set_item_type(RavenNodeItemWeapon.new(RavenNodeItemWeapon.WeaponSubtype.BLASTER))
+				SelectableData.WeaponSubtype.RAIL_GUN:
+					data.node.set_item_type(RavenNodeItemWeapon.new(RavenNodeItemWeapon.WeaponSubtype.RAIL_GUN))
 			print("Weapon submitted")
 		SelectableData.PlaceableType.Spawn:
 			#print("Spawn submitted")
@@ -48,7 +54,9 @@ func _on_popup_submitted(data: SelectableData) -> void:
 
 func _on_grid_generated() -> void:
 	viewport.render_target_clear_mode = SubViewport.CLEAR_MODE_ONCE
-	drawer.dirty_nodes = World.graph.nodes.duplicate()
+	for node in World.graph.nodes:
+		drawer.dirty_nodes.append(node)
+	#drawer.dirty_nodes = World.graph.nodes.duplicate()
 	drawer.queue_redraw()
 
 func _on_mode_changed(mode: tool_state) -> void:
