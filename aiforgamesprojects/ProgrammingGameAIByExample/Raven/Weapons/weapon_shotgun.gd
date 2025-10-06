@@ -12,7 +12,28 @@ func _init(_agent: RavenAgent) -> void:
 	max_rounds_carried = 30
 	time_next_available = 2.5
 	rate_of_fire = 0.5
+	num_balls_in_shell = 3
+	spread = 20.0
 	initialise_fuzzy_module()
+
+
+func shoot_at(pos: Vector2) -> void:
+	if num_rounds_left > 0 and is_ready_for_next_shot():
+		# calculate the spread of the pellets and add a pellet for each
+		for i in range(0, num_balls_in_shell):
+			var deviation:float = randi_range(0, spread) + randi_range(0, spread) - spread
+			var adjusted_pos = pos - owner_agent.position
+			adjusted_pos = adjusted_pos.rotated(deviation)
+			
+			var bullet = ProjectilePellet.new(adjusted_pos)
+			bullet.position = owner_agent.position
+			bullet.heading = (adjusted_pos - bullet.position).normalized()
+			RavenServiceBus.fire_projectile.emit(bullet)
+	num_rounds_left -= 1
+	update_time_weapon_is_next_available()
+	
+	pass
+
 
 func get_desirability(dis_to_target:float) -> float:
 	if num_rounds_left == 0:

@@ -1,7 +1,7 @@
 class_name RavenWeapon
 extends RefCounted
 
-enum WeaponType {SHOTGUN, BLASTER}
+enum WeaponType {SHOTGUN, BLASTER, ROCKET_LAUNCHER, RAIL_GUN}
 
 var owner_agent : RavenAgent
 var weapon_type : WeaponType
