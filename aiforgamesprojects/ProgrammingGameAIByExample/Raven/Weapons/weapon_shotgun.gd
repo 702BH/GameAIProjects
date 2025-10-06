@@ -8,12 +8,12 @@ var spread: float
 func _init(_agent: RavenAgent) -> void:
 	super(_agent)
 	weapon_type = WeaponType.SHOTGUN
-	num_rounds_left = 30
-	max_rounds_carried = 30
-	time_next_available = 2.5
-	rate_of_fire = 0.5
-	num_balls_in_shell = 3
-	spread = 20.0
+	num_rounds_left = 3
+	max_rounds_carried = 15
+	time_next_available = 0.0
+	rate_of_fire = 0.3
+	num_balls_in_shell = 10
+	spread = 0.05
 	initialise_fuzzy_module()
 
 
@@ -22,17 +22,17 @@ func shoot_at(pos: Vector2) -> void:
 		# calculate the spread of the pellets and add a pellet for each
 		for i in range(0, num_balls_in_shell):
 			var deviation:float = randi_range(0, spread) + randi_range(0, spread) - spread
-			var adjusted_pos = pos - owner_agent.position
-			adjusted_pos = adjusted_pos.rotated(deviation)
+			#var adjusted_pos = pos - owner_agent.position
+			pos = pos.rotated(deviation)
 			
-			var bullet = ProjectilePellet.new(adjusted_pos)
+			var bullet = ProjectilePellet.new(pos)
 			bullet.position = owner_agent.position
-			bullet.heading = (adjusted_pos - bullet.position).normalized()
+			bullet.heading = (pos - bullet.position).normalized()
 			RavenServiceBus.fire_projectile.emit(bullet)
-	num_rounds_left -= 1
-	update_time_weapon_is_next_available()
+		num_rounds_left -= 1
+		update_time_weapon_is_next_available()
 	
-	pass
+
 
 
 func get_desirability(dis_to_target:float) -> float:

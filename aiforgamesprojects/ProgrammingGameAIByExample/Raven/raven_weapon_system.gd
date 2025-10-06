@@ -20,7 +20,10 @@ func _init(_agent: RavenAgent, _react_time: float, _acc: float) -> void:
 	weapon_map.clear()
 	
 	weapon_map[RavenWeapon.WeaponType.BLASTER] = current_weapon
+	# debug purposes
 	weapon_map[RavenWeapon.WeaponType.SHOTGUN] = WeaponShotgun.new(owner_agent)
+	#weapon_map[RavenWeapon.WeaponType.ROCKET_LAUNCHER] = WeaponRocketLauncher.new(owner_agent)
+	#weapon_map[RavenWeapon.WeaponType.RAIL_GUN] = WeaponRailGun.new(owner_agent)
 
 func predict_future_position_of_target() -> Vector2:
 	return Vector2.ZERO
@@ -69,6 +72,13 @@ func select_weapon() -> void:
 		#print("No target, selecting: ", )
 		current_weapon = weapon_map[RavenWeapon.WeaponType.BLASTER]
 		#print(RavenWeapon.WeaponType.keys()[current_weapon.weapon_type])
+	
+	if owner_agent.debug_regulator.is_ready():
+		print("DEBUGGING")
+		print(current_weapon)
+		var data = WeaponData.build().set_agent(owner_agent).set_system(DebugData.Systems.WEAPON).set_step(WeaponData.Steps.WEAPON_SELECTION)
+		data.add_message(str( RavenWeapon.WeaponType.keys()[current_weapon.weapon_type]))
+		RavenServiceBus.debug_event.emit(data)
 
 func add_weapon(weapon_type: RavenWeapon.WeaponType) -> void:
 	

@@ -20,7 +20,8 @@ var selected_agent: RavenAgent
 func _ready() -> void:
 	RavenServiceBus.debug_event.connect(on_debug_event.bind())
 	systems_dict = {
-		DebugData.Systems.BRAIN : brain
+		DebugData.Systems.BRAIN : brain,
+		DebugData.Systems.WEAPON : weapons
 	}
 
 func on_debug_event(data: DebugData) -> void:
