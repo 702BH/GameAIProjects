@@ -30,4 +30,4 @@ func _process(delta: float) -> void:
 	queue_redraw()
 
 func _draw() -> void:
-	draw_circle(Vector2.ZERO, radius, Color.AQUAMARINE)
+	draw_circle(Vector2.ZERO, radius, Color.CRIMSON)
