@@ -1,4 +1,4 @@
-[gd_scene load_steps=21 format=3 uid="uid://c5uea86dlcivm"]
+[gd_scene load_steps=22 format=3 uid="uid://c5uea86dlcivm"]
 
 [ext_resource type="Script" uid="uid://cmclv6r6mrl5b" path="res://ProgrammingGameAIByExample/Raven/map_ui_editor.gd" id="1_ad81b"]
 [ext_resource type="StyleBox" uid="uid://b8a81fdlk5ted" path="res://ProgrammingGameAIByExample/Raven/button_pressed.tres" id="3_birsf"]
@@ -7,6 +7,7 @@
 [ext_resource type="Script" uid="uid://cq0e5qmniwqku" path="res://ProgrammingGameAIByExample/Raven/brain_debug.gd" id="5_4vp7i"]
 [ext_resource type="Script" uid="uid://22bijlkl0fsf" path="res://ProgrammingGameAIByExample/Raven/memory_debug.gd" id="6_72r2y"]
 [ext_resource type="Script" uid="uid://ccfoo3kxd1c8x" path="res://ProgrammingGameAIByExample/Raven/paths_debug.gd" id="7_f7lml"]
+[ext_resource type="SystemFont" uid="uid://x5cavc84l2n0" path="res://ProgrammingGameAIByExample/Raven/raven_font.tres" id="7_xka71"]
 [ext_resource type="Script" uid="uid://cww7upfvyeedd" path="res://ProgrammingGameAIByExample/Raven/steering_debug.gd" id="8_xka71"]
 [ext_resource type="Script" uid="uid://cshd82ydb2vec" path="res://ProgrammingGameAIByExample/Raven/targeting_debug.gd" id="9_rytgg"]
 [ext_resource type="Script" uid="uid://cpo3h6d7vb6h4" path="res://ProgrammingGameAIByExample/Raven/weapons_debug.gd" id="10_2eej5"]
@@ -309,10 +310,11 @@ layout_mode = 2
 [node name="TabContainer" type="TabContainer" parent="CollapsableDebug/PanelContainer/Panels"]
 layout_mode = 2
 tab_alignment = 1
-current_tab = 0
+current_tab = 1
 deselect_enabled = true
 
 [node name="Brain" type="ScrollContainer" parent="CollapsableDebug/PanelContainer/Panels/TabContainer"]
+visible = false
 custom_minimum_size = Vector2(300, 200)
 layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_62kta")
@@ -349,34 +351,52 @@ custom_minimum_size = Vector2(300, 100)
 layout_mode = 2
 editable = false
 
+[node name="Weapons" type="ScrollContainer" parent="CollapsableDebug/PanelContainer/Panels/TabContainer"]
+custom_minimum_size = Vector2(300, 200)
+layout_mode = 2
+script = ExtResource("10_2eej5")
+metadata/_tab_index = 1
+
+[node name="DebugContainer" type="VBoxContainer" parent="CollapsableDebug/PanelContainer/Panels/TabContainer/Weapons"]
+layout_mode = 2
+
+[node name="Weapon" type="HBoxContainer" parent="CollapsableDebug/PanelContainer/Panels/TabContainer/Weapons/DebugContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="CollapsableDebug/PanelContainer/Panels/TabContainer/Weapons/DebugContainer/Weapon"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("7_xka71")
+text = "Selected Weapon:"
+
+[node name="weapon" type="Label" parent="CollapsableDebug/PanelContainer/Panels/TabContainer/Weapons/DebugContainer/Weapon"]
+custom_minimum_size = Vector2(150, 50)
+layout_mode = 2
+text = "None"
+horizontal_alignment = 1
+autowrap_mode = 2
+
 [node name="Memory" type="ScrollContainer" parent="CollapsableDebug/PanelContainer/Panels/TabContainer"]
 visible = false
 layout_mode = 2
 script = ExtResource("6_72r2y")
-metadata/_tab_index = 1
+metadata/_tab_index = 2
 
 [node name="Paths" type="ScrollContainer" parent="CollapsableDebug/PanelContainer/Panels/TabContainer"]
 visible = false
 layout_mode = 2
 script = ExtResource("7_f7lml")
-metadata/_tab_index = 2
+metadata/_tab_index = 3
 
 [node name="Steering" type="ScrollContainer" parent="CollapsableDebug/PanelContainer/Panels/TabContainer"]
 visible = false
 layout_mode = 2
 script = ExtResource("8_xka71")
-metadata/_tab_index = 3
+metadata/_tab_index = 4
 
 [node name="Targeting" type="ScrollContainer" parent="CollapsableDebug/PanelContainer/Panels/TabContainer"]
 visible = false
 layout_mode = 2
 script = ExtResource("9_rytgg")
-metadata/_tab_index = 4
-
-[node name="Weapons" type="ScrollContainer" parent="CollapsableDebug/PanelContainer/Panels/TabContainer"]
-visible = false
-layout_mode = 2
-script = ExtResource("10_2eej5")
 metadata/_tab_index = 5
 
 [node name="PlaceablePopup" type="Panel" parent="."]

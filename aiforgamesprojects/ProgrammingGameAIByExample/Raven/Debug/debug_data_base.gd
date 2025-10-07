@@ -2,7 +2,7 @@ class_name DebugData
 extends RefCounted
 
 
-enum Systems {BRAIN, STEERING}
+enum Systems {BRAIN, STEERING, WEAPON}
 
 
 var agent: RavenAgent

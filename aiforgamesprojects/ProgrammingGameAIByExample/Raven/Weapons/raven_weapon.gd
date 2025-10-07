@@ -12,6 +12,15 @@ var time_next_available : float
 var rate_of_fire : float
 var last_desirability_score:float
 
+
+static var projectiles_map = {
+	WeaponType.SHOTGUN : 50.0,
+	WeaponType.BLASTER : 50.0,
+	WeaponType.ROCKET_LAUNCHER : 30.0,
+	WeaponType.RAIL_GUN : 80.0
+}
+
+
 func _init(_agent: RavenAgent) -> void:
 	owner_agent = _agent
 	fuzzy_module = FuzzyModule.new()

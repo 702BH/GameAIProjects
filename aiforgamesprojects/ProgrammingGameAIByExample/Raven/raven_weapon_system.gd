@@ -20,10 +20,20 @@ func _init(_agent: RavenAgent, _react_time: float, _acc: float) -> void:
 	weapon_map.clear()
 	
 	weapon_map[RavenWeapon.WeaponType.BLASTER] = current_weapon
+	# debug purposes
 	weapon_map[RavenWeapon.WeaponType.SHOTGUN] = WeaponShotgun.new(owner_agent)
+	weapon_map[RavenWeapon.WeaponType.ROCKET_LAUNCHER] = WeaponRocketLauncher.new(owner_agent)
+	weapon_map[RavenWeapon.WeaponType.RAIL_GUN] = WeaponRailGun.new(owner_agent)
 
 func predict_future_position_of_target() -> Vector2:
-	return Vector2.ZERO
+	var max_speed:float = RavenWeapon.projectiles_map[current_weapon.weapon_type]
+	
+	var vec_to_enemy = owner_agent.targeting_system.current_target.position - owner_agent.position
+	
+	var look_ahead_time : float = vec_to_enemy.length() / (max_speed + owner_agent.targeting_system.current_target.max_speed)
+	
+	return owner_agent.targeting_system.current_target.position + owner_agent.targeting_system.current_target.velocity * look_ahead_time
+
 
 func add_noise_to_aim(aiming_pos: Vector2) -> Vector2:
 	return Vector2(aiming_pos.x + randf_range(-0.5, 0.5), aiming_pos.y + randf_range(-0.5, 0.5))
@@ -34,12 +44,20 @@ func take_aim_and_shoot() -> void:
 		if owner_agent.targeting_system.current_target:
 			var aiming_pos: Vector2 = owner_agent.targeting_system.current_target.position
 			
+			if current_weapon.weapon_type == RavenWeapon.WeaponType.ROCKET_LAUNCHER or current_weapon.weapon_type == RavenWeapon.WeaponType.BLASTER:
+				aiming_pos = predict_future_position_of_target()
+				if owner_agent.targeting_system.get_time_target_has_been_visible() > reaction_time:
+					#aiming_pos = add_noise_to_aim(aiming_pos)
+					current_weapon.shoot_at(aiming_pos)
+			
+			
 			# if weapon aimed correctly
 			# if been in view for period longer than reaction time
 			# shoot
-			if owner_agent.targeting_system.get_time_target_has_been_visible() > reaction_time:
-				#aiming_pos = add_noise_to_aim(aiming_pos)
-				current_weapon.shoot_at(aiming_pos)
+			else:
+				if owner_agent.targeting_system.get_time_target_has_been_visible() > reaction_time:
+					#aiming_pos = add_noise_to_aim(aiming_pos)
+					current_weapon.shoot_at(aiming_pos)
 
 func select_weapon() -> void:
 	if owner_agent.targeting_system.current_target:
@@ -69,6 +87,13 @@ func select_weapon() -> void:
 		#print("No target, selecting: ", )
 		current_weapon = weapon_map[RavenWeapon.WeaponType.BLASTER]
 		#print(RavenWeapon.WeaponType.keys()[current_weapon.weapon_type])
+	
+	if owner_agent.debug_regulator.is_ready():
+		print("DEBUGGING")
+		print(current_weapon)
+		var data = WeaponData.build().set_agent(owner_agent).set_system(DebugData.Systems.WEAPON).set_step(WeaponData.Steps.WEAPON_SELECTION)
+		data.add_message(str( RavenWeapon.WeaponType.keys()[current_weapon.weapon_type]))
+		RavenServiceBus.debug_event.emit(data)
 
 func add_weapon(weapon_type: RavenWeapon.WeaponType) -> void:
 	
