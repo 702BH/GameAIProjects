@@ -70,3 +70,7 @@ func add_goal_attack_target() -> void:
 		remove_all_subgoals()
 		add_subgoal(GoalAttackTarget.new(owner_agent))
 		RavenServiceBus.agent_goal_changed.emit(owner_agent, GoalEvaluator.GoalType.ATTACK_TARGET)
+
+
+func add_goal_get_item(item: RavenNodeItem.ItemType) -> void:
+	pass

@@ -1,0 +1,27 @@
+class_name GetWeaponGoalEvaluator
+extends "res://ProgrammingGameAIByExample/Raven/Goals/goal_evaluator.gd"
+
+var item_type : RavenNodeItem.ItemType
+var weapon_type : RavenWeapon.WeaponType
+
+
+func _init(it: RavenNodeItem.ItemType, wt: RavenWeapon.WeaponType) -> void:
+	goal_type = GoalType.GET_WEAPON
+	item_type = it
+	weapon_type = wt
+
+
+func calculate_desirability(agent: RavenAgent) -> float:
+	var distance:float = RavenFeature.distance_to_item(agent, item_type)
+	#return desriability
+	if distance == 1:
+		return 0.0
+	else:
+		var tweaker:float = 0.15
+		var health : float = RavenFeature.health(agent)
+		var weapon_strength: float = RavenFeature.individual_weapon_strength(agent, weapon_type)
+		var desirability : float = (tweaker * health * (1-weapon_strength)/distance)
+		return desirability
+
+func set_goal(agent: RavenAgent) -> void:
+	agent.brain.add_goal_get_item(item_type)
