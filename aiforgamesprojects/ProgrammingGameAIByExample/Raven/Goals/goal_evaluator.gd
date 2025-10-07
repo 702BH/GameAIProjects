@@ -2,7 +2,7 @@ class_name GoalEvaluator
 extends RefCounted
 
 
-enum GoalType {EXPLORE, ATTACK_TARGET}
+enum GoalType {EXPLORE, ATTACK_TARGET, GET_WEAPON}
 var goal_type: GoalType
 
 func calculate_desirability(agent: RavenAgent) -> float:
