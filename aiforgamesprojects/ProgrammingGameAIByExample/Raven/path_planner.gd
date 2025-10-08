@@ -7,6 +7,13 @@ var type_map = {
 	RavenNodeItem.ItemType.WEAPON : Callable(self, "is_weapon")
 }
 
+var item_map = {
+	RavenNodeItem.ItemSubType.SHOTGUN : Callable(self, "is_shotgun"),
+	RavenNodeItem.ItemSubType.ROCKET_LAUNCHER : Callable(self, "is_rocket_launcher"),
+	RavenNodeItem.ItemSubType.RAIL_GUN : Callable(self, "is_rail_gun"),
+	RavenNodeItem.ItemSubType.HEALTH : Callable(self, "is_health")
+}
+
 func _init(_agent: RavenAgent) -> void:
 	owner_agent = _agent
 
@@ -17,6 +24,12 @@ func get_random_path(agent_pos: Vector2) -> Array:
 		#return return_path
 	else:
 		return []
+
+func get_path_to_item(agent_pos: Vector2, item: RavenNodeItem.ItemSubType) -> Array:
+	var return_path = World.graph.dijkstras(get_nearest_node(agent_pos).id, item_map.get(item))
+	if !return_path.is_empty():
+		return smooth_path_edges_quick(return_path)
+	return []
 
 
 func get_path_to_target(target_pos: Vector2, agent_pos: Vector2) -> Array:
@@ -38,9 +51,31 @@ func get_nearest_node(pos: Vector2) -> RavenNode:
 func is_shotgun(node: RavenNode) -> bool:
 	if node.node_type == null:
 		return false
-	if node.item_type is RavenNodeItemWeapon:
+	if node.item_type.item_sub_type == RavenNodeItem.ItemSubType.SHOTGUN:
 		return true
 	return false
+
+func is_rocket_launcher(node: RavenNode) -> bool:
+	if node.node_type == null:
+		return false
+	if node.item_type.item_sub_type == RavenNodeItem.ItemSubType.ROCKET_LAUNCHER:
+		return true
+	return false
+
+func is_rail_gun(node: RavenNode) -> bool:
+	if node.node_type == null:
+		return false
+	if node.item_type.item_sub_type == RavenNodeItem.ItemSubType.RAIL_GUN:
+		return true
+	return false
+
+func is_health(node: RavenNode) -> bool:
+	if node.node_type == null:
+		return false
+	if node.item_type.item_sub_type == RavenNodeItem.ItemSubType.HEALTH:
+		return true
+	return false
+
 
 func is_weapon(node: RavenNode) -> bool:
 	if node.node_type == null:

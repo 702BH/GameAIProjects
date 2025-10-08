@@ -11,8 +11,6 @@ static var enum_map = {
 	WeaponSubtype.RAIL_GUN : "Rail Gun"
 }
 
-var weapon_type
-
-func _init(_weapon_type: WeaponSubtype) -> void:
+func _init(_weapon_type: ItemSubType) -> void:
 	super._init(ItemType.WEAPON)
-	weapon_type = _weapon_type
+	item_sub_type = _weapon_type

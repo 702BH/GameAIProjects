@@ -72,5 +72,8 @@ func add_goal_attack_target() -> void:
 		RavenServiceBus.agent_goal_changed.emit(owner_agent, GoalEvaluator.GoalType.ATTACK_TARGET)
 
 
-func add_goal_get_item(item: RavenNodeItem.ItemType) -> void:
-	pass
+func add_goal_get_item(item: RavenNodeItem.ItemSubType) -> void:
+	var goal = GoalGetItem.goal_to_item.get(item)
+	if not_present(goal):
+		remove_all_subgoals()
+		add_subgoal(GoalGetItem.new(owner_agent, item))

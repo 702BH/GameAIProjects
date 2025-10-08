@@ -3,12 +3,14 @@ extends "res://ProgrammingGameAIByExample/Raven/Goals/goal_evaluator.gd"
 
 var item_type : RavenNodeItem.ItemType
 var weapon_type : RavenWeapon.WeaponType
+var item_sub_type: RavenNodeItem.ItemSubType
 
 
-func _init(it: RavenNodeItem.ItemType, wt: RavenWeapon.WeaponType) -> void:
+func _init(it: RavenNodeItem.ItemType, wt: RavenWeapon.WeaponType, sub_type: RavenNodeItem.ItemSubType) -> void:
 	goal_type = GoalType.GET_WEAPON
 	item_type = it
 	weapon_type = wt
+	item_sub_type = sub_type
 
 
 func calculate_desirability(agent: RavenAgent) -> float:
@@ -24,4 +26,4 @@ func calculate_desirability(agent: RavenAgent) -> float:
 		return desirability
 
 func set_goal(agent: RavenAgent) -> void:
-	agent.brain.add_goal_get_item(item_type)
+	agent.brain.add_goal_get_item(item_sub_type)

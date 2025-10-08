@@ -38,13 +38,13 @@ func _draw() -> void:
 						RavenNodeItem.ItemType.HEALTH:
 							draw_circle(World.grid_to_world(node.node_pos.x, node.node_pos.y), 20.0, Color.GREEN_YELLOW)
 						RavenNodeItem.ItemType.WEAPON:
-							if node.item_type.weapon_type == RavenNodeItemWeapon.WeaponSubtype.SHOTGUN:
+							if node.item_type.item_sub_type == RavenNodeItem.ItemSubType.SHOTGUN:
 								draw_circle(World.grid_to_world(node.node_pos.x, node.node_pos.y), 20.0, Color.CRIMSON)
-							elif node.item_type.weapon_type == RavenNodeItemWeapon.WeaponSubtype.ROCKET_LAUNCHER:
+							elif node.item_type.item_sub_type == RavenNodeItem.ItemSubType.ROCKET_LAUNCHER:
 								draw_circle(World.grid_to_world(node.node_pos.x, node.node_pos.y), 20.0, Color.AQUA)
-							elif node.item_type.weapon_type == RavenNodeItemWeapon.WeaponSubtype.BLASTER:
+							elif node.item_type.item_sub_type == RavenNodeItem.ItemSubType.BLASTER:
 								draw_circle(World.grid_to_world(node.node_pos.x, node.node_pos.y), 20.0, Color.BLUE_VIOLET)#
-							elif node.item_type.weapon_type == RavenNodeItemWeapon.WeaponSubtype.RAIL_GUN:
+							elif node.item_type.item_sub_type == RavenNodeItem.ItemSubType.RAIL_GUN:
 								draw_circle(World.grid_to_world(node.node_pos.x, node.node_pos.y), 20.0, Color.CORAL)
 			elif node.node_type == RavenNode.NodeType.SPAWN:
 				draw_rect(Rect2(node.node_pos.x * World.resolution, node.node_pos.y * World.resolution, World.resolution, World.resolution), Color.WHITE)
