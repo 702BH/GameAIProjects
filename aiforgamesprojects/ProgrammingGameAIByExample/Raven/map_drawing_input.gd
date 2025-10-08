@@ -37,13 +37,13 @@ func _on_popup_submitted(data: SelectableData) -> void:
 		SelectableData.PlaceableType.Weapon:
 			match data.weapon_sub_type:
 				SelectableData.WeaponSubtype.SHOTGUN:
-					data.node.set_item_type(RavenNodeItemWeapon.new(RavenNodeItemWeapon.WeaponSubtype.SHOTGUN))
+					data.node.set_item_type(RavenNodeItemWeapon.new(RavenNodeItem.ItemSubType.SHOTGUN))
 				SelectableData.WeaponSubtype.ROCKET_LAUNCHER:
-					data.node.set_item_type(RavenNodeItemWeapon.new(RavenNodeItemWeapon.WeaponSubtype.ROCKET_LAUNCHER))
+					data.node.set_item_type(RavenNodeItemWeapon.new(RavenNodeItem.ItemSubType.ROCKET_LAUNCHER))
 				SelectableData.WeaponSubtype.BLASTER:
-					data.node.set_item_type(RavenNodeItemWeapon.new(RavenNodeItemWeapon.WeaponSubtype.BLASTER))
+					data.node.set_item_type(RavenNodeItemWeapon.new(RavenNodeItem.ItemSubType.BLASTER))
 				SelectableData.WeaponSubtype.RAIL_GUN:
-					data.node.set_item_type(RavenNodeItemWeapon.new(RavenNodeItemWeapon.WeaponSubtype.RAIL_GUN))
+					data.node.set_item_type(RavenNodeItemWeapon.new(RavenNodeItem.ItemSubType.RAIL_GUN))
 			print("Weapon submitted")
 		SelectableData.PlaceableType.Spawn:
 			#print("Spawn submitted")
@@ -65,7 +65,7 @@ func _on_mode_changed(mode: tool_state) -> void:
 	print("MAP STATE CHANGED: ")
 	print(current_state)
 
-func _on_submitted(weapon: RavenNodeItemWeapon.WeaponSubtype) -> void:
+func _on_submitted(weapon: RavenNodeItem.ItemSubType) -> void:
 	if RavenServiceBus.selected_node:
 		var item := RavenNodeItemWeapon.new(weapon)
 		RavenServiceBus.selected_node.set_item_type(item)
