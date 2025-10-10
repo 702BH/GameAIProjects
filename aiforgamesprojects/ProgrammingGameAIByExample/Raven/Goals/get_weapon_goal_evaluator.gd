@@ -1,14 +1,12 @@
 class_name GetWeaponGoalEvaluator
 extends "res://ProgrammingGameAIByExample/Raven/Goals/goal_evaluator.gd"
 
-var item_type : RavenNodeItem.ItemType
 var weapon_type : RavenWeapon.WeaponType
 var item_sub_type: RavenNodeItem.ItemSubType
 
 
-func _init(it: RavenNodeItem.ItemType, wt: RavenWeapon.WeaponType, sub_type: RavenNodeItem.ItemSubType) -> void:
+func _init(wt: RavenWeapon.WeaponType, sub_type: RavenNodeItem.ItemSubType) -> void:
 	goal_type = GoalType.GET_WEAPON
-	item_type = it
 	weapon_type = wt
 	item_sub_type = sub_type
 

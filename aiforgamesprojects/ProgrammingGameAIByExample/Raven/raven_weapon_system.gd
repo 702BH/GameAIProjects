@@ -22,8 +22,8 @@ func _init(_agent: RavenAgent, _react_time: float, _acc: float) -> void:
 	weapon_map[RavenWeapon.WeaponType.BLASTER] = current_weapon
 	# debug purposes
 	weapon_map[RavenWeapon.WeaponType.SHOTGUN] = WeaponShotgun.new(owner_agent)
-	weapon_map[RavenWeapon.WeaponType.ROCKET_LAUNCHER] = WeaponRocketLauncher.new(owner_agent)
-	weapon_map[RavenWeapon.WeaponType.RAIL_GUN] = WeaponRailGun.new(owner_agent)
+	#weapon_map[RavenWeapon.WeaponType.ROCKET_LAUNCHER] = WeaponRocketLauncher.new(owner_agent)
+	#weapon_map[RavenWeapon.WeaponType.RAIL_GUN] = WeaponRailGun.new(owner_agent)
 
 func predict_future_position_of_target() -> Vector2:
 	var max_speed:float = RavenWeapon.projectiles_map[current_weapon.weapon_type]

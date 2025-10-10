@@ -49,28 +49,28 @@ func get_nearest_node(pos: Vector2) -> RavenNode:
 
 
 func is_shotgun(node: RavenNode) -> bool:
-	if node.node_type == null:
+	if node.item_type == null:
 		return false
 	if node.item_type.item_sub_type == RavenNodeItem.ItemSubType.SHOTGUN:
 		return true
 	return false
 
 func is_rocket_launcher(node: RavenNode) -> bool:
-	if node.node_type == null:
+	if node.item_type == null:
 		return false
 	if node.item_type.item_sub_type == RavenNodeItem.ItemSubType.ROCKET_LAUNCHER:
 		return true
 	return false
 
 func is_rail_gun(node: RavenNode) -> bool:
-	if node.node_type == null:
+	if node.item_type == null:
 		return false
 	if node.item_type.item_sub_type == RavenNodeItem.ItemSubType.RAIL_GUN:
 		return true
 	return false
 
 func is_health(node: RavenNode) -> bool:
-	if node.node_type == null:
+	if node.item_type == null:
 		return false
 	if node.item_type.item_sub_type == RavenNodeItem.ItemSubType.HEALTH:
 		return true
