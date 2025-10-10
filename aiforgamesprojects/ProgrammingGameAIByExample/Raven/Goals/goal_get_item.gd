@@ -16,6 +16,7 @@ func _init(_agent: RavenAgent, item_type: RavenNodeItem.ItemSubType) -> void:
 	super(_agent)
 	goal_type = goal_to_item.get(item_type)
 	item_type = item_type
+	print("GET ITEM ADDED")
 
 
 func activate() -> void:

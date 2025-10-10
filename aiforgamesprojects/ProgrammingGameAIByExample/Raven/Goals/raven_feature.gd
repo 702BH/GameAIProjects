@@ -2,7 +2,7 @@ class_name RavenFeature
 extends RefCounted
 
 
-static func distance_to_item(bot: RavenAgent, type: RavenNodeItem.ItemType) -> float:
+static func distance_to_item(bot: RavenAgent, type: RavenNodeItem.ItemSubType) -> float:
 	
 	var distance_to_item = bot.path_planner.get_cost_to_closest_item(type)
 	
