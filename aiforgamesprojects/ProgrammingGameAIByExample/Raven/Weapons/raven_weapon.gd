@@ -11,6 +11,7 @@ var max_rounds_carried: int
 var time_next_available : float
 var rate_of_fire : float
 var last_desirability_score:float
+var ammo_to_add : int
 
 
 static var projectiles_map = {
