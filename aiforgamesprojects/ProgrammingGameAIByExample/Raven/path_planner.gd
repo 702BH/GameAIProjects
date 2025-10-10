@@ -120,10 +120,10 @@ func _can_walk_between(source:Vector2, dest:Vector2) -> bool:
 	return true
 
 
-func get_cost_to_closest_item(type : RavenNodeItem.ItemType) -> float:
+func get_cost_to_closest_item(item: RavenNodeItem.ItemSubType) -> float:
 	
 	var agent_pos_id = get_nearest_node(owner_agent.position).id
-	var function : Callable = type_map.get(type, null)
+	var function : Callable = item_map.get(item, null)
 	
 	var cost_sum := 0.0
 	

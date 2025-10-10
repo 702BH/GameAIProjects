@@ -14,7 +14,7 @@ func _init(it: RavenNodeItem.ItemType, wt: RavenWeapon.WeaponType, sub_type: Rav
 
 
 func calculate_desirability(agent: RavenAgent) -> float:
-	var distance:float = RavenFeature.distance_to_item(agent, item_type)
+	var distance:float = RavenFeature.distance_to_item(agent, item_sub_type)
 	#return desriability
 	if distance == 1:
 		return 0.0
