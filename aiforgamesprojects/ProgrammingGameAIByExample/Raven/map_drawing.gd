@@ -39,7 +39,8 @@ func _draw() -> void:
 							draw_circle(World.grid_to_world(node.node_pos.x, node.node_pos.y), 20.0, Color.GREEN_YELLOW)
 						RavenNodeItem.ItemType.WEAPON:
 							if node.item_type.item_sub_type == RavenNodeItem.ItemSubType.SHOTGUN:
-								draw_circle(World.grid_to_world(node.node_pos.x, node.node_pos.y), 20.0, Color.CRIMSON)
+								#draw_circle(World.grid_to_world(node.node_pos.x, node.node_pos.y), 20.0, Color.CRIMSON)
+								pass
 							elif node.item_type.item_sub_type == RavenNodeItem.ItemSubType.ROCKET_LAUNCHER:
 								draw_circle(World.grid_to_world(node.node_pos.x, node.node_pos.y), 20.0, Color.AQUA)
 							elif node.item_type.item_sub_type == RavenNodeItem.ItemSubType.BLASTER:

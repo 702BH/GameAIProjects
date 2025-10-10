@@ -110,9 +110,12 @@ func add_weapon(weapon_type: RavenWeapon.WeaponType) -> void:
 	
 	if present:
 		# add ammo
-		present.increment_rounds(w.num_rounds_left)
+		present.increment_rounds(w.ammo_to_add)
+		print("AMMO ADDED")
+		print(present.num_rounds_left)
 	else:
 		weapon_map[w.weapon_type] = w
+		print("WEAPON ADDED")
 
 
 func change_weapon(weapon_type: RavenWeapon.WeaponType) -> void:

@@ -12,6 +12,8 @@ var graph: RavenGraph
 var grid_world: Array = []
 var spawn_points: Array = []
 
+var triggers: Array = []
+
 
 var cell_size : int
 var cell_buckets_agents: Dictionary ={}
@@ -105,6 +107,8 @@ func load_world_from_file(file_path: String) -> void:
 			if node["item_type"] == RavenNodeItem.ItemType.WEAPON:
 				var item := RavenNodeItemWeapon.new(RavenNodeItem.ItemSubType.SHOTGUN)
 				graph_node.set_item_type(item)
+				# create trigger item trigger
+				triggers.append(graph_node)
 			if graph_node.node_type == RavenNode.NodeType.SPAWN:
 				spawn_points.append(graph_node)
 				#print("spawn loaded")

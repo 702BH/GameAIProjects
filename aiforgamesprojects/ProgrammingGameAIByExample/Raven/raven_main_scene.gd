@@ -15,6 +15,9 @@ extends Node2D
 
 @onready var sub_view := $MapDrawingInput/SubViewport
 
+@onready var weapon_trigger_prefab := preload("res://ProgrammingGameAIByExample/Raven/Items/trigger_weapon.tscn")
+@onready var trigger_container := $TriggersContainer
+
 
 
 var resolution := 24.0
@@ -35,8 +38,26 @@ func _ready() -> void:
 	RavenServiceBus.fire_projectile.connect(_on_projectile_fired.bind())
 	RavenServiceBus.game_start_requested.connect(_on_map_start_requested.bind())
 	RavenServiceBus.dummy_agent_requested.connect(_on_dummy_agent_requested.bind())
+	RavenServiceBus.grid_generated.connect(_on_grid_generation.bind())
 	sub_view.size.x = width
 	sub_view.size.y = height
+
+
+func _on_grid_generation() -> void:
+	# grid generated
+	# instantiate the triggers
+	if World.triggers.is_empty():
+		pass
+		
+	for node: RavenNode in World.triggers:
+		# if item type is weapon, we need weapon trigger
+		if node.item_type.item_type == RavenNodeItem.ItemType.WEAPON:
+			var weapon_trigger : WeaponTrigger = weapon_trigger_prefab.instantiate()
+			trigger_container.add_child(weapon_trigger)
+			weapon_trigger.initialise(World.resolution, World.resolution, node.item_type.item_sub_type)
+			weapon_trigger.position = World.grid_to_world(node.node_pos.x, node.node_pos.y)
+			
+
 
 func _on_dummy_agent_requested() -> void:
 	if agents_container.dummy_count < 1:
