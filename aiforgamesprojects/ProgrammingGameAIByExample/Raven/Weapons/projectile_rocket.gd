@@ -16,6 +16,7 @@ func _physics_process(delta: float) -> void:
 	
 	position += velocity * delta
 	#print(position)
+	_agent_collision()
 	if _out_of_world():
 		#print("SHOULD DIE")
 		queue_free()

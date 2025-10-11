@@ -12,7 +12,7 @@ func _init(_agent: RavenAgent) -> void:
 	
 	# create the evalutor objects
 	evaluators.push_back(ExploreGoalEvaluator.new())
-	#evaluators.push_back(AttackTargetGoalEvaluator.new())
+	evaluators.push_back(AttackTargetGoalEvaluator.new())
 	#
 	#
 	## Weapon evaluators

@@ -63,7 +63,7 @@ var feelers = [Vector2.ZERO,Vector2.ZERO, Vector2.ZERO]
 
 
 # Agent vals
-var health := 1.0
+var health := 100.0
 var max_health := 100.0
 
 
