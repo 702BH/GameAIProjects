@@ -19,7 +19,7 @@ func _init(_agent: RavenAgent) -> void:
 	evaluators.push_back(GetWeaponGoalEvaluator.new(RavenWeapon.WeaponType.SHOTGUN, RavenNodeItem.ItemSubType.SHOTGUN))
 	evaluators.push_back(GetWeaponGoalEvaluator.new(RavenWeapon.WeaponType.ROCKET_LAUNCHER, RavenNodeItem.ItemSubType.ROCKET_LAUNCHER))
 	evaluators.push_back(GetWeaponGoalEvaluator.new(RavenWeapon.WeaponType.RAIL_GUN, RavenNodeItem.ItemSubType.RAIL_GUN))
-
+	evaluators.push_back(GetHealthGoalEvaluator.new(RavenNodeItem.ItemSubType.HEALTH))
 
 func activate() -> void:
 	arbitrate()
@@ -80,6 +80,7 @@ func add_goal_attack_target() -> void:
 
 func add_goal_get_item(item: RavenNodeItem.ItemSubType) -> void:
 	#print("SHOULD ADD GOAL TO GET ITEM")
+	print(item)
 	var goal = GoalGetItem.goal_to_item.get(item)
 	if not_present(goal):
 		remove_all_subgoals()
