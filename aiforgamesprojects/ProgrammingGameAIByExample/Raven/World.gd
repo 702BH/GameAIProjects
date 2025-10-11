@@ -21,6 +21,9 @@ var cell_buckets_static: Dictionary ={}
 
 var loaded_map : bool = false
 
+var pre_calc_costs = []
+var NUM_THREADS := 6
+var threads := []
 
 func initialise(_width:float, _height:float, _resolution:float, _cell_size:int) -> void:
 	width = _width
@@ -113,6 +116,7 @@ func load_world_from_file(file_path: String) -> void:
 				print("HEALTH FOUND")
 				var item := RavenNodeItemHealth.new()
 				graph_node.set_item_type(item)
+				triggers.append(graph_node)
 			if graph_node.node_type == RavenNode.NodeType.SPAWN:
 				spawn_points.append(graph_node)
 				#print("spawn loaded")
@@ -129,6 +133,64 @@ func load_world_from_file(file_path: String) -> void:
 	generate_edges(map_rows, map_columns)
 	RavenServiceBus.grid_generated.emit()
 	loaded_map = true
+	
+	# after loading, do the precalc cost table
+	print("Trying threaded method")
+	calculate_costs_threaded()
+
+
+func calculate_costs() -> void:
+	pre_calc_costs = []
+	pre_calc_costs.resize(graph.nodes.size())
+	
+	for node:RavenNode in graph.nodes:
+		pre_calc_costs[node.id] = []
+		pre_calc_costs[node.id].resize(graph.nodes.size())
+		# run all djikstras
+		if node.is_border:
+			continue
+		var costs = graph.all_djikstras(node.id)
+		for key in costs:
+			pre_calc_costs[node.id][key] = costs[key]
+
+
+func calculate_costs_threaded() -> void:
+	var num_nodes = graph.nodes.size()
+	pre_calc_costs = []
+	pre_calc_costs.resize(num_nodes)
+	for i in range(num_nodes):
+		pre_calc_costs[i] = []
+		pre_calc_costs[i].resize(num_nodes)
+	
+	var chunk_size = ceil(float(num_nodes) / float(NUM_THREADS))
+	threads.clear()
+	
+	for t in range(NUM_THREADS):
+		var start_idx = t * chunk_size
+		var end_idx = min((t+1) * chunk_size, num_nodes)
+		var thread = Thread.new()
+		threads.append(thread)
+		thread.start(_compute_chunk.bind({"start":start_idx, "end":end_idx}))
+	
+	for thread:Thread in threads:
+		thread.wait_to_finish()
+	
+	print("All precomputed costs done.")
+
+func _compute_chunk(info) -> void:
+	var start_idx = info["start"]
+	var end_idx = info["end"]
+	
+	for i in range(start_idx, end_idx):
+		var node = graph.nodes[i]
+		
+		if node.is_border:
+			continue
+		
+		var costs_dict = graph.all_djikstras(node.id)
+		
+		for target_id in costs_dict.keys():
+			pre_calc_costs[node.id][target_id] = costs_dict[target_id]
 
 
 func save_world_to_file(file_name:String) -> void:
