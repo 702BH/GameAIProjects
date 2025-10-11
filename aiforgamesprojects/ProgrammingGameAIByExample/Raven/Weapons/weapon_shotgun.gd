@@ -8,7 +8,7 @@ var spread: float
 func _init(_agent: RavenAgent) -> void:
 	super(_agent)
 	weapon_type = WeaponType.SHOTGUN
-	num_rounds_left = 0
+	num_rounds_left = 15
 	ammo_to_add = 10
 	max_rounds_carried = 15
 	time_next_available = 0.0

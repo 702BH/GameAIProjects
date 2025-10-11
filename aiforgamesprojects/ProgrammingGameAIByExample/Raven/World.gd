@@ -109,7 +109,8 @@ func load_world_from_file(file_path: String) -> void:
 				graph_node.set_item_type(item)
 				# create trigger item trigger
 				triggers.append(graph_node)
-			if node["item_type"] == RavenNodeItem.ItemType.HEALTH:
+			elif node["item_type"] == RavenNodeItem.ItemType.HEALTH:
+				print("HEALTH FOUND")
 				var item := RavenNodeItemHealth.new()
 				graph_node.set_item_type(item)
 			if graph_node.node_type == RavenNode.NodeType.SPAWN:

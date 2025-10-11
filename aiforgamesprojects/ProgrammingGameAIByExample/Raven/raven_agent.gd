@@ -63,7 +63,7 @@ var feelers = [Vector2.ZERO,Vector2.ZERO, Vector2.ZERO]
 
 
 # Agent vals
-var health := 10.0
+var health := 1.0
 var max_health := 100.0
 
 
@@ -103,12 +103,13 @@ func _input(event: InputEvent) -> void:
 
 func _physics_process(delta: float) -> void:
 	#rotation += 0.1 * delta
-	brain.process()
+	
 	
 	if target_selection_regulator.is_ready():
 		targeting_system.update()
 	
 	if goal_arbitration_regulator.is_ready():
+		brain.process()
 		brain.arbitrate()
 	
 	if vision_update_regulator.is_ready():

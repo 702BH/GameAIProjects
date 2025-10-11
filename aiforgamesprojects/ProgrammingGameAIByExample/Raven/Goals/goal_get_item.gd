@@ -12,11 +12,12 @@ static var goal_to_item = {
 
 var item_type : RavenNodeItem.ItemSubType
 
-func _init(_agent: RavenAgent, item_type: RavenNodeItem.ItemSubType) -> void:
+func _init(_agent: RavenAgent, _item_type: RavenNodeItem.ItemSubType) -> void:
 	super(_agent)
-	goal_type = goal_to_item.get(item_type)
-	item_type = item_type
+	goal_type = goal_to_item.get(_item_type)
+	item_type = _item_type
 	print("GET ITEM ADDED")
+	print("ITEM TYPE: ", item_type)
 
 
 func activate() -> void:
@@ -25,7 +26,7 @@ func activate() -> void:
 	if !path.is_empty():
 		add_subgoal(GoalFollowPath.new(owner_agent, path))
 	else:
-		#print("NO PATH")
+		print("NO PATH")
 		status = Status.FAILED
 
 func process() -> Status:
