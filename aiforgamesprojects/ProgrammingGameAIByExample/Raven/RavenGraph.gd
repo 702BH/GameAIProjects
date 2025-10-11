@@ -69,6 +69,31 @@ func get_random_node() -> RavenNode:
 	return return_node
 
 
+func all_djikstras(source:int) -> Dictionary:
+	var costs := {}
+	var open_set = MinHeap.new()
+	for node in nodes:
+		if node == null:
+			continue
+		costs[node.id] = 9223372036854775807 
+	costs[source] = 0
+	
+	open_set.push(source, 0)
+	
+	while open_set.data.size() > 0:
+		var current_node = open_set.pop()
+		var current_cost = costs[current_node]
+		#print("Expanding node: ", current_node, " current_cost: ", current_cost)
+		var neighbors = edges[current_node]
+		for edge:GraphEdge in neighbors:
+			#print("  neighbor: ", edge.to, " edge.cost: ", edge.cost)
+			var new_cost = current_cost + edge.cost
+			if costs[edge.to] > new_cost:
+				#print("    updating cost for ", edge.to, " to ", new_cost)
+				costs[edge.to] = new_cost
+				open_set.push(edge.to, new_cost)
+	return costs
+
 func dijkstras(source: int, item_predicate: Callable) -> Array[PathEdge]:
 	var result : Array[GraphVertex] = []
 	var costs : Dictionary = {}

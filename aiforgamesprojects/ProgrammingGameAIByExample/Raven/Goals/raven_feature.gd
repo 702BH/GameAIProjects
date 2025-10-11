@@ -4,7 +4,7 @@ extends RefCounted
 
 static func distance_to_item(bot: RavenAgent, type: RavenNodeItem.ItemSubType) -> float:
 	
-	var distance_to_item = bot.path_planner.get_cost_to_closest_item(type)
+	var distance_to_item = bot.path_planner.get_pre_calc_cost_to_closest_item(bot.position ,type)
 	
 	if distance_to_item == 0.0:
 		return 1

@@ -140,3 +140,18 @@ func get_cost_to_closest_item(item: RavenNodeItem.ItemSubType) -> float:
 	
 	
 	return cost_sum
+
+
+func get_pre_calc_cost_to_closest_item(agent_pos:Vector2, item: RavenNodeItem.ItemSubType) -> float:
+	if World.triggers.is_empty():
+		return 0.0
+	var closest_so_far := 9223372036854775807 
+	var source_node := get_nearest_node(agent_pos).id
+	
+	for node:RavenNode in World.triggers:
+		if node.item_type.item_sub_type == item:
+			var cost = World.pre_calc_costs[source_node][node.id]
+			if cost < closest_so_far:
+				closest_so_far = cost
+	
+	return closest_so_far
