@@ -135,8 +135,7 @@ func load_world_from_file(file_path: String) -> void:
 	loaded_map = true
 	
 	# after loading, do the precalc cost table
-	print("Trying threaded method")
-	calculate_costs_threaded()
+	pre_calc_costs = result["pre_calc_costs"]
 
 
 func calculate_costs() -> void:
@@ -194,11 +193,15 @@ func _compute_chunk(info) -> void:
 
 
 func save_world_to_file(file_name:String) -> void:
+	print("Saving map")
+	calculate_costs_threaded()
+	
 	var save_data = {
 		"rows":rows,
 		"columns": columns,
 		"resolution": resolution,
-		"nodes": []
+		"nodes": [],
+		"pre_calc_costs": pre_calc_costs
 	}
 	for row in range(rows):
 		for col in range(columns):
@@ -220,6 +223,7 @@ func save_world_to_file(file_name:String) -> void:
 	var json_string = JSON.stringify(save_data)
 	file.store_line(json_string)
 	file.close()
+	print("map saved")
 
 
 func move_agent(agent: RavenAgent, old_pos: Vector2, new_pos: Vector2) -> void:
