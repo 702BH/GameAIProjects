@@ -26,9 +26,10 @@ func _out_of_world() -> bool:
 
 func _agent_collision() -> RavenAgent:
 	var key = World.world_to_bucket(World.position_to_grid(position))
+	print(key)
 	var agent_bucket:Array = World.cell_buckets_agents.get(Vector2i(int(key.x),int(key.y)), [])
 	
-	print(agent_bucket)
+	#print(agent_bucket)
 	
 	if !agent_bucket.is_empty():
 		print("HIIIIIIIIIIIIIIIT")

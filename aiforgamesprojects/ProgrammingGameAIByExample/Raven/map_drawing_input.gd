@@ -75,7 +75,8 @@ func _on_submitted(weapon: RavenNodeItem.ItemSubType) -> void:
 func _input(event: InputEvent) -> void:
 	if event.is_action_pressed("debug"):
 		#print(drawer.dirty_nodes)
-		print(World.graph.nodes)
+		#print(World.graph.nodes)
+		pass
 
 
 
