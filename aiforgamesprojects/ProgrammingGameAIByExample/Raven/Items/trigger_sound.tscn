@@ -1,0 +1,9 @@
+[gd_scene load_steps=3 format=3 uid="uid://hctu58vqrj4p"]
+
+[ext_resource type="PackedScene" uid="uid://csq0krd703gr5" path="res://ProgrammingGameAIByExample/Raven/Items/trigger.tscn" id="1_6oove"]
+[ext_resource type="Script" uid="uid://bbidp1jbulxur" path="res://ProgrammingGameAIByExample/Raven/Items/trigger_sound.gd" id="2_ajofx"]
+
+[node name="TriggerSound" instance=ExtResource("1_6oove")]
+script = ExtResource("2_ajofx")
+
+[connection signal="area_entered" from="triggerArea" to="." method="_on_trigger_area_area_entered"]

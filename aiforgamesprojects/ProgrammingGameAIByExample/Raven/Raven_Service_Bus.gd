@@ -7,12 +7,15 @@ var selected_node: RavenNode = null
 signal weapon_popup()
 signal submitted_weapon(weapon: RavenNodeItemWeapon.WeaponSubtype)
 
-signal fire_projectile(bullet: RavenProjectile)
 
 
 signal agent_goal_changed(agent: RavenAgent, goal: GoalEvaluator.GoalType)
 
 
+
+# projectiles
+signal fire_projectile(bullet: RavenProjectile)
+signal projectile_sound(fired_by : RavenAgent, radius: float)
 
 
 # UI Requests

@@ -88,3 +88,34 @@ func is_opponent_shootable(opponent: RavenAgent) -> bool:
 
 func remove_agent_from_memory(agent: RavenAgent) -> void:
 	memory_dict.erase(agent)
+
+
+func update_with_sound_source(agent: RavenAgent) -> void:
+	if agent != owner_agent:
+		print("UPDATING WITH SOUND SOURCE")
+		if !memory_dict.has(agent):
+			memory_dict[agent] = MemoryRecord.new(agent)
+		var record: MemoryRecord = memory_dict[agent]
+		# FOV check
+		var agent_velocity = owner_agent.velocity.normalized()
+		var target_vector = (agent.position - owner_agent.position).normalized()
+		var dot_product = agent_velocity.dot(target_vector)
+		
+		if dot_product >= cos(deg_to_rad(40)):
+			# in fov
+			if !record.within_fov:
+				# was not in view before
+				record.within_fov = true
+				record.time_became_visible  =  Time.get_ticks_msec() / 1000.0
+				record.time_last_sensed = Time.get_ticks_msec() / 1000.0
+				record.last_sensed_position = agent.position
+				record.shootable = true
+			else:
+				record.time_last_sensed = Time.get_ticks_msec() / 1000.0
+				record.last_sensed_position = agent.position
+				record.shootable = true
+		else:
+			record.within_fov = false
+			record.shootable = false
+	else:
+		print("FIRED BY THIS AGENT")

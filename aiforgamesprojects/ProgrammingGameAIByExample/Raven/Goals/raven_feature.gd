@@ -6,8 +6,8 @@ static func distance_to_item(bot: RavenAgent, type: RavenNodeItem.ItemSubType) -
 	
 	var distance_to_item = bot.path_planner.get_pre_calc_cost_to_closest_item(bot.position ,type)
 	
-	if distance_to_item == 0.0:
-		return 0.0
+	if distance_to_item == -1.0:
+		return 1.0
 	
 	var max_distance = 500.0
 	var min_distance = 50.0

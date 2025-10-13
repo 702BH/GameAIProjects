@@ -9,6 +9,7 @@ func _init(_agent: RavenAgent) -> void:
 	max_rounds_carried = 15
 	time_next_available = 0.0
 	rate_of_fire = 1.0
+	sound_range = World.resolution * 2.0
 	initialise_fuzzy_module()
 
 
@@ -20,6 +21,7 @@ func shoot_at(pos: Vector2) -> void:
 		bullet.position = owner_agent.position
 		bullet.heading = (pos - bullet.position).normalized()
 		RavenServiceBus.fire_projectile.emit(bullet)
+		RavenServiceBus.projectile_sound.emit(owner_agent, sound_range)
 		num_rounds_left -= 1
 		update_time_weapon_is_next_available()
 

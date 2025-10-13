@@ -79,8 +79,6 @@ func add_goal_attack_target() -> void:
 
 
 func add_goal_get_item(item: RavenNodeItem.ItemSubType) -> void:
-	#print("SHOULD ADD GOAL TO GET ITEM")
-	print(item)
 	var goal = GoalGetItem.goal_to_item.get(item)
 	if not_present(goal):
 		remove_all_subgoals()

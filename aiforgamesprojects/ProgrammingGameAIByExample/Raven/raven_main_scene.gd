@@ -16,6 +16,8 @@ extends Node2D
 @onready var sub_view := $MapDrawingInput/SubViewport
 
 @onready var weapon_trigger_prefab := preload("res://ProgrammingGameAIByExample/Raven/Items/trigger_weapon.tscn")
+@onready var health_trigger_prefab := preload("res://ProgrammingGameAIByExample/Raven/Items/trigger_health.tscn")
+@onready var sound_trigger_prefab := preload("res://ProgrammingGameAIByExample/Raven/Items/trigger_sound.tscn")
 @onready var trigger_container := $TriggersContainer
 
 
@@ -39,9 +41,16 @@ func _ready() -> void:
 	RavenServiceBus.game_start_requested.connect(_on_map_start_requested.bind())
 	RavenServiceBus.dummy_agent_requested.connect(_on_dummy_agent_requested.bind())
 	RavenServiceBus.grid_generated.connect(_on_grid_generation.bind())
+	RavenServiceBus.projectile_sound.connect(_on_projectile_sound.bind())
 	sub_view.size.x = width
 	sub_view.size.y = height
 
+
+func _on_projectile_sound(fired_by: RavenAgent, sound:float) -> void:
+	var sound_trigger : SoundTrigger = sound_trigger_prefab.instantiate()
+	trigger_container.add_child(sound_trigger)
+	sound_trigger.initialise(sound, sound, fired_by)
+	sound_trigger.position = fired_by.position
 
 func _on_grid_generation() -> void:
 	# grid generated
@@ -56,8 +65,13 @@ func _on_grid_generation() -> void:
 			trigger_container.add_child(weapon_trigger)
 			weapon_trigger.initialise(World.resolution, World.resolution, node.item_type.item_sub_type)
 			weapon_trigger.position = World.grid_to_world(node.node_pos.x, node.node_pos.y)
-			
-
+			node.item_type.set_associated_trigger(weapon_trigger)
+		elif node.item_type.item_type == RavenNodeItem.ItemType.HEALTH:
+			var health_trigger : HealthTrigger = health_trigger_prefab.instantiate()
+			trigger_container.add_child(health_trigger)
+			health_trigger.initialise(World.resolution, World.resolution)
+			health_trigger.position = World.grid_to_world(node.node_pos.x, node.node_pos.y)
+			node.item_type.set_associated_trigger(health_trigger)
 
 func _on_dummy_agent_requested() -> void:
 	if agents_container.dummy_count < 1:

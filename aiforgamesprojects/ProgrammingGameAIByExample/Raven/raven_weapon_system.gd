@@ -89,8 +89,6 @@ func select_weapon() -> void:
 		#print(RavenWeapon.WeaponType.keys()[current_weapon.weapon_type])
 	
 	if owner_agent.debug_regulator.is_ready():
-		print("DEBUGGING")
-		print(current_weapon)
 		var data = WeaponData.build().set_agent(owner_agent).set_system(DebugData.Systems.WEAPON).set_step(WeaponData.Steps.WEAPON_SELECTION)
 		data.add_message(str( RavenWeapon.WeaponType.keys()[current_weapon.weapon_type]))
 		RavenServiceBus.debug_event.emit(data)
@@ -111,11 +109,8 @@ func add_weapon(weapon_type: RavenWeapon.WeaponType) -> void:
 	if present:
 		# add ammo
 		present.increment_rounds(w.ammo_to_add)
-		print("AMMO ADDED")
-		print(present.num_rounds_left)
 	else:
 		weapon_map[w.weapon_type] = w
-		print("WEAPON ADDED")
 
 
 func change_weapon(weapon_type: RavenWeapon.WeaponType) -> void:

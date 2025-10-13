@@ -10,7 +10,6 @@ func _init(_target: Vector2, fired_by: RavenAgent) -> void:
 	radius = 3.0
 
 
-
 func _physics_process(delta: float) -> void:
 	velocity = max_speed * heading
 	

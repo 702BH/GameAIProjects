@@ -16,8 +16,6 @@ func _init(_agent: RavenAgent, _item_type: RavenNodeItem.ItemSubType) -> void:
 	super(_agent)
 	goal_type = goal_to_item.get(_item_type)
 	item_type = _item_type
-	print("GET ITEM ADDED")
-	print("ITEM TYPE: ", item_type)
 
 
 func activate() -> void:
@@ -26,12 +24,14 @@ func activate() -> void:
 	if !path.is_empty():
 		add_subgoal(GoalFollowPath.new(owner_agent, path))
 	else:
-		print("NO PATH")
+		print("has failed")
 		status = Status.FAILED
+	#print("HEALTH GOAL ACTIVATED")
 
 func process() -> Status:
 	activate_if_inactive()
 	status = process_subgoals()
+	
 	
 	return status
 

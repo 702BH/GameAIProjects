@@ -24,5 +24,4 @@ func calculate_desirability(agent: RavenAgent) -> float:
 		return desirability
 
 func set_goal(agent: RavenAgent) -> void:
-	print("SET WEAPON GOAL")
 	agent.brain.add_goal_get_item(item_sub_type)
