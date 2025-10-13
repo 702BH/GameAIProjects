@@ -5,6 +5,7 @@ var target : Vector2
 var damage_inflicted : float
 var heading : Vector2
 
+
 var projectile_regulator = Regulator.new(6)
 
 
