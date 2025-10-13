@@ -7,8 +7,13 @@ var heading : Vector2
 
 var projectile_regulator = Regulator.new(6)
 
-func _init(_target: Vector2) -> void:
+
+var owner_agent : RavenAgent
+
+
+func _init(_target: Vector2, fired_by: RavenAgent) -> void:
 	target = _target
+	owner_agent = fired_by
 
 
 
@@ -26,13 +31,15 @@ func _out_of_world() -> bool:
 
 func _agent_collision() -> RavenAgent:
 	var key = World.world_to_bucket(World.position_to_grid(position))
-	print(key)
-	var agent_bucket:Array = World.cell_buckets_agents.get(Vector2i(int(key.x),int(key.y)), [])
+	var agent_bucket:Array = World.cell_buckets_agents.get(Vector2(key.x,key.y), [])
 	
 	#print(agent_bucket)
 	
 	if !agent_bucket.is_empty():
-		print("HIIIIIIIIIIIIIIIT")
+		for agent:RavenAgent in agent_bucket:
+			if agent == owner_agent:
+				continue
+			print("in same bucket as agent: ", agent.agent_name)
 	
 	return null
 

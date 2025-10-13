@@ -14,7 +14,7 @@ func _init(_agent: RavenAgent) -> void:
 
 func shoot_at(pos: Vector2) -> void:
 	if num_rounds_left > 0 and is_ready_for_next_shot():
-		var bullet = ProjectileRocket.new(pos)
+		var bullet = ProjectileRocket.new(pos, owner_agent)
 		bullet.position = owner_agent.position
 		bullet.heading = (pos - bullet.position).normalized()
 		RavenServiceBus.fire_projectile.emit(bullet)
