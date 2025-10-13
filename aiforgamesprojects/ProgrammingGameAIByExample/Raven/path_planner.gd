@@ -144,7 +144,7 @@ func get_pre_calc_cost_to_closest_item(agent_pos:Vector2, item: RavenNodeItem.It
 	var source_node := get_nearest_node(agent_pos).id
 	
 	for node:RavenNode in World.triggers:
-		if node.item_type.item_sub_type == item:
+		if node.item_type.item_sub_type == item and node.item_type.associated_trigger.is_active:
 			var cost = World.pre_calc_costs[source_node][node.id]
 			if cost < closest_so_far:
 				closest_so_far = cost

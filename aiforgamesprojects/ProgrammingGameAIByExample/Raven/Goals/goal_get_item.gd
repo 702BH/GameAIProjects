@@ -24,12 +24,14 @@ func activate() -> void:
 	if !path.is_empty():
 		add_subgoal(GoalFollowPath.new(owner_agent, path))
 	else:
-		print("NO PATH")
+		#print("NO PATH")
 		status = Status.FAILED
+	#print("HEALTH GOAL ACTIVATED")
 
 func process() -> Status:
 	activate_if_inactive()
 	status = process_subgoals()
+	
 	
 	return status
 

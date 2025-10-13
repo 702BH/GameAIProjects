@@ -1,7 +1,7 @@
 class_name Trigger
 extends Node2D
 
-const DURATION_RECOVERY := 500
+const DURATION_RECOVERY := 500000
 var is_active := true
 
 @onready var trigger_collision_shape : CollisionShape2D= $triggerArea/triggerAreaCollision

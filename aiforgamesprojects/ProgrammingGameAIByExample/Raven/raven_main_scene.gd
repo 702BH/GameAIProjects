@@ -57,12 +57,13 @@ func _on_grid_generation() -> void:
 			trigger_container.add_child(weapon_trigger)
 			weapon_trigger.initialise(World.resolution, World.resolution, node.item_type.item_sub_type)
 			weapon_trigger.position = World.grid_to_world(node.node_pos.x, node.node_pos.y)
+			node.item_type.set_associated_trigger(weapon_trigger)
 		elif node.item_type.item_type == RavenNodeItem.ItemType.HEALTH:
 			var health_trigger : HealthTrigger = health_trigger_prefab.instantiate()
 			trigger_container.add_child(health_trigger)
 			health_trigger.initialise(World.resolution, World.resolution)
 			health_trigger.position = World.grid_to_world(node.node_pos.x, node.node_pos.y)
-
+			node.item_type.set_associated_trigger(health_trigger)
 
 func _on_dummy_agent_requested() -> void:
 	if agents_container.dummy_count < 1:

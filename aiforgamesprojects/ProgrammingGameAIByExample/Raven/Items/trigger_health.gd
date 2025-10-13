@@ -9,5 +9,5 @@ func initialise(shape_x:float, shape_y:float) -> void:
 func _on_trigger_area_area_entered(area: Area2D) -> void:
 	if is_active:
 		var agent: RavenAgent = area.get_parent()
-		agent.add_health(10.0)
+		agent.add_health(1.0)
 		deactivate()
