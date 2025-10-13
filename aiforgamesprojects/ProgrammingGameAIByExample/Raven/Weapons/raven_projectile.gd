@@ -9,7 +9,7 @@ var projectile_regulator = Regulator.new(6)
 
 
 var owner_agent : RavenAgent
-
+var collided := false
 
 func _init(_target: Vector2, fired_by: RavenAgent) -> void:
 	target = _target
@@ -30,16 +30,26 @@ func _out_of_world() -> bool:
 
 
 func _agent_collision() -> RavenAgent:
-	var key = World.world_to_bucket(World.position_to_grid(position))
-	var agent_bucket:Array = World.cell_buckets_agents.get(Vector2(key.x,key.y), [])
-	
-	#print(agent_bucket)
-	
-	if !agent_bucket.is_empty():
-		for agent:RavenAgent in agent_bucket:
-			if agent == owner_agent:
-				continue
-			print("in same bucket as agent: ", agent.agent_name)
+	if !collided:
+		var key = World.world_to_bucket(World.position_to_grid(position))
+		var agent_bucket:Array = World.cell_buckets_agents.get(Vector2(key.x,key.y), [])
+		
+		#print(agent_bucket)
+		
+		if !agent_bucket.is_empty():
+			for agent:RavenAgent in agent_bucket:
+				if agent == owner_agent:
+					continue
+				#print("in same bucket as agent: ", agent.agent_name)
+				var agent_pos: Vector2 = agent.position
+				
+				
+				var calc:bool = (position.x-agent_pos.x)**2 + (position.y-agent.position.y)**2 <= (radius + agent.radius)**2
+				if calc:
+					collided = true
+					print("Bullet collided: ", self)
+					print("COLLIDED WITH AGENT: ", agent.agent_name)
+					break
 	
 	return null
 

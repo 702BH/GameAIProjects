@@ -5,7 +5,7 @@ extends "res://ProgrammingGameAIByExample/Raven/Weapons/raven_weapon.gd"
 func _init(_agent: RavenAgent) -> void:
 	super(_agent)
 	weapon_type = WeaponType.BLASTER
-	num_rounds_left = 5
+	num_rounds_left = 1
 	max_rounds_carried = 15
 	time_next_available = 0.0
 	rate_of_fire = 1.0
@@ -13,7 +13,7 @@ func _init(_agent: RavenAgent) -> void:
 
 
 func shoot_at(pos: Vector2) -> void:
-	if is_ready_for_next_shot():
+	if num_rounds_left > 0 and is_ready_for_next_shot():
 		# fire
 		# add bullet to world
 		var bullet = ProjectileBolt.new(pos, owner_agent)
