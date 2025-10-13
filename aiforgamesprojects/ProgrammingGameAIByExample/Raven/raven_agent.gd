@@ -225,3 +225,9 @@ func is_at_position(pos: Vector2) -> bool:
 	var tolerance := 20.0
 	
 	return position.distance_squared_to(pos) < tolerance * tolerance
+
+
+func take_damage(amount:float) -> void:
+	health -= amount
+	health = clamp(health, 0, 100)
+	print("TAKEN DAMAGE, REAMINING HEALTH: ", health)

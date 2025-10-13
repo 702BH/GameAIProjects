@@ -47,8 +47,8 @@ func _agent_collision() -> RavenAgent:
 				var calc:bool = (position.x-agent_pos.x)**2 + (position.y-agent.position.y)**2 <= (radius + agent.radius)**2
 				if calc:
 					collided = true
-					print("Bullet collided: ", self)
-					print("COLLIDED WITH AGENT: ", agent.agent_name)
+					agent.take_damage(damage_inflicted)
+					queue_free()
 					break
 	
 	return null
