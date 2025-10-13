@@ -51,28 +51,28 @@ func get_nearest_node(pos: Vector2) -> RavenNode:
 func is_shotgun(node: RavenNode) -> bool:
 	if node.item_type == null:
 		return false
-	if node.item_type.item_sub_type == RavenNodeItem.ItemSubType.SHOTGUN:
+	if node.item_type.item_sub_type == RavenNodeItem.ItemSubType.SHOTGUN and node.item_type.associated_trigger.is_active:
 		return true
 	return false
 
 func is_rocket_launcher(node: RavenNode) -> bool:
 	if node.item_type == null:
 		return false
-	if node.item_type.item_sub_type == RavenNodeItem.ItemSubType.ROCKET_LAUNCHER:
+	if node.item_type.item_sub_type == RavenNodeItem.ItemSubType.ROCKET_LAUNCHER and node.item_type.associated_trigger.is_active:
 		return true
 	return false
 
 func is_rail_gun(node: RavenNode) -> bool:
 	if node.item_type == null:
 		return false
-	if node.item_type.item_sub_type == RavenNodeItem.ItemSubType.RAIL_GUN:
+	if node.item_type.item_sub_type == RavenNodeItem.ItemSubType.RAIL_GUN and node.item_type.associated_trigger.is_active:
 		return true
 	return false
 
 func is_health(node: RavenNode) -> bool:
 	if node.item_type == null:
 		return false
-	if node.item_type.item_sub_type == RavenNodeItem.ItemSubType.HEALTH:
+	if node.item_type.item_sub_type == RavenNodeItem.ItemSubType.HEALTH and node.item_type.associated_trigger.is_active:
 		return true
 	return false
 
