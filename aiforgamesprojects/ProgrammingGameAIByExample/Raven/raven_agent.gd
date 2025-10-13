@@ -80,6 +80,16 @@ func _ready() -> void:
 	vision_shape.polygon = vision_points
 	feeler_length = World.cell_size 
 	RavenServiceBus.agent_goal_changed.connect(_on_goal_changed.bind())
+	RavenServiceBus.agent_died.connect(_on_agent_died.bind())
+
+func _on_agent_died(agent: RavenAgent) -> void:
+	# remove bot from memoery
+	sensory_memory.remove_agent_from_memory(agent)
+	
+	# remove bot as target
+	if targeting_system.current_target == agent:
+		targeting_system.clear_target()
+
 
 
 func _on_goal_changed(agent: RavenAgent, type: GoalEvaluator.GoalType) -> void:
@@ -229,5 +239,9 @@ func is_at_position(pos: Vector2) -> bool:
 
 func take_damage(amount:float) -> void:
 	health -= amount
+	if health <= 100.0:
+		print("SHOULD DIE")
+		RavenServiceBus.agent_died.emit(self)
+		queue_free()
 	health = clamp(health, 0, 100)
 	print("TAKEN DAMAGE, REAMINING HEALTH: ", health)

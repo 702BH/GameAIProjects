@@ -19,10 +19,10 @@ func _init(_target: Vector2, fired_by: RavenAgent) -> void:
 
 func _out_of_world() -> bool:
 	
-	if position.x < 0 -20 or position.x > World.width + 20:
+	if position.x < 0 or position.x > World.width:
 		return true
 	
-	if position.y < 0-20 or position.y > World.height +20:
+	if position.y < 0-20 or position.y > World.height:
 		return true
 	
 	
