@@ -227,8 +227,11 @@ func save_world_to_file(file_name:String) -> void:
 
 
 func move_agent(agent: RavenAgent, old_pos: Vector2, new_pos: Vector2) -> void:
-	var old_key = world_to_bucket(position_to_grid(old_pos))
-	var new_key = world_to_bucket(position_to_grid(new_pos))
+	var old_key = world_to_bucket((old_pos))
+	var new_key = world_to_bucket((new_pos))
+	
+	print(old_key)
+	print(new_key)
 	
 	if old_key != new_key:
 		cell_buckets_agents[old_key].erase(agent)

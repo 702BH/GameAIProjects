@@ -31,6 +31,7 @@ signal placeable_popup_submitted(data: SelectableData)
 # agent selections
 signal agent_selected(agent: RavenAgent)
 signal agent_delesected()
+signal agent_died(agent:RavenAgent)
 
 
 # debugging system

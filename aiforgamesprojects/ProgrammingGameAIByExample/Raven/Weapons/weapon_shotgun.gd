@@ -26,7 +26,7 @@ func shoot_at(pos: Vector2) -> void:
 			#var adjusted_pos = pos - owner_agent.position
 			pos = pos.rotated(deviation)
 			
-			var bullet = ProjectilePellet.new(pos)
+			var bullet = ProjectilePellet.new(pos, owner_agent)
 			bullet.position = owner_agent.position
 			bullet.heading = (pos - bullet.position).normalized()
 			RavenServiceBus.fire_projectile.emit(bullet)

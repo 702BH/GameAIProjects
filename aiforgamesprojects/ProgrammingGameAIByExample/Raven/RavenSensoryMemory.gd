@@ -85,3 +85,6 @@ func is_opponent_shootable(opponent: RavenAgent) -> bool:
 	if memory_dict.has(opponent):
 		return memory_dict[opponent].shootable
 	return false
+
+func remove_agent_from_memory(agent: RavenAgent) -> void:
+	memory_dict.erase(agent)

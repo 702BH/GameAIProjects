@@ -7,17 +7,22 @@ var heading : Vector2
 
 var projectile_regulator = Regulator.new(6)
 
-func _init(_target: Vector2) -> void:
+
+var owner_agent : RavenAgent
+var collided := false
+
+func _init(_target: Vector2, fired_by: RavenAgent) -> void:
 	target = _target
+	owner_agent = fired_by
 
 
 
 func _out_of_world() -> bool:
 	
-	if position.x < 0 -20 or position.x > World.width + 20:
+	if position.x < 0 or position.x > World.width:
 		return true
 	
-	if position.y < 0-20 or position.y > World.height +20:
+	if position.y < 0-20 or position.y > World.height:
 		return true
 	
 	
@@ -25,13 +30,26 @@ func _out_of_world() -> bool:
 
 
 func _agent_collision() -> RavenAgent:
-	var key = World.world_to_bucket(World.position_to_grid(position))
-	var agent_bucket:Array = World.cell_buckets_agents.get(Vector2i(int(key.x),int(key.y)), [])
-	
-	print(agent_bucket)
-	
-	if !agent_bucket.is_empty():
-		print("HIIIIIIIIIIIIIIIT")
+	if !collided:
+		var key = World.world_to_bucket(World.position_to_grid(position))
+		var agent_bucket:Array = World.cell_buckets_agents.get(Vector2(key.x,key.y), [])
+		
+		#print(agent_bucket)
+		
+		if !agent_bucket.is_empty():
+			for agent:RavenAgent in agent_bucket:
+				if agent == owner_agent:
+					continue
+				#print("in same bucket as agent: ", agent.agent_name)
+				var agent_pos: Vector2 = agent.position
+				
+				
+				var calc:bool = (position.x-agent_pos.x)**2 + (position.y-agent.position.y)**2 <= (radius + agent.radius)**2
+				if calc:
+					collided = true
+					agent.take_damage(damage_inflicted)
+					queue_free()
+					break
 	
 	return null
 

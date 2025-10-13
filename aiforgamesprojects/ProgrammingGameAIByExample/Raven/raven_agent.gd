@@ -80,6 +80,16 @@ func _ready() -> void:
 	vision_shape.polygon = vision_points
 	feeler_length = World.cell_size 
 	RavenServiceBus.agent_goal_changed.connect(_on_goal_changed.bind())
+	RavenServiceBus.agent_died.connect(_on_agent_died.bind())
+
+func _on_agent_died(agent: RavenAgent) -> void:
+	# remove bot from memoery
+	sensory_memory.remove_agent_from_memory(agent)
+	
+	# remove bot as target
+	if targeting_system.current_target == agent:
+		targeting_system.clear_target()
+
 
 
 func _on_goal_changed(agent: RavenAgent, type: GoalEvaluator.GoalType) -> void:
@@ -93,10 +103,11 @@ func _input(event: InputEvent) -> void:
 		#print("Agent: ", self)
 		#print(World.world_to_bucket(World.position_to_grid(position)))
 		#print(World.cell_buckets_static[Vector2i(1, 2)])
-		print("Goals for Agent: ", self)
-		if !brain.subgoals.is_empty():
-			for b:Goal in brain.subgoals:
-				print(b.Type.keys()[b.goal_type])
+		#print("Goals for Agent: ", self)
+		#if !brain.subgoals.is_empty():
+			#for b:Goal in brain.subgoals:
+				#print(b.Type.keys()[b.goal_type])
+		pass
 		#print(brain.subgoals)
 		
 
@@ -224,3 +235,13 @@ func is_at_position(pos: Vector2) -> bool:
 	var tolerance := 20.0
 	
 	return position.distance_squared_to(pos) < tolerance * tolerance
+
+
+func take_damage(amount:float) -> void:
+	health -= amount
+	if health <= 100.0:
+		print("SHOULD DIE")
+		RavenServiceBus.agent_died.emit(self)
+		queue_free()
+	health = clamp(health, 0, 100)
+	print("TAKEN DAMAGE, REAMINING HEALTH: ", health)
