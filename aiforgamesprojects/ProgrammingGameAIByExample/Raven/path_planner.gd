@@ -26,11 +26,6 @@ func get_random_path(agent_pos: Vector2) -> Array:
 		return []
 
 func get_path_to_item(agent_pos: Vector2, item: RavenNodeItem.ItemSubType) -> Array:
-	print("get_path_to_item called with: ", item)
-	var i = item_map.get(item)
-	print("I FOUND: ", i)
-	if i == null:
-		print("NO ITEM")
 	var return_path = World.graph.dijkstras(get_nearest_node(agent_pos).id, item_map.get(item))
 	if !return_path.is_empty():
 		return smooth_path_edges_quick(return_path)

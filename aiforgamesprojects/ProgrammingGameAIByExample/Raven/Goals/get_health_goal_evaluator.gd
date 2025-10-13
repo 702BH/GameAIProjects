@@ -7,7 +7,6 @@ var item_sub_type: RavenNodeItem.ItemSubType
 func _init( sub_type: RavenNodeItem.ItemSubType) -> void:
 	goal_type = GoalType.GET_HEALTH
 	item_sub_type = sub_type
-	print("HEALTH ADDED: ",item_sub_type)
 
 
 func calculate_desirability(agent: RavenAgent) -> float:
@@ -23,5 +22,4 @@ func calculate_desirability(agent: RavenAgent) -> float:
 		return desirability
 
 func set_goal(agent: RavenAgent) -> void:
-	print("SET HEALTH GOAL")
 	agent.brain.add_goal_get_item(item_sub_type)

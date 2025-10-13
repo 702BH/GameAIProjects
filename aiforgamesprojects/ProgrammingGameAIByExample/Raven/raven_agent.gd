@@ -63,7 +63,7 @@ var feelers = [Vector2.ZERO,Vector2.ZERO, Vector2.ZERO]
 
 
 # Agent vals
-var health := 100.0
+var health := 1.0
 var max_health := 100.0
 
 
@@ -245,3 +245,9 @@ func take_damage(amount:float) -> void:
 		queue_free()
 	health = clamp(health, 0, 100)
 	print("TAKEN DAMAGE, REAMINING HEALTH: ", health)
+
+
+func add_health(amount:float) -> void:
+	health += amount
+	health = clamp(health, 0, 100)
+	print("HEALTH ADDED, Current Health: ", health)

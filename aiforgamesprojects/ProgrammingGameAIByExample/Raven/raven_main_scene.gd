@@ -16,6 +16,7 @@ extends Node2D
 @onready var sub_view := $MapDrawingInput/SubViewport
 
 @onready var weapon_trigger_prefab := preload("res://ProgrammingGameAIByExample/Raven/Items/trigger_weapon.tscn")
+@onready var health_trigger_prefab := preload("res://ProgrammingGameAIByExample/Raven/Items/trigger_health.tscn")
 @onready var trigger_container := $TriggersContainer
 
 
@@ -56,7 +57,11 @@ func _on_grid_generation() -> void:
 			trigger_container.add_child(weapon_trigger)
 			weapon_trigger.initialise(World.resolution, World.resolution, node.item_type.item_sub_type)
 			weapon_trigger.position = World.grid_to_world(node.node_pos.x, node.node_pos.y)
-			
+		elif node.item_type.item_type == RavenNodeItem.ItemType.HEALTH:
+			var health_trigger : HealthTrigger = health_trigger_prefab.instantiate()
+			trigger_container.add_child(health_trigger)
+			health_trigger.initialise(World.resolution, World.resolution)
+			health_trigger.position = World.grid_to_world(node.node_pos.x, node.node_pos.y)
 
 
 func _on_dummy_agent_requested() -> void:
