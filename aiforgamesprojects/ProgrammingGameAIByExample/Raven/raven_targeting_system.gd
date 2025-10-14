@@ -41,6 +41,11 @@ func is_target_shootable() -> bool:
 		return owner_agent.sensory_memory.is_opponent_shootable(current_target)
 	return false
 
+func is_target_within_FOV() -> bool:
+	if current_target:
+		return owner_agent.sensory_memory.is_opponent_within_fov(current_target)
+	return false
+
 
 func clear_target() -> void:
 	current_target = null

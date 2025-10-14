@@ -6,7 +6,7 @@ var owner_agent: RavenAgent
 
 var memory_dict = {}
 
-var memory_span := 2.0
+var memory_span := 3.0
 
 
 
@@ -84,6 +84,11 @@ func get_time_opponent_has_been_visible(opponent: RavenAgent) -> float:
 func is_opponent_shootable(opponent: RavenAgent) -> bool:
 	if memory_dict.has(opponent):
 		return memory_dict[opponent].shootable
+	return false
+
+func is_opponent_within_fov(target: RavenAgent) -> bool:
+	if memory_dict.has(target):
+		return memory_dict[target].within_fov
 	return false
 
 func remove_agent_from_memory(agent: RavenAgent) -> void:
