@@ -35,6 +35,10 @@ func get_time_target_has_been_visible() -> float:
 		return owner_agent.sensory_memory.get_time_opponent_has_been_visible(current_target)
 	return 0.0
 
+func get_last_recorded_position() -> Vector2:
+	if current_target:
+		return owner_agent.sensory_memory.get_last_recorded_position_of_opponent(current_target)
+	return Vector2.ZERO
 
 func is_target_shootable() -> bool:
 	if current_target:

@@ -30,7 +30,8 @@ func activate() -> void:
 			print("CANT STRAFE")
 			add_subgoal(GoalMoveToPosition.new(owner_agent, owner_agent.targeting_system.current_target.position))
 	#last_seen_pos = owner_agent.targeting_system.current_target.position
-	
+	else:
+		add_subgoal(GoalHuntTarget.new(owner_agent))
 
 func process() -> Status:
 	
@@ -52,3 +53,4 @@ func process() -> Status:
 
 func terminate() -> void:
 	status = Status.COMPLETED
+	remove_all_subgoals()

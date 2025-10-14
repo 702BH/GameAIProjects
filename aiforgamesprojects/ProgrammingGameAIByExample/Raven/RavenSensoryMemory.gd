@@ -94,6 +94,10 @@ func is_opponent_within_fov(target: RavenAgent) -> bool:
 func remove_agent_from_memory(agent: RavenAgent) -> void:
 	memory_dict.erase(agent)
 
+func get_last_recorded_position_of_opponent(agent:RavenAgent) -> Vector2:
+	if memory_dict.has(agent):
+		return memory_dict[agent].last_sensed_position
+	return Vector2.ZERO
 
 func update_with_sound_source(agent: RavenAgent) -> void:
 	if agent != owner_agent:
