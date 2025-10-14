@@ -41,4 +41,7 @@ func rotateVehicle(delta) -> void:
 		rotation = rotate_toward(rotation, target, max_turn_rate * delta)
 	#look_at(target)
 	#rotation = velocity.angle()
-	
+
+func rotate_towards_target(delta, target: Vector2) -> void:
+	var to_target = (target - position).angle()
+	rotation = rotate_toward(rotation, to_target, max_turn_rate * delta)

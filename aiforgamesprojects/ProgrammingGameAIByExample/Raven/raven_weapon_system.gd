@@ -38,9 +38,10 @@ func predict_future_position_of_target() -> Vector2:
 func add_noise_to_aim(aiming_pos: Vector2) -> Vector2:
 	return Vector2(aiming_pos.x + randf_range(-0.5, 0.5), aiming_pos.y + randf_range(-0.5, 0.5))
 
-func take_aim_and_shoot() -> void:
+func take_aim_and_shoot(delta) -> void:
 	if owner_agent.targeting_system.is_target_shootable():
 		#print("target shootable")
+		owner_agent.rotate_towards_target(delta, owner_agent.targeting_system.current_target.position)
 		if owner_agent.targeting_system.current_target:
 			var aiming_pos: Vector2 = owner_agent.targeting_system.current_target.position
 			

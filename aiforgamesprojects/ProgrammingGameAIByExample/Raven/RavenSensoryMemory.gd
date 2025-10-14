@@ -6,7 +6,7 @@ var owner_agent: RavenAgent
 
 var memory_dict = {}
 
-var memory_span := 2.0
+var memory_span := 3.0
 
 
 
@@ -86,9 +86,18 @@ func is_opponent_shootable(opponent: RavenAgent) -> bool:
 		return memory_dict[opponent].shootable
 	return false
 
+func is_opponent_within_fov(target: RavenAgent) -> bool:
+	if memory_dict.has(target):
+		return memory_dict[target].within_fov
+	return false
+
 func remove_agent_from_memory(agent: RavenAgent) -> void:
 	memory_dict.erase(agent)
 
+func get_last_recorded_position_of_opponent(agent:RavenAgent) -> Vector2:
+	if memory_dict.has(agent):
+		return memory_dict[agent].last_sensed_position
+	return Vector2.ZERO
 
 func update_with_sound_source(agent: RavenAgent) -> void:
 	if agent != owner_agent:
