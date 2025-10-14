@@ -251,3 +251,15 @@ func add_health(amount:float) -> void:
 	health += amount
 	health = clamp(health, 0, 100)
 	print("HEALTH ADDED, Current Health: ", health)
+
+
+func can_walk_to(pos: Vector2) -> bool:
+	return Calculations.is_path_obstructed(position, pos, radius)
+
+
+
+# --- can_step Methods ---
+#
+# used for strafing
+#
+# -------------------------
