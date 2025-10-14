@@ -32,11 +32,14 @@ static func is_path_obstructed(A:Vector2, B:Vector2, radius:float) -> bool:
 		)
 		
 		if bucket.is_empty():
+			print("No walls")
 			return false
 		else:
+			print("Walls found")
 			for node:RavenNode in bucket:
 				var node_pos: Vector2 = World.grid_to_world(node.node_pos.x, node.node_pos.y)
 				if do_circles_intersect(node_pos, current_pos, World.resolution/2, radius):
+					print("Circles intersect")
 					return true
 		
 	return false

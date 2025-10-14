@@ -19,8 +19,16 @@ func activate() -> void:
 		status = Status.COMPLETED
 		return
 	
+	if owner_agent.targeting_system.is_target_shootable():
+		# if the bot has space to strafe, then do so
+		if owner_agent.can_step_left() != Vector2.ZERO or owner_agent.can_step_right() != Vector2.ZERO:
+			print("SHOULD STRAFE")
+		# if not able to strafe go to targets position
+		else:
+			print("CANT STRAFE")
+			add_subgoal(GoalMoveToPosition.new(owner_agent, owner_agent.targeting_system.current_target.position))
 	#last_seen_pos = owner_agent.targeting_system.current_target.position
-	add_subgoal(GoalMoveToPosition.new(owner_agent, owner_agent.targeting_system.current_target.position))
+	
 
 func process() -> Status:
 	

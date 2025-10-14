@@ -63,7 +63,7 @@ var feelers = [Vector2.ZERO,Vector2.ZERO, Vector2.ZERO]
 
 
 # Agent vals
-var health := 1.0
+var health := 100.0
 var max_health := 100.0
 
 
@@ -254,7 +254,7 @@ func add_health(amount:float) -> void:
 
 
 func can_walk_to(pos: Vector2) -> bool:
-	return Calculations.is_path_obstructed(position, pos, radius)
+	return !Calculations.is_path_obstructed(position, pos, radius)
 
 
 
@@ -263,25 +263,26 @@ func can_walk_to(pos: Vector2) -> bool:
 # used for strafing
 #
 # -------------------------
-func can_step_left(position_of_step: Vector2) -> Vector2:
+func can_step_left() -> Vector2:
 	var step_distance:float = radius * 2
 	var facing := velocity.normalized()
 	var left = Vector2(-facing.y, facing.x)
 	
-	position_of_step = position - left * step_distance - left * radius
+	var position_of_step = position - left * step_distance - left * radius
 	
 	if can_walk_to(position_of_step):
 		return position_of_step
 	else:
+		print("Cant walk left")
 		return Vector2.ZERO
 
 
-func can_step_right(position_of_step: Vector2) -> Vector2:
+func can_step_right() -> Vector2:
 	var step_distance:float = radius * 2
 	var facing := velocity.normalized()
 	var right = Vector2(facing.y, -facing.x)
 	
-	position_of_step = position + right * step_distance + right * radius
+	var position_of_step = position + right * step_distance + right * radius
 	
 	if can_walk_to(position_of_step):
 		return position_of_step
@@ -289,22 +290,22 @@ func can_step_right(position_of_step: Vector2) -> Vector2:
 		return Vector2.ZERO
 
 
-func can_step_forward(position_of_step: Vector2) -> Vector2:
+func can_step_forward() -> Vector2:
 	var step_distance:float = radius * 2
 	var facing := velocity.normalized()
 	
-	position_of_step = position + facing * step_distance + facing * radius
+	var position_of_step = position + facing * step_distance + facing * radius
 	
 	if can_walk_to(position_of_step):
 		return position_of_step
 	else:
 		return Vector2.ZERO
 
-func can_step_backward(position_of_step: Vector2) -> Vector2:
+func can_step_backward() -> Vector2:
 	var step_distance:float = radius * 2
 	var facing := velocity.normalized()
 	
-	position_of_step = position - facing * step_distance - facing * radius
+	var position_of_step = position - facing * step_distance - facing * radius
 	
 	if can_walk_to(position_of_step):
 		return position_of_step

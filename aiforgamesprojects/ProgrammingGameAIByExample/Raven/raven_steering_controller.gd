@@ -48,6 +48,9 @@ func set_target(_target: Vector2) -> void:
 	#print("SET TARGET")
 	#print(target)
 
+func set_target_world(_target: Vector2) -> void:
+	target = _target
+
 func reset_target() -> void:
 	target = null
 
