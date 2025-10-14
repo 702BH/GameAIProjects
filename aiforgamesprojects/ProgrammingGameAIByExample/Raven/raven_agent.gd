@@ -263,3 +263,50 @@ func can_walk_to(pos: Vector2) -> bool:
 # used for strafing
 #
 # -------------------------
+func can_step_left(position_of_step: Vector2) -> Vector2:
+	var step_distance:float = radius * 2
+	var facing := velocity.normalized()
+	var left = Vector2(-facing.y, facing.x)
+	
+	position_of_step = position - left * step_distance - left * radius
+	
+	if can_walk_to(position_of_step):
+		return position_of_step
+	else:
+		return Vector2.ZERO
+
+
+func can_step_right(position_of_step: Vector2) -> Vector2:
+	var step_distance:float = radius * 2
+	var facing := velocity.normalized()
+	var right = Vector2(facing.y, -facing.x)
+	
+	position_of_step = position + right * step_distance + right * radius
+	
+	if can_walk_to(position_of_step):
+		return position_of_step
+	else:
+		return Vector2.ZERO
+
+
+func can_step_forward(position_of_step: Vector2) -> Vector2:
+	var step_distance:float = radius * 2
+	var facing := velocity.normalized()
+	
+	position_of_step = position + facing * step_distance + facing * radius
+	
+	if can_walk_to(position_of_step):
+		return position_of_step
+	else:
+		return Vector2.ZERO
+
+func can_step_backward(position_of_step: Vector2) -> Vector2:
+	var step_distance:float = radius * 2
+	var facing := velocity.normalized()
+	
+	position_of_step = position - facing * step_distance - facing * radius
+	
+	if can_walk_to(position_of_step):
+		return position_of_step
+	else:
+		return Vector2.ZERO
