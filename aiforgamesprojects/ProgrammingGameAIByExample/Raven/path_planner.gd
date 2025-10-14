@@ -139,7 +139,7 @@ func get_cost_to_closest_item(item: RavenNodeItem.ItemSubType) -> float:
 
 func get_pre_calc_cost_to_closest_item(agent_pos:Vector2, item: RavenNodeItem.ItemSubType) -> float:
 	if World.triggers.is_empty():
-		return 1.0
+		return -1.0
 	var closest_so_far := INF 
 	var source_node := get_nearest_node(agent_pos).id
 	var found := false

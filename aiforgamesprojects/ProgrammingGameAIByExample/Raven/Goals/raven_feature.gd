@@ -12,7 +12,7 @@ static func distance_to_item(bot: RavenAgent, type: RavenNodeItem.ItemSubType) -
 	var max_distance = 500.0
 	var min_distance = 50.0
 	
-	clamp(distance_to_item, min_distance, max_distance)
+	distance_to_item = clamp(distance_to_item, min_distance, max_distance)
 	
 	return distance_to_item / max_distance
 
