@@ -33,28 +33,30 @@ func update_agents_in_view() -> void:
 			memory_dict[agent] = MemoryRecord.new(agent)
 		var record: MemoryRecord = memory_dict[agent]
 		
-		# FOV check
-		var agent_velocity = owner_agent.velocity.normalized()
-		var target_vector = (agent.position - owner_agent.position).normalized()
-		var dot_product = agent_velocity.dot(target_vector)
-		
-		if dot_product >= cos(deg_to_rad(40)):
-			# in fov
-			if !record.within_fov:
-				# was not in view before
-				record.within_fov = true
-				record.time_became_visible  =  Time.get_ticks_msec() / 1000.0
-				record.time_last_sensed = Time.get_ticks_msec() / 1000.0
-				record.last_sensed_position = agent.position
-				record.shootable = true
+		if !Calculations.do_walls_obstruct_line_segment(owner_agent.position, agent.position):
+			record.shootable = true
+			print("NOT OBSTRUCTED")
+			# FOV check
+			var agent_velocity = owner_agent.velocity.normalized()
+			var target_vector = (agent.position - owner_agent.position).normalized()
+			var dot_product = agent_velocity.dot(target_vector)
+			
+			if dot_product >= cos(deg_to_rad(40)):
+				# in fov
+				if !record.within_fov:
+					# was not in view before
+					record.within_fov = true
+					record.time_became_visible  =  Time.get_ticks_msec() / 1000.0
+					record.time_last_sensed = Time.get_ticks_msec() / 1000.0
+					record.last_sensed_position = agent.position
+				else:
+					record.time_last_sensed = Time.get_ticks_msec() / 1000.0
+					record.last_sensed_position = agent.position
 			else:
-				record.time_last_sensed = Time.get_ticks_msec() / 1000.0
-				record.last_sensed_position = agent.position
-				record.shootable = true
+				record.within_fov = false
 		else:
-			record.within_fov = false
+			print("OBSTRUCTED!")
 			record.shootable = false
-	
 	# debugging
 	#if !memory_dict.is_empty():
 		#print(memory_dict)

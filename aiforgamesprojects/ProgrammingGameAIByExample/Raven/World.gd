@@ -135,6 +135,12 @@ func load_world_from_file(file_path: String) -> void:
 	
 	# after loading, do the precalc cost table
 	pre_calc_costs = result["pre_calc_costs"]
+	
+	# debugging
+	for key in cell_buckets_static:
+		var walls = cell_buckets_static[key]
+		for wall in walls:
+			print(wall.wall_segments)
 
 
 func calculate_costs() -> void:

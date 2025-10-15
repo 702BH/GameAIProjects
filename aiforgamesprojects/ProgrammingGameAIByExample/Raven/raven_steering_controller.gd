@@ -281,7 +281,7 @@ func wall_avoidance() -> Vector2:
 				[top_right, bottom_right]
 			]
 			for segment:Array in wall_segments:
-				var calc_point : Vector2 = line_intersection2D(owner_agent.position, owner_agent.feelers[i], segment[0], segment[1])
+				var calc_point : Vector2 = Calculations.line_intersection2D(owner_agent.position, owner_agent.feelers[i], segment[0], segment[1])
 				if calc_point != Vector2.INF:
 					var dist_sq = owner_agent.position.distance_squared_to(calc_point)
 					if dist_sq < closest_dist:
@@ -412,27 +412,3 @@ func wall_avoidance() -> Vector2:
 	return steering
 
  
-
-func line_intersection2D(a: Vector2, b: Vector2, c: Vector2, d: Vector2) -> Vector2:
-	var rtop:float = (a.y - c.y) * (d.x - c.x) - (a.x-c.x)*(d.y - c.y)
-	var rbot:float = (b.x-a.x)*(d.y-c.y) - (b.y-a.y)*(d.x-c.x)
-	
-	var stop:float = (a.y-c.y)*(b.x-a.x)-(a.x-c.x)*(b.y-a.y)
-	var sbot:float = (b.x-a.x)*(d.y-c.y)-(b.y-a.y)*(d.x-c.x)
-	
-	var epsilon = 1e-6
-	#print(epsilon)
-	if abs(rbot) < epsilon or abs(sbot)<epsilon:
-		# lines are paraellel
-		return Vector2.INF
-	
-	var r : float = rtop/rbot
-	var s: float = stop/sbot
-	
-	if r>=0 and r<=1 and s>=0 and s<=1:
-		var point = a + r*(b-a)
-		#print(point)
-		return point
-	
-	
-	return Vector2.ZERO

@@ -1,6 +1,24 @@
 class_name Calculations
 extends RefCounted
 
+# --do_walls_obstruct_line_segment--
+#
+# given a line segment defined by two points
+# iterate through all map walls and test for any intersection
+# Returns true if an intersection occurs
+#
+# ------------------------
+static func do_walls_obstruct_line_segment(from:Vector2, to:Vector2) -> bool:
+	for key in World.cell_buckets_static:
+		var walls = World.cell_buckets_static[key]
+		for wall in walls:
+			var wall_segments = wall.wall_segments
+			for segment:Array in wall_segments:
+				var calc_point : Vector2 = Calculations.line_intersection2D(from, to, segment[0], segment[1])
+				if calc_point != Vector2.INF:
+					return true
+	return false
+
 
 
 
@@ -48,3 +66,30 @@ static func is_path_obstructed(A:Vector2, B:Vector2, radius:float) -> bool:
 
 static func do_circles_intersect(pos_1: Vector2, pos_2: Vector2, r_1:float, r_2:float) -> bool:
 	return (pos_2.x-pos_1.x)**2 + (pos_2.y-pos_1.y)**2 <= (r_1 + r_2)**2
+
+
+
+
+static func line_intersection2D(a: Vector2, b: Vector2, c: Vector2, d: Vector2) -> Vector2:
+	var rtop:float = (a.y - c.y) * (d.x - c.x) - (a.x-c.x)*(d.y - c.y)
+	var rbot:float = (b.x-a.x)*(d.y-c.y) - (b.y-a.y)*(d.x-c.x)
+	
+	var stop:float = (a.y-c.y)*(b.x-a.x)-(a.x-c.x)*(b.y-a.y)
+	var sbot:float = (b.x-a.x)*(d.y-c.y)-(b.y-a.y)*(d.x-c.x)
+	
+	var epsilon = 1e-6
+	#print(epsilon)
+	if abs(rbot) < epsilon or abs(sbot)<epsilon:
+		# lines are paraellel
+		return Vector2.INF
+	
+	var r : float = rtop/rbot
+	var s: float = stop/sbot
+	
+	if r>=0 and r<=1 and s>=0 and s<=1:
+		var point = a + r*(b-a)
+		#print(point)
+		return point
+	
+	# no intersection
+	return Vector2.INF
