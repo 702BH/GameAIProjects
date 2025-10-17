@@ -21,7 +21,7 @@ func _init(_agent: RavenAgent, _react_time: float, _acc: float) -> void:
 	
 	weapon_map[RavenWeapon.WeaponType.BLASTER] = current_weapon
 	# debug purposes
-	#weapon_map[RavenWeapon.WeaponType.SHOTGUN] = WeaponShotgun.new(owner_agent)
+	weapon_map[RavenWeapon.WeaponType.SHOTGUN] = WeaponShotgun.new(owner_agent)
 	#weapon_map[RavenWeapon.WeaponType.ROCKET_LAUNCHER] = WeaponRocketLauncher.new(owner_agent)
 	#weapon_map[RavenWeapon.WeaponType.RAIL_GUN] = WeaponRailGun.new(owner_agent)
 
@@ -36,7 +36,12 @@ func predict_future_position_of_target() -> Vector2:
 
 
 func add_noise_to_aim(aiming_pos: Vector2) -> Vector2:
-	return Vector2(aiming_pos.x + randf_range(-0.5, 0.5), aiming_pos.y + randf_range(-0.5, 0.5))
+	var base_direction = (aiming_pos - owner_agent.position).normalized()
+	var spread_angle = owner_agent.stats.accuracy_to_variance(0.0, 15.0)
+	var random_angle = deg_to_rad(randf_range(-spread_angle, spread_angle))
+	#print("Random Angle returned: ", random_angle)
+	#print("Shot vector returned: ", base_direction.rotated(random_angle))
+	return base_direction.rotated(random_angle)  + owner_agent.position
 
 func take_aim_and_shoot(delta) -> void:
 	if owner_agent.targeting_system.is_target_shootable():
@@ -49,6 +54,7 @@ func take_aim_and_shoot(delta) -> void:
 				aiming_pos = predict_future_position_of_target()
 				if owner_agent.targeting_system.get_time_target_has_been_visible() > reaction_time:
 					#aiming_pos = add_noise_to_aim(aiming_pos)
+					aiming_pos = add_noise_to_aim(aiming_pos)
 					current_weapon.shoot_at(aiming_pos)
 			
 			
@@ -58,6 +64,7 @@ func take_aim_and_shoot(delta) -> void:
 			else:
 				if owner_agent.targeting_system.get_time_target_has_been_visible() > reaction_time:
 					#aiming_pos = add_noise_to_aim(aiming_pos)
+					aiming_pos = add_noise_to_aim(aiming_pos)
 					current_weapon.shoot_at(aiming_pos)
 
 func select_weapon() -> void:

@@ -14,7 +14,7 @@ func _init(_agent: RavenAgent) -> void:
 	time_next_available = 0.0
 	rate_of_fire = 0.3
 	num_balls_in_shell = 10
-	spread = 0.05
+	spread = 15
 	initialise_fuzzy_module()
 
 
@@ -24,11 +24,13 @@ func shoot_at(pos: Vector2) -> void:
 		for i in range(0, num_balls_in_shell):
 			var deviation:float = randi_range(0, spread) + randi_range(0, spread) - spread
 			#var adjusted_pos = pos - owner_agent.position
-			pos = pos.rotated(deviation)
+			var direction = (pos - owner_agent.position).normalized()
+			direction = direction.rotated(deg_to_rad(deviation))
 			
-			var bullet = ProjectilePellet.new(pos, owner_agent)
+			var bullet = ProjectilePellet.new(owner_agent.position + direction, owner_agent)
+			print(direction)
 			bullet.position = owner_agent.position
-			bullet.heading = (pos - bullet.position).normalized()
+			bullet.heading = direction
 			RavenServiceBus.fire_projectile.emit(bullet)
 		num_rounds_left -= 1
 		update_time_weapon_is_next_available()
