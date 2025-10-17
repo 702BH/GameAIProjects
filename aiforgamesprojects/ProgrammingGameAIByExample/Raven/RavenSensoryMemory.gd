@@ -49,6 +49,7 @@ func update_agents_in_view() -> void:
 					record.time_became_visible  =  Time.get_ticks_msec() / 1000.0
 					record.time_last_sensed = Time.get_ticks_msec() / 1000.0
 					record.last_sensed_position = agent.position
+					record.time_last_visible = Time.get_ticks_msec() / 1000.0
 				else:
 					record.time_last_sensed = Time.get_ticks_msec() / 1000.0
 					record.last_sensed_position = agent.position
@@ -100,6 +101,11 @@ func get_last_recorded_position_of_opponent(agent:RavenAgent) -> Vector2:
 	if memory_dict.has(agent):
 		return memory_dict[agent].last_sensed_position
 	return Vector2.ZERO
+
+func get_time_target_has_been_out_of_view(agent: RavenAgent) -> float:
+	if memory_dict.has(agent):
+		return Time.get_ticks_msec() / 1000.0 - memory_dict[agent].time_last_visible
+	return INF
 
 func update_with_sound_source(agent: RavenAgent) -> void:
 	if agent != owner_agent:

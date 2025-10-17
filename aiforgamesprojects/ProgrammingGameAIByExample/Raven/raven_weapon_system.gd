@@ -6,6 +6,7 @@ var owner_agent : RavenAgent
 var current_weapon: RavenWeapon
 var reaction_time : float
 var aim_accuracy : float
+var aim_persistance: float
 
 # key = WeaponType enum, value = pointer to weapon carrying
 var weapon_map : Dictionary = {}
@@ -13,6 +14,7 @@ var weapon_map : Dictionary = {}
 
 func _init(_agent: RavenAgent, _react_time: float, _acc: float) -> void:
 	owner_agent = _agent
+	aim_persistance = 1.0
 	reaction_time = _react_time
 	aim_accuracy = _acc
 	current_weapon = WeaponBlaster.new(owner_agent)
@@ -44,7 +46,7 @@ func add_noise_to_aim(aiming_pos: Vector2) -> Vector2:
 	return base_direction.rotated(random_angle)  + owner_agent.position
 
 func take_aim_and_shoot(delta) -> void:
-	if owner_agent.targeting_system.is_target_shootable():
+	if owner_agent.targeting_system.is_target_shootable() or owner_agent.targeting_system.get_time_target_has_been_out_of_view() < aim_persistance:
 		#print("target shootable")
 		owner_agent.rotate_towards_target(delta, owner_agent.targeting_system.current_target.position)
 		if owner_agent.targeting_system.current_target:
