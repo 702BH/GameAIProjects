@@ -6,7 +6,7 @@ var owner_agent: RavenAgent
 
 var memory_dict = {}
 
-var memory_span := 3.0
+var memory_span := 5.0
 
 
 
