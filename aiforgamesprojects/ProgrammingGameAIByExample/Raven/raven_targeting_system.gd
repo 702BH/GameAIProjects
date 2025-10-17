@@ -51,5 +51,10 @@ func is_target_within_FOV() -> bool:
 	return false
 
 
+func get_time_target_has_been_out_of_view() -> float:
+	if current_target:
+		return owner_agent.sensory_memory.get_time_target_has_been_out_of_view(current_target)
+	return INF
+
 func clear_target() -> void:
 	current_target = null
