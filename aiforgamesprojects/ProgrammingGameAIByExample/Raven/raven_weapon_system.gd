@@ -23,7 +23,7 @@ func _init(_agent: RavenAgent, _react_time: float, _acc: float) -> void:
 	
 	weapon_map[RavenWeapon.WeaponType.BLASTER] = current_weapon
 	# debug purposes
-	weapon_map[RavenWeapon.WeaponType.SHOTGUN] = WeaponShotgun.new(owner_agent)
+	#weapon_map[RavenWeapon.WeaponType.SHOTGUN] = WeaponShotgun.new(owner_agent)
 	#weapon_map[RavenWeapon.WeaponType.ROCKET_LAUNCHER] = WeaponRocketLauncher.new(owner_agent)
 	#weapon_map[RavenWeapon.WeaponType.RAIL_GUN] = WeaponRailGun.new(owner_agent)
 
@@ -112,6 +112,10 @@ func add_weapon(weapon_type: RavenWeapon.WeaponType) -> void:
 			w = WeaponShotgun.new(owner_agent)
 		RavenWeapon.WeaponType.BLASTER:
 			w = WeaponBlaster.new(owner_agent)
+		RavenWeapon.WeaponType.ROCKET_LAUNCHER:
+			w = WeaponRocketLauncher.new(owner_agent)
+		RavenWeapon.WeaponType.RAIL_GUN:
+			w = WeaponRailGun.new(owner_agent)
 	
 	
 	var present: RavenWeapon = weapon_map.get( w.weapon_type)
