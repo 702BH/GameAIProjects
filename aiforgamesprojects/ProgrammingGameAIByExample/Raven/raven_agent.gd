@@ -16,7 +16,7 @@ var path_planner := RavenPathPlanner.new(self)
 var steering_controller := RavenSteeringController.new(self)
 var targeting_system := RavenTargetingSystem.new(self)
 var brain := GoalThink.new(self)
-var weapon_system := RavenWeaponSystem.new(self, 0.01, 1.0)
+var weapon_system := RavenWeaponSystem.new(self, 0.2, 1.0)
 var stats := RavenAgentStats.new()
 
 # Create the regulators
