@@ -75,7 +75,6 @@ theme_override_styles/panel = SubResource("StyleBoxFlat_itxlc")
 [node name="Buttons" type="HBoxContainer" parent="Container/ButtonPanel"]
 layout_mode = 2
 theme_override_constants/separation = 19
-alignment = 1
 
 [node name="Walls" type="Button" parent="Container/ButtonPanel/Buttons"]
 layout_mode = 2
@@ -83,13 +82,6 @@ theme_override_styles/pressed = ExtResource("3_birsf")
 toggle_mode = true
 button_group = ExtResource("4_62kta")
 text = "ADD WALLS"
-
-[node name="Spawn" type="Button" parent="Container/ButtonPanel/Buttons"]
-layout_mode = 2
-theme_override_styles/pressed = ExtResource("3_birsf")
-toggle_mode = true
-button_group = ExtResource("4_62kta")
-text = "ADD SPAWNS"
 
 [node name="Weapon" type="Button" parent="Container/ButtonPanel/Buttons"]
 layout_mode = 2
@@ -103,7 +95,8 @@ layout_mode = 2
 text = "SAVE MAP"
 
 [node name="MapName" type="LineEdit" parent="Container/ButtonPanel/Buttons"]
-custom_minimum_size = Vector2(100, 0)
+unique_name_in_owner = true
+custom_minimum_size = Vector2(150, 0)
 layout_mode = 2
 size_flags_horizontal = 4
 text = "map_name"
@@ -159,6 +152,7 @@ layout_mode = 2
 theme_override_constants/margin_right = 4
 
 [node name="DebugMapUI" type="HBoxContainer" parent="Container/ButtonPanel"]
+visible = false
 layout_mode = 2
 alignment = 1
 
@@ -203,6 +197,7 @@ layout_mode = 2
 theme_override_constants/margin_right = 4
 
 [node name="LoadMapDialog" type="FileDialog" parent="."]
+unique_name_in_owner = true
 title = "Open a File"
 ok_button_text = "Open"
 file_mode = 0
@@ -502,7 +497,6 @@ layout_mode = 2
 [connection signal="mouse_entered" from="Container/GridContainer" to="Container/GridContainer" method="_on_mouse_entered"]
 [connection signal="mouse_exited" from="Container/GridContainer" to="Container/GridContainer" method="_on_mouse_exited"]
 [connection signal="toggled" from="Container/ButtonPanel/Buttons/Walls" to="." method="_on_walls_toggled"]
-[connection signal="toggled" from="Container/ButtonPanel/Buttons/Spawn" to="." method="_on_spawn_toggled"]
 [connection signal="toggled" from="Container/ButtonPanel/Buttons/Weapon" to="." method="_on_weapon_toggled"]
 [connection signal="pressed" from="Container/ButtonPanel/Buttons/Save" to="." method="_on_save_pressed"]
 [connection signal="pressed" from="Container/ButtonPanel/Buttons/Load" to="." method="_on_load_pressed"]
