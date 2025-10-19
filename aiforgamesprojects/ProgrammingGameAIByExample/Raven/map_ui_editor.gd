@@ -58,12 +58,6 @@ func _on_walls_toggled(toggled_on: bool) -> void:
 		map_drawer.update_tool_state(MapDrawing.tool_state.NONE)
 
 
-func _on_spawn_toggled(toggled_on: bool) -> void:
-	if toggled_on:
-		map_drawer.update_tool_state(MapDrawing.tool_state.SPAWNS)
-	else:
-		map_drawer.update_tool_state(MapDrawing.tool_state.NONE)
-
 
 func _on_save_pressed() -> void:
 	map_save_request.emit(str($Container/ButtonPanel/Buttons/MapName.text))
@@ -77,6 +71,9 @@ func _on_load_pressed() -> void:
 func _on_load_map_dialog_file_selected(path: String) -> void:
 	map_load_request.emit(path)
 	$LoadMapDialog.hide()
+	var file_name: String = $%LoadMapDialog.current_file
+	file_name = file_name.get_slice(".", 0)
+	$%MapName.text = file_name
 	#loaded_map = path
 	#print(loaded_map)
 	#load_world_from_file(loaded_map)
