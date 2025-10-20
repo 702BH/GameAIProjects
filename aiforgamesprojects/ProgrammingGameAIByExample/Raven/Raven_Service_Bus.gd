@@ -30,6 +30,8 @@ signal mode_changed(mode: MapDrawing.tool_state)
 
 signal placeable_popup_submitted(data: SelectableData)
 
+signal load_pop_up()
+
 
 # agent selections
 signal agent_selected(agent: RavenAgent)

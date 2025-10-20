@@ -142,6 +142,14 @@ func _process(delta: float) -> void:
 				var selectable_data := SelectableData.new()
 				selectable_data.set_node(node)
 				RavenServiceBus.placeable_popup_requested.emit(selectable_data)
+		elif Input.is_action_pressed("remove"):
+			var location = World.position_to_grid(get_global_mouse_position())
+			var node: RavenNode = World.grid_world[location.y][location.x]
+			if node.node_type != RavenNode.NodeType.WALL:
+				node.node_type = RavenNode.NodeType.TRAVERSAL
+				node.item_type = null
+			drawer.dirty_nodes.append(node)
+			drawer.queue_redraw()
 
 func update_tool_state(state: tool_state) -> void:
 	current_state = state

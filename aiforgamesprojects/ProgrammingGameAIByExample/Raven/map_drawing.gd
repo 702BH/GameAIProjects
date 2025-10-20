@@ -19,6 +19,8 @@ var dirty_nodes : Array = []
 var draw_start :int
 var draw_end: int
 
+var font = ThemeDB.fallback_font
+
 
 
 func _draw() -> void:
@@ -36,17 +38,18 @@ func _draw() -> void:
 				if node.item_type:
 					match node.item_type.item_type:
 						RavenNodeItem.ItemType.HEALTH:
-							draw_circle(World.grid_to_world(node.node_pos.x, node.node_pos.y), 20.0, Color.GREEN_YELLOW)
+							#draw_string(font, World.grid_to_world(node.node_pos.x, node.node_pos.y), "H", HORIZONTAL_ALIGNMENT_CENTER, -1.0, 14, Color.RED)
+							draw_circle(World.grid_to_world(node.node_pos.x, node.node_pos.y), 5.0, Color.GREEN_YELLOW)
 						RavenNodeItem.ItemType.WEAPON:
 							if node.item_type.item_sub_type == RavenNodeItem.ItemSubType.SHOTGUN:
-								#draw_circle(World.grid_to_world(node.node_pos.x, node.node_pos.y), 20.0, Color.CRIMSON)
-								pass
+								#draw_string(font, World.grid_to_world(node.node_pos.x, node.node_pos.y)  + Vector2(-World.resolution, -5), "SHOTGUN", HORIZONTAL_ALIGNMENT_CENTER, -1.0, 10, Color.BLACK)
+								draw_circle(World.grid_to_world(node.node_pos.x, node.node_pos.y), 5.0, Color.CRIMSON)
 							elif node.item_type.item_sub_type == RavenNodeItem.ItemSubType.ROCKET_LAUNCHER:
-								draw_circle(World.grid_to_world(node.node_pos.x, node.node_pos.y), 20.0, Color.AQUA)
+								draw_circle(World.grid_to_world(node.node_pos.x, node.node_pos.y), 5.0, Color.AQUA)
 							elif node.item_type.item_sub_type == RavenNodeItem.ItemSubType.BLASTER:
-								draw_circle(World.grid_to_world(node.node_pos.x, node.node_pos.y), 20.0, Color.BLUE_VIOLET)#
+								draw_circle(World.grid_to_world(node.node_pos.x, node.node_pos.y), 5.0, Color.BLUE_VIOLET)#
 							elif node.item_type.item_sub_type == RavenNodeItem.ItemSubType.RAIL_GUN:
-								draw_circle(World.grid_to_world(node.node_pos.x, node.node_pos.y), 20.0, Color.CORAL)
+								draw_circle(World.grid_to_world(node.node_pos.x, node.node_pos.y), 5.0, Color.CORAL)
 			elif node.node_type == RavenNode.NodeType.SPAWN:
 				draw_rect(Rect2(node.node_pos.x * World.resolution, node.node_pos.y * World.resolution, World.resolution, World.resolution), Color.WHITE)
 				draw_circle(World.grid_to_world(node.node_pos.x, node.node_pos.y), 4.0, Color.REBECCA_PURPLE)
@@ -64,7 +67,6 @@ func _draw() -> void:
 					var node_col = neighbor.to % World.columns
 					var current_neighbor: RavenNode = World.grid_world[node_row][node_col]
 					if node.node_type == RavenNode.NodeType.WALL:
-						print("DRAW WHITE LINE")
 						draw_line(World.grid_to_world(node.node_pos.x, node.node_pos.y), World.grid_to_world(current_neighbor.node_pos.x, current_neighbor.node_pos.y), Color.WHITE)
 					else:
 						draw_line(World.grid_to_world(node.node_pos.x, node.node_pos.y), World.grid_to_world(current_neighbor.node_pos.x, current_neighbor.node_pos.y), Color.WEB_GREEN)

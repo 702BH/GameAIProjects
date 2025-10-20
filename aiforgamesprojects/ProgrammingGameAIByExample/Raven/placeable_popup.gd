@@ -22,7 +22,17 @@ func _ready() -> void:
 	for key in SelectableData.WeaponSubtype:
 		weapon_selection.add_item(SelectableData.enum_map[SelectableData.WeaponSubtype[key]], SelectableData.WeaponSubtype[key])
 		print(SelectableData.enum_map[SelectableData.WeaponSubtype[key]])
+	RavenServiceBus.placeable_popup_requested.connect(_on_placeable_popup_request.bind())
 
+func _on_placeable_popup_request(data: SelectableData) -> void:
+	visible = true
+	processing_data = data
+	var id = selection.selected
+	var item = selection.get_item_index(id)
+	if item ==  RavenNode.PlaceableType.Weapon:
+		weapon_selection_container.visible = true
+	else:
+		weapon_selection_container.visible = false
 
 func _on_cancel_popup_pressed() -> void:
 	# set map input state

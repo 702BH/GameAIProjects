@@ -36,20 +36,13 @@ func _ready() -> void:
 	popup_placebale.visible = false
 	agent_debugger.visible = false
 	debug_buttons_container.visible = false
-	RavenServiceBus.weapon_popup.connect(_on_weapon_popup.bind())
 	RavenServiceBus.agent_selected.connect(on_agent_selected.bind())
 	RavenServiceBus.agent_delesected.connect(on_agent_deselected.bind())
-	RavenServiceBus.placeable_popup_requested.connect(_on_placeable_popup_request.bind())
 
 
-func _on_placeable_popup_request(data: SelectableData) -> void:
-	popup_placebale.visible = true
-	popup_placebale.processing_data = data
-	
 
-func _on_weapon_popup() -> void:
-	print("should be visible")
-	weapon_popup.visible = true
+
+
 
 func _on_walls_toggled(toggled_on: bool) -> void:
 	if toggled_on:
