@@ -11,21 +11,25 @@ var radius := 20.0
 var angle := 0.0
 var speed := 2.0
 
+var loading := false
+
 func _ready() -> void:
 	#point1 = Vector2(size.x/2, size.y/2)
 	_point2 = Vector2(0, 0)
 
 
 func _process(delta: float) -> void:
-	angle += speed * delta
-	if angle > TAU:
-		angle = 0.0
-	queue_redraw()
+	if loading:
+		angle += speed * delta
+		if angle > TAU:
+			angle = 0.0
+		queue_redraw()
 
 func _draw():
-	draw_set_transform(Vector2(size.x/2, size.y/2))
-	var _p2 = point1 + Vector2.from_angle(angle) * radius
-	draw_arc(point1, radius, 0, angle, segments, color, width)
+	if loading:
+		draw_set_transform(Vector2(size.x/2, size.y/2))
+		var _p2 = point1 + Vector2.from_angle(angle) * radius
+		draw_arc(point1, radius, 0, angle, segments, color, width)
 	## Average points to get center.
 	#var center : Vector2 = Vector2((_point2.x + point1.x) / 2,
 								   #(_point2.y + point1.y) / 2)

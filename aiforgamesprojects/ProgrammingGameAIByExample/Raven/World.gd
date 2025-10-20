@@ -204,6 +204,7 @@ func save_map(file_name:String) -> void:
 		return
 	
 	print("SHOULD START SAVING UI")
+	RavenServiceBus.load_pop_up.emit()
 	save_thread = Thread.new()
 	save_thread.start(_save_world_threaded.bind(file_name))
 
@@ -248,6 +249,7 @@ func save_world_to_file(file_name:String) -> void:
 	print("map saved")
 
 func _on_save_complete() -> void:
+	RavenServiceBus.load_pop_up.emit()
 	print("MAP SAVED")
 
 func move_agent(agent: RavenAgent, old_pos: Vector2, new_pos: Vector2) -> void:

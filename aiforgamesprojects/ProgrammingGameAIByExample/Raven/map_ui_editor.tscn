@@ -1,4 +1,4 @@
-[gd_scene load_steps=23 format=3 uid="uid://c5uea86dlcivm"]
+[gd_scene load_steps=24 format=3 uid="uid://c5uea86dlcivm"]
 
 [ext_resource type="Script" uid="uid://cmclv6r6mrl5b" path="res://ProgrammingGameAIByExample/Raven/map_ui_editor.gd" id="1_ad81b"]
 [ext_resource type="StyleBox" uid="uid://b8a81fdlk5ted" path="res://ProgrammingGameAIByExample/Raven/button_pressed.tres" id="3_birsf"]
@@ -12,6 +12,7 @@
 [ext_resource type="Script" uid="uid://cshd82ydb2vec" path="res://ProgrammingGameAIByExample/Raven/targeting_debug.gd" id="9_rytgg"]
 [ext_resource type="Script" uid="uid://cpo3h6d7vb6h4" path="res://ProgrammingGameAIByExample/Raven/weapons_debug.gd" id="10_2eej5"]
 [ext_resource type="Script" uid="uid://ci8ky6tb4kk2l" path="res://ProgrammingGameAIByExample/Raven/placeable_popup.gd" id="11_f7lml"]
+[ext_resource type="Script" uid="uid://1augwl03xst2" path="res://ProgrammingGameAIByExample/Raven/loading_popup.gd" id="13_2eej5"]
 [ext_resource type="Script" uid="uid://cnf7sipipte7q" path="res://ProgrammingGameAIByExample/Raven/animation.gd" id="13_rytgg"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_itxlc"]
@@ -496,6 +497,7 @@ custom_minimum_size = Vector2(0, 3)
 layout_mode = 2
 
 [node name="LoadingPopup" type="Panel" parent="."]
+visible = false
 custom_minimum_size = Vector2(300, 300)
 layout_mode = 1
 anchors_preset = 8
@@ -509,6 +511,7 @@ offset_right = 150.0
 offset_bottom = 150.0
 grow_horizontal = 2
 grow_vertical = 2
+script = ExtResource("13_2eej5")
 
 [node name="VBoxContainer" type="VBoxContainer" parent="LoadingPopup"]
 layout_mode = 1
