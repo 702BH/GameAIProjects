@@ -24,6 +24,8 @@ var loaded_map : bool = false
 var pre_calc_costs = []
 var NUM_THREADS := 6
 var threads := []
+var is_saving := false
+var save_thread : Thread
 
 func initialise(_width:float, _height:float, _resolution:float, _cell_size:int) -> void:
 	width = _width
@@ -197,6 +199,21 @@ func _compute_chunk(info) -> void:
 			pre_calc_costs[node.id][target_id] = costs_dict[target_id]
 
 
+func save_map(file_name:String) -> void:
+	if is_saving:
+		return
+	
+	print("SHOULD START SAVING UI")
+	save_thread = Thread.new()
+	save_thread.start(_save_world_threaded.bind(file_name))
+
+func _save_world_threaded(file_name:String) ->void:
+	save_world_to_file(file_name)
+	
+	is_saving = false
+	call_deferred("_on_save_complete")
+
+
 func save_world_to_file(file_name:String) -> void:
 	print("Saving map")
 	calculate_costs_threaded()
@@ -230,6 +247,8 @@ func save_world_to_file(file_name:String) -> void:
 	file.close()
 	print("map saved")
 
+func _on_save_complete() -> void:
+	print("MAP SAVED")
 
 func move_agent(agent: RavenAgent, old_pos: Vector2, new_pos: Vector2) -> void:
 	var old_key = world_to_bucket((old_pos))

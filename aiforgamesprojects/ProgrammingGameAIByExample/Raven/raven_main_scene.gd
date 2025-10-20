@@ -135,7 +135,8 @@ func _on_ui_start_map_request() -> void:
 
 
 func _on_ui_map_save_request(file_name: String) -> void:
-	World.save_world_to_file(file_name)
+	#World.save_world_to_file(file_name)
+	World.save_map(file_name)
 
 
 func _on_projectile_fired(projectile: RavenProjectile) -> void:
