@@ -243,6 +243,7 @@ func take_damage(amount:float) -> void:
 	if health <= 100.0:
 		print("SHOULD DIE")
 		RavenServiceBus.agent_died.emit(self)
+		World.remove_agent(self, World.position_to_grid(position))
 		queue_free()
 	health = clamp(health, 0, 100)
 	print("TAKEN DAMAGE, REAMINING HEALTH: ", health)

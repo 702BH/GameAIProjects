@@ -369,8 +369,42 @@ text = "Selected Weapon:"
 custom_minimum_size = Vector2(150, 50)
 layout_mode = 2
 text = "None"
-horizontal_alignment = 1
+vertical_alignment = 1
 autowrap_mode = 2
+clip_text = true
+
+[node name="Inventory" type="VBoxContainer" parent="CollapsableDebug/PanelContainer/Panels/TabContainer/Weapons/DebugContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="CollapsableDebug/PanelContainer/Panels/TabContainer/Weapons/DebugContainer/Inventory"]
+layout_mode = 2
+text = "Inventory"
+horizontal_alignment = 1
+
+[node name="Columns" type="HBoxContainer" parent="CollapsableDebug/PanelContainer/Panels/TabContainer/Weapons/DebugContainer/Inventory"]
+layout_mode = 2
+alignment = 1
+
+[node name="Label" type="Label" parent="CollapsableDebug/PanelContainer/Panels/TabContainer/Weapons/DebugContainer/Inventory/Columns"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Weapon"
+
+[node name="Label2" type="Label" parent="CollapsableDebug/PanelContainer/Panels/TabContainer/Weapons/DebugContainer/Inventory/Columns"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Ammo"
+
+[node name="Items" type="HBoxContainer" parent="CollapsableDebug/PanelContainer/Panels/TabContainer/Weapons/DebugContainer/Inventory"]
+layout_mode = 2
+
+[node name="Weapons" type="VBoxContainer" parent="CollapsableDebug/PanelContainer/Panels/TabContainer/Weapons/DebugContainer/Inventory/Items"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Ammo" type="VBoxContainer" parent="CollapsableDebug/PanelContainer/Panels/TabContainer/Weapons/DebugContainer/Inventory/Items"]
+layout_mode = 2
+size_flags_horizontal = 3
 
 [node name="Memory" type="ScrollContainer" parent="CollapsableDebug/PanelContainer/Panels/TabContainer"]
 visible = false
