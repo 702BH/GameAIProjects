@@ -125,6 +125,13 @@ func add_weapon(weapon_type: RavenWeapon.WeaponType) -> void:
 		present.increment_rounds(w.ammo_to_add)
 	else:
 		weapon_map[w.weapon_type] = w
+	
+		var data = WeaponData.build().set_agent(owner_agent).set_system(DebugData.Systems.WEAPON).set_step(WeaponData.Steps.WEAPON_ADDED)
+		for key in weapon_map:
+			var weapon: RavenWeapon = weapon_map[key]
+			var ammo = weapon.num_rounds_left
+			data.add_message_inventory([weapon, ammo])
+		RavenServiceBus.debug_event.emit(data)
 
 
 func change_weapon(weapon_type: RavenWeapon.WeaponType) -> void:
