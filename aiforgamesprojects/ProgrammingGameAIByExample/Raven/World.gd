@@ -291,3 +291,13 @@ func world_to_bucket(pos: Vector2) -> Vector2:
 
 func get_random_position() -> Vector2:
 	return Vector2(randi_range(30, int(width)), randi_range(30, int(height)))
+
+
+func remove_agent(agent: RavenAgent, pos: Vector2) -> void:
+	var key = world_to_bucket(pos)
+	var bucket:Array = cell_buckets_agents[key]
+	
+	var index = bucket.find(agent)
+	if index >= 0:
+		bucket.remove_at(index)
+	
