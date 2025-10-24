@@ -1,0 +1,25 @@
+[gd_scene load_steps=2 format=3 uid="uid://cblb1daenn40k"]
+
+[ext_resource type="Script" uid="uid://1anqc6bccf3i" path="res://ProgrammingGameAIByExample/Raven/UI/weapon_inventory.gd" id="1_vp2y0"]
+
+[node name="WeaponInventory" type="Control"]
+custom_minimum_size = Vector2(0, 32)
+layout_mode = 3
+anchors_preset = 0
+size_flags_horizontal = 3
+size_flags_vertical = 4
+script = ExtResource("1_vp2y0")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="."]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+theme_override_constants/separation = 10
+
+[node name="Weapon" type="Label" parent="HBoxContainer"]
+layout_mode = 2
+text = "Weapon"
+
+[node name="Ammo" type="Label" parent="HBoxContainer"]
+layout_mode = 2
+text = "Ammo"

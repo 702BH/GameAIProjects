@@ -126,7 +126,7 @@ func add_weapon(weapon_type: RavenWeapon.WeaponType) -> void:
 	else:
 		weapon_map[w.weapon_type] = w
 	
-		var data = WeaponData.build().set_agent(owner_agent).set_system(DebugData.Systems.WEAPON).set_step(WeaponData.Steps.WEAPON_ADDED)
+		var data: WeaponData = WeaponData.build().set_agent(owner_agent).set_system(DebugData.Systems.WEAPON).set_step(WeaponData.Steps.WEAPON_ADDED)
 		for key in weapon_map:
 			var weapon: RavenWeapon = weapon_map[key]
 			var ammo = weapon.num_rounds_left

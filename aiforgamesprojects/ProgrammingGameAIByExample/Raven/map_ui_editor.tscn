@@ -395,16 +395,9 @@ layout_mode = 2
 size_flags_horizontal = 3
 text = "Ammo"
 
-[node name="Items" type="HBoxContainer" parent="CollapsableDebug/PanelContainer/Panels/TabContainer/Weapons/DebugContainer/Inventory"]
+[node name="Items" type="VBoxContainer" parent="CollapsableDebug/PanelContainer/Panels/TabContainer/Weapons/DebugContainer/Inventory"]
 layout_mode = 2
-
-[node name="Weapons" type="VBoxContainer" parent="CollapsableDebug/PanelContainer/Panels/TabContainer/Weapons/DebugContainer/Inventory/Items"]
-layout_mode = 2
-size_flags_horizontal = 3
-
-[node name="Ammo" type="VBoxContainer" parent="CollapsableDebug/PanelContainer/Panels/TabContainer/Weapons/DebugContainer/Inventory/Items"]
-layout_mode = 2
-size_flags_horizontal = 3
+theme_override_constants/separation = 6
 
 [node name="Memory" type="ScrollContainer" parent="CollapsableDebug/PanelContainer/Panels/TabContainer"]
 visible = false

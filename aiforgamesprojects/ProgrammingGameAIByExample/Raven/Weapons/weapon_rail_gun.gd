@@ -10,6 +10,7 @@ func _init(_agent: RavenAgent) -> void:
 	time_next_available = 0.0
 	rate_of_fire = 1
 	initialise_fuzzy_module()
+	name = "Rail Gun"
 
 
 func shoot_at(pos: Vector2) -> void:
