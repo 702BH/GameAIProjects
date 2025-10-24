@@ -11,6 +11,7 @@ func _init(_agent: RavenAgent) -> void:
 	rate_of_fire = 1.0
 	sound_range = World.resolution * 2.0
 	initialise_fuzzy_module()
+	name = "Blaster"
 
 
 func shoot_at(pos: Vector2) -> void:

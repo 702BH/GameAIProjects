@@ -13,6 +13,7 @@ var rate_of_fire : float
 var last_desirability_score:float
 var ammo_to_add : int
 var sound_range :float
+var name : String
 
 
 static var projectiles_map = {

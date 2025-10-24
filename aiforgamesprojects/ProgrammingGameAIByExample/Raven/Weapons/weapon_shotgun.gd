@@ -16,6 +16,7 @@ func _init(_agent: RavenAgent) -> void:
 	num_balls_in_shell = 10
 	spread = 15
 	initialise_fuzzy_module()
+	name = "Shotgun"
 
 
 func shoot_at(pos: Vector2) -> void:
