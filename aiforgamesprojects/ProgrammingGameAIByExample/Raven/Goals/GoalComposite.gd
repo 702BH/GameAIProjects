@@ -30,14 +30,12 @@ func remove_all_subgoals() -> void:
 	subgoals.clear()
 
 
-func to_dict() -> Dictionary:
-	var data: Dictionary = {
-		"name": _get_name(),
-		"status": _get_status(),
-		"children": []
-	}
+func to_dict() -> GoalDataDebug:
+	
+	var data:= GoalDataDebug.new(_get_name(), _get_status(), [], {})
+	
 	
 	for sub in subgoals:
-		data["children"].append(sub.to_dict())
+		data.children.append(sub.to_dict())
 	
 	return data

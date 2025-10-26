@@ -24,7 +24,7 @@ var weapon_selection_regulator = Regulator.new(2.0)
 var goal_arbitration_regulator = Regulator.new(4.0)
 var target_selection_regulator = Regulator.new(2.0)
 var vision_update_regulator = Regulator.new(4.0)
-var debug_regulator = Regulator.new(0.5)
+var debug_regulator = Regulator.new(2.0)
 
 var click_radius := 15.0
 var selected := false

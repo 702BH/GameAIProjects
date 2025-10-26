@@ -19,27 +19,27 @@ func debug_arbitration(data: DebugData) -> void:
 	output.scroll_vertical = output.get_line_count()
 
 func debug_goals(data: DebugData) -> void:
-	var data_dict :Dictionary = data.messages[0]
+	var goal_data :GoalDataDebug = data.messages[0]
 	goal_tree.clear()
 	var root = goal_tree.create_item()
 	goal_tree.hide_root = true
 	
-	_populate(data_dict, root)
+	_populate(goal_data, root)
 	
 	#var parent_goal = goal_tree.create_item(root)
 	#parent_goal.set_text(0, data_dict.name)
 	
 	
-	
-	print("Goal Data Recieved")
-	print(data.messages[0])
+	#
+	#print("Goal Data Recieved")
+	#print(data.messages[0])
 
 
-func _populate(data:Dictionary, parent: TreeItem) -> void:
+func _populate(data:GoalDataDebug, parent: TreeItem) -> void:
 	var goal = goal_tree.create_item(parent)
-	goal.set_text(0, data["name"])
-	if data["children"].size() > 0:
-		for item in data.children:
+	goal.set_text(0, data.name)
+	if data.children.size() > 0:
+		for item: GoalDataDebug in data.children:
 			_populate(item, goal)
 
 

@@ -7,6 +7,6 @@ enum Steps {ARBITRATION, GOALS}
 static func build() -> BrainData:
 	return BrainData.new()
 
-func add_message_goals(ms: Dictionary) ->DebugData:
+func add_message_goals(ms: GoalDataDebug) ->DebugData:
 	messages.append(ms)
 	return self

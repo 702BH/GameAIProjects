@@ -53,11 +53,7 @@ func _get_name() -> String:
 func _get_status() -> String:
 	return Status.keys()[status]
 
-func to_dict() -> Dictionary:
-	var data: Dictionary = {
-		"name": _get_name(),
-		"status": _get_status(),
-		"children": []
-	}
+func to_dict() -> GoalDataDebug:
+	var data:= GoalDataDebug.new(_get_name(), _get_status(), [], {})
 	
 	return data
