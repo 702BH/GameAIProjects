@@ -38,6 +38,7 @@ func debug_goals(data: DebugData) -> void:
 func _populate(data:GoalDataDebug, parent: TreeItem) -> void:
 	var goal = goal_tree.create_item(parent)
 	goal.set_text(0, data.name)
+	#goal.s
 	if data.children.size() > 0:
 		for item: GoalDataDebug in data.children:
 			_populate(item, goal)

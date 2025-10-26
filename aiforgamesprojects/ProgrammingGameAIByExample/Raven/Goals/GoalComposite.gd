@@ -32,7 +32,7 @@ func remove_all_subgoals() -> void:
 
 func to_dict() -> GoalDataDebug:
 	
-	var data:= GoalDataDebug.new(_get_name(), _get_status(), [], {})
+	var data:= GoalDataDebug.new(_get_name(), _get_status(), [], {},status_colors[status])
 	
 	
 	for sub in subgoals:
