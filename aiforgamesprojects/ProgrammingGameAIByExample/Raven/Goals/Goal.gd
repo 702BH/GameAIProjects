@@ -46,3 +46,18 @@ func activate_if_inactive() -> void:
 func reactivate_if_failed() -> void:
 	if has_failed():
 		status = Status.INACTIVE
+
+func _get_name() -> String:
+	return Type.keys()[goal_type]
+
+func _get_status() -> String:
+	return Status.keys()[status]
+
+func to_dict() -> Dictionary:
+	var data: Dictionary = {
+		"name": _get_name(),
+		"status": _get_status(),
+		"children": []
+	}
+	
+	return data

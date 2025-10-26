@@ -28,3 +28,16 @@ func remove_all_subgoals() -> void:
 		subgoal.terminate()
 	
 	subgoals.clear()
+
+
+func to_dict() -> Dictionary:
+	var data: Dictionary = {
+		"name": _get_name(),
+		"status": _get_status(),
+		"children": []
+	}
+	
+	for sub in subgoals:
+		data["children"].append(sub.to_dict())
+	
+	return data
