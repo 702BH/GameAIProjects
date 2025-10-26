@@ -7,6 +7,13 @@ enum Type {GOAL_THINK, GOAL_EXPLORE, GOAL_ARRIVE_AT_POSITION,
 	GOAL_MOVE_TO_POSITION, GOAL_WANDER, GOAL_ATTACK_TARGET, GOAL_GET_SHOTGUN, GOAL_GET_RAILGUN,
 	GOAL_GET_ROCKET_LAUNCHER, GOAL_GET_HEALTH, GOAL_STRAFE, GOAL_HUNT_TARGET}
 
+var status_colors:Dictionary = {
+	Status.INACTIVE : Color.BLACK,
+	Status.ACTIVE: Color.YELLOW,
+	Status.COMPLETED : Color.GREEN,
+	Status.FAILED: Color.RED
+}
+
 var owner_agent: RavenAgent
 var status: Status = Status.INACTIVE
 var goal_type: Type
@@ -46,3 +53,17 @@ func activate_if_inactive() -> void:
 func reactivate_if_failed() -> void:
 	if has_failed():
 		status = Status.INACTIVE
+
+func _get_name() -> String:
+	return Type.keys()[goal_type]
+
+func _get_status() -> String:
+	return Status.keys()[status]
+
+func _get_tooltip_text() -> String:
+	return ""
+
+func to_dict() -> GoalDataDebug:
+	var data:= GoalDataDebug.new(_get_name(), _get_status(), [], {}, status_colors[status], _get_tooltip_text())
+	
+	return data

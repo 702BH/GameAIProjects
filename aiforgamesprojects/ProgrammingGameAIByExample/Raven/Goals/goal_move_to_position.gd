@@ -36,3 +36,7 @@ func process() -> Status:
 
 func terminate() -> void:
 	remove_all_subgoals()
+
+
+func _get_tooltip_text() -> String:
+	return "( " + str(destination.x) + ", " + str(destination.y) + " )"

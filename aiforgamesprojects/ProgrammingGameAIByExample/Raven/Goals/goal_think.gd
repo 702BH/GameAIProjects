@@ -32,6 +32,11 @@ func process() -> Status:
 	if sub_goal_status == Status.COMPLETED or sub_goal_status == Status.FAILED:
 		status = Status.INACTIVE
 	
+	if owner_agent.debug_regulator.is_ready():
+		var data:BrainData = BrainData.build().set_agent(owner_agent).set_system(DebugData.Systems.BRAIN).set_step(BrainData.Steps.GOALS)
+		data.add_message_goals(to_dict())
+		RavenServiceBus.debug_event.emit(data)
+	
 	return status
 
 
