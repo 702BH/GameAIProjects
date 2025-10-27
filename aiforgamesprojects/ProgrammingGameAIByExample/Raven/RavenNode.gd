@@ -10,6 +10,7 @@ var item_type : RavenNodeItem = null
 var dirty := false
 
 var wall_segments: Array
+var wall_normals: Array
 
 func _init(_id: int, _node_type: NodeType, _node_pos:Vector2, _border: bool) -> void:
 	super(_id)
@@ -34,7 +35,11 @@ func _initialise_wall_segments() -> void:
 	var bottom_right:= Vector2(node_world_pos.x +half_res, node_world_pos.y +half_res)
 	wall_segments = [
 				[top_left, top_right],
-				[bottom_left, bottom_right],
-				[top_left, bottom_left],
-				[top_right, bottom_right]
+				[top_right, bottom_right],
+				[bottom_right, bottom_left],
+				[bottom_left, top_left]
 			]
+	for segment in wall_segments:
+		var edge = segment[1] - segment[0]
+		var normal = Vector2(-edge.y, edge.x).normalized()
+		wall_normals.append(normal)
