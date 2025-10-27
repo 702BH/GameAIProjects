@@ -106,6 +106,12 @@ func load_world_from_file(file_path: String) -> void:
 		if node["row"] == 0 or node["row"] == map_rows-1 or node["column"]== 0 or node["column"]==map_columns-1:
 			var graph_node = graph.add_vertex(node["type"], Vector2(node["position"]["x"], node["position"]["y"]), true)
 			grid_world[node["row"]][node["column"]] = graph_node
+			var cell_x = int(node["position"]["x"]/cell_size)
+			var cell_y = int(node["position"]["y"]/cell_size)
+			var key = Vector2i(cell_x, cell_y)
+			if !cell_buckets_static.has(key):
+				cell_buckets_static[key] = []
+			cell_buckets_static[key].append(graph.nodes[node["row"] * columns + node["column"]])
 		else:
 			var graph_node = graph.add_vertex(node["type"], Vector2(node["position"]["x"], node["position"]["y"]), false)
 			grid_world[node["row"]][node["column"]] = graph_node
@@ -125,12 +131,13 @@ func load_world_from_file(file_path: String) -> void:
 				#print("loc row: ", node["row"], " column: ", node["column"])
 				#print("grid to world: ", grid_to_world(graph_node.node_pos.x, graph_node.node_pos.y, resolution))
 				#print("world to grid: ", position_to_grid(graph_node.node_pos))
-			var cell_x = int(node["position"]["x"]/cell_size)
-			var cell_y = int(node["position"]["y"]/cell_size)
-			var key = Vector2i(cell_x, cell_y)
-			if !cell_buckets_static.has(key):
-				cell_buckets_static[key] = []
-			cell_buckets_static[key].append(graph.nodes[node["row"] * columns + node["column"]])
+			if graph_node.node_type == RavenNode.NodeType.WALL:
+				var cell_x = int(node["position"]["x"]/cell_size)
+				var cell_y = int(node["position"]["y"]/cell_size)
+				var key = Vector2i(cell_x, cell_y)
+				if !cell_buckets_static.has(key):
+					cell_buckets_static[key] = []
+				cell_buckets_static[key].append(graph.nodes[node["row"] * columns + node["column"]])
 	generate_edges(map_rows, map_columns)
 	RavenServiceBus.grid_generated.emit()
 	loaded_map = true

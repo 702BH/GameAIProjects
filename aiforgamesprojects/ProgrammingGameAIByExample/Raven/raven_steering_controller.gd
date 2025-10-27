@@ -230,9 +230,9 @@ func evade(pursuer : RavenMover) -> Vector2:
 
 func wall_avoidance() -> Vector2:
 	var steering := Vector2.ZERO
-	
-	
+	var distToThisIP :float = 0.0
 	var closest_dist := INF
+	
 	var closest_point := Vector2.ZERO
 	var closest_normal := Vector2.ZERO
 	var hit_feeler := -1
