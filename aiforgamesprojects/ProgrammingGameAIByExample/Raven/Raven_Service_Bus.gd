@@ -41,6 +41,7 @@ signal agent_died(agent:RavenAgent)
 
 # debugging system
 signal debug_event(data: DebugData)
+signal debg_mode_changed(mode:bool)
 
 # Map drawing
 signal grid_generated()

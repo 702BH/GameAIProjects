@@ -2,7 +2,8 @@ extends Node2D
 #
 
 func _process(delta: float) -> void:
-	queue_redraw()
+	if DebugSettings.debug_mode:
+		queue_redraw()
 
 func _draw() -> void:
 	var mouse_position:= get_global_mouse_position()
