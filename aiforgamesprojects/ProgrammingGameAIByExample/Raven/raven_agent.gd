@@ -58,7 +58,7 @@ var vision_points :PackedVector2Array = [
 ]
 
 
-var feeler_length = 50.0
+var feeler_length = 5.0
 var feelers = [Vector2.ZERO,Vector2.ZERO, Vector2.ZERO]
 
 
@@ -78,7 +78,7 @@ func _ready() -> void:
 	body_shape.shape = collision_shape
 	
 	vision_shape.polygon = vision_points
-	feeler_length = World.cell_size 
+	#feeler_length = World.cell_size 
 	RavenServiceBus.agent_goal_changed.connect(_on_goal_changed.bind())
 	RavenServiceBus.agent_died.connect(_on_agent_died.bind())
 
@@ -233,9 +233,9 @@ func follow_path(path:Array) -> void:
 
 
 func is_at_position(pos: Vector2) -> bool:
-	var tolerance := 2.0
-	
-	return position.distance_squared_to(pos) < tolerance * tolerance
+	#var tolerance := 3.0
+	return Calculations.do_circles_intersect(position, pos, radius, 10.0)
+	#return position.distance_squared_to(pos) < tolerance * tolerance
 
 
 func take_damage(amount:float) -> void:

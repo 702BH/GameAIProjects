@@ -41,5 +41,5 @@ func _initialise_wall_segments() -> void:
 			]
 	for segment in wall_segments:
 		var edge = segment[1] - segment[0]
-		var normal = Vector2(-edge.y, edge.x).normalized()
+		var normal = Vector2(edge.y, -edge.x).normalized()
 		wall_normals.append(normal)
