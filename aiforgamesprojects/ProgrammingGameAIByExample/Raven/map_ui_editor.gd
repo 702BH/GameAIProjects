@@ -77,6 +77,7 @@ func _on_run_map_pressed() -> void:
 	map_editor_ui.visible = false
 	map_run_ui.visible = true
 	map_drawer.current_ui_state = MapDrawing.ui_state.MAP_RUNNING
+	DebugSettings.set_debug_mode(false)
 	start_map_request.emit()
 
 func on_agent_selected(agent: RavenAgent) -> void:

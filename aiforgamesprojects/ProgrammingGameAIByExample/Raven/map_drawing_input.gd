@@ -30,7 +30,15 @@ func _ready() -> void:
 	RavenServiceBus.debg_mode_changed.connect(_on_debug_mode_changed.bind())
 
 func _on_debug_mode_changed(mode:bool) -> void:
-	pass
+	print("DEBUG MODE CHANGED")
+	print(DebugSettings.debug_mode)
+	static_drawing.queue_redraw()
+	drawer.queue_redraw()
+	viewport.render_target_clear_mode = SubViewport.CLEAR_MODE_ONCE
+	for node in World.graph.nodes:
+		drawer.dirty_nodes.append(node)
+	#drawer.dirty_nodes = World.graph.nodes.duplicate()
+	drawer.queue_redraw()
 
 func _on_popup_submitted(data: SelectableData) -> void:
 	#print("Popup sucessfuly submitted")

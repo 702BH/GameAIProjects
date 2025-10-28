@@ -57,8 +57,9 @@ var vision_points :PackedVector2Array = [
 	
 ]
 
-
-var feeler_length = 5.0
+var min_feeler_length := 15
+var max_feeler_length := 35
+var feeler_length = min_feeler_length
 var feelers = [Vector2.ZERO,Vector2.ZERO, Vector2.ZERO]
 
 
@@ -133,6 +134,7 @@ func _physics_process(delta: float) -> void:
 	
 	weapon_system.take_aim_and_shoot(delta)
 	
+	feeler_length = min_feeler_length + (velocity.length() / max_speed) * (max_feeler_length - min_feeler_length)
 	var steering_force = steering_controller.calculate()
 	apply_force(steering_force)
 	velocity += acceleration * delta
@@ -142,10 +144,10 @@ func _physics_process(delta: float) -> void:
 	if !targeting_system.current_target:
 		rotateVehicle(delta)
 	
-	var heading :Vector2= velocity.normalized() * (max_speed + feeler_length)
-	feelers[0] = Vector2(heading.x, heading.y) + position
-	feelers[1] = Vector2(heading.x, heading.y).rotated(0.5)  + Vector2(position.x, position.y)
-	feelers[2] = Vector2(heading.x, heading.y).rotated(-0.5) + Vector2(position.x, position.y)
+	var heading :Vector2= velocity.normalized() * (feeler_length)
+	feelers[0] = heading + position
+	feelers[1] = heading.rotated(0.5)  + position
+	feelers[2] = heading.rotated(-0.5) + position
 	
 	
 	var new_cell = World.position_to_grid(position)

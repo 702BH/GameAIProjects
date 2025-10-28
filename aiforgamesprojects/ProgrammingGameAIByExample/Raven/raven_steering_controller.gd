@@ -264,7 +264,7 @@ func wall_avoidance() -> Vector2:
 							hit_segment = j
 		if closest_wall and hit_feeler != -1:
 			var over_shoot = owner_agent.feelers[hit_feeler] - closest_point
-			steering_force = closest_wall.wall_normals[hit_segment] * over_shoot.length()
+			steering_force += closest_wall.wall_normals[hit_segment] * over_shoot.length() * 2.0
 	
 	###
 	# testing new method
