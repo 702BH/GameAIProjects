@@ -77,6 +77,7 @@ func _on_run_map_pressed() -> void:
 	map_editor_ui.visible = false
 	map_run_ui.visible = true
 	map_drawer.current_ui_state = MapDrawing.ui_state.MAP_RUNNING
+	DebugSettings.set_debug_mode(false)
 	start_map_request.emit()
 
 func on_agent_selected(agent: RavenAgent) -> void:
@@ -89,10 +90,7 @@ func on_agent_deselected() -> void:
 	agent_name_label.text = "None"
 	update_debug_ui(false)
 
-func _on_random_path_pressed() -> void:
-	print(selected_agent)
-	if selected_agent:
-		selected_agent._on_generate_paths_pressed()
+
 
 
 func _on_weapon_toggled(toggled_on: bool) -> void:

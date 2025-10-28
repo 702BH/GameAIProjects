@@ -18,6 +18,7 @@ config/icon="res://icon.svg"
 
 RavenServiceBus="*res://ProgrammingGameAIByExample/Raven/Raven_Service_Bus.gd"
 World="*res://ProgrammingGameAIByExample/Raven/World.gd"
+DebugSettings="*res://ProgrammingGameAIByExample/Raven/Debug/DebugSettings.gd"
 
 [display]
 

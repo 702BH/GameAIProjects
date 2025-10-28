@@ -6,6 +6,8 @@ enum ui_state {MAP_EDITOR, MAP_RUNNING, MAP_SELECTIONS}
 
 @onready var drawer := $SubViewport/MapDrawing
 @onready var viewport := $SubViewport
+@onready var bucketdrawing := $BucketDrawing
+@onready var static_drawing := $SubViewport/MapDrawing/StaticDrawing
 
 var mouse_in := true
 var selected_position
@@ -25,7 +27,18 @@ func _ready() -> void:
 	RavenServiceBus.submitted_weapon.connect(_on_submitted.bind())
 	RavenServiceBus.grid_generated.connect(_on_grid_generated.bind())
 	RavenServiceBus.placeable_popup_submitted.connect(_on_popup_submitted.bind())
+	RavenServiceBus.debg_mode_changed.connect(_on_debug_mode_changed.bind())
 
+func _on_debug_mode_changed(mode:bool) -> void:
+	print("DEBUG MODE CHANGED")
+	print(DebugSettings.debug_mode)
+	static_drawing.queue_redraw()
+	drawer.queue_redraw()
+	viewport.render_target_clear_mode = SubViewport.CLEAR_MODE_ONCE
+	for node in World.graph.nodes:
+		drawer.dirty_nodes.append(node)
+	#drawer.dirty_nodes = World.graph.nodes.duplicate()
+	drawer.queue_redraw()
 
 func _on_popup_submitted(data: SelectableData) -> void:
 	#print("Popup sucessfuly submitted")
