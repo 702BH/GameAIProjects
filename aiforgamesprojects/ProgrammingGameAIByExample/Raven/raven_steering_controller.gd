@@ -233,73 +233,102 @@ func wall_avoidance() -> Vector2:
 	var distToThisIP :float = 0.0
 	var closest_dist := INF
 	
+	
 	var closest_point := Vector2.ZERO
 	var closest_normal := Vector2.ZERO
-	var hit_feeler := -1
+	
+	
+	
+	###
+	# Looping over all walls, no buckets used for now
+	###
+	for i in range(owner_agent.feelers.size()):
+		var closest_wall: RavenNode
+		var collision_point := Vector2.ZERO
+		var hit_feeler := -1
+		var hit_segment := -1
+		for key in World.cell_buckets_static:
+			var walls = World.cell_buckets_static[key]
+			for wall in walls:
+				var wall_segments = wall.wall_segments
+				for j in range(wall_segments.size()):
+					var calc_point : Vector2 = Calculations.line_intersection2D(owner_agent.position, owner_agent.feelers[i], wall_segments[j][0], wall_segments[j][1])
+					if calc_point != Vector2.INF:
+						# check distance
+						var dist_sq = owner_agent.position.distance_squared_to(calc_point)
+						if dist_sq < closest_dist:
+							closest_dist = dist_sq
+							closest_point = calc_point
+							closest_wall = wall
+							hit_feeler = i
+							hit_segment = j
+		if closest_wall and hit_feeler != -1:
+			var over_shoot = owner_agent.feelers[hit_feeler] - closest_point
+			steering_force = closest_wall.wall_normals[hit_segment] * over_shoot.length()
 	
 	###
 	# testing new method
 	###
 	
 	
-	# loop over agent feelers
-	for i in  range(owner_agent.feelers.size()):
-		var collision_point := Vector2.ZERO
-		var key = World.world_to_bucket(World.position_to_grid(owner_agent.feelers[i]))
-		var bucket:Array = World.cell_buckets_static.get(Vector2i(int(key.x), int(key.y)), [])
-		
-		var buckets_to_check = []
-		
-		for k in range(-1, 2):
-			for l in range(-1, 2):
-				var new_key = Vector2i(int(key.x) + k, int(key.y) + l)
-				#print(new_key)
-				var new_bucket: Array = World.cell_buckets_static.get(new_key, [])
-				if new_bucket.is_empty():
-					continue
-				for value in new_bucket:
-					buckets_to_check.append(value)
-		
-		
-		
-		if buckets_to_check.is_empty():
-			continue
-		for node:RavenNode in buckets_to_check:
-			if node.node_type != RavenNode.NodeType.WALL:
-				continue
-			## Wall points
-			var half_res = World.resolution /2
-			var node_world_pos = World.grid_to_world(node.node_pos.x, node.node_pos.y)
-			var top_left := Vector2(node_world_pos.x -half_res, node_world_pos.y -half_res)
-			var top_right:= Vector2(node_world_pos.x +half_res, node_world_pos.y -half_res)
-			var bottom_left:= Vector2(node_world_pos.x -half_res, node_world_pos.y +half_res)
-			var bottom_right:= Vector2(node_world_pos.x +half_res, node_world_pos.y +half_res)
-			var wall_segments:Array = [
-				[top_left, top_right],
-				[bottom_left, bottom_right],
-				[top_left, bottom_left],
-				[top_right, bottom_right]
-			]
-			for segment:Array in wall_segments:
-				var calc_point : Vector2 = Calculations.line_intersection2D(owner_agent.position, owner_agent.feelers[i], segment[0], segment[1])
-				if calc_point != Vector2.INF:
-					var dist_sq = owner_agent.position.distance_squared_to(calc_point)
-					if dist_sq < closest_dist:
-						closest_dist = dist_sq
-						closest_point = calc_point
-						closest_normal = (segment[1] - segment[0]).orthogonal().normalized()
-						var to_agent = owner_agent.position - calc_point
-						if closest_normal.dot(to_agent) < 0:
-							closest_normal = -closest_normal
-						hit_feeler = i
-	if closest_point != Vector2.ZERO and hit_feeler != -1:
-		#print("Collision at", closest_point)
-		#print("Feeler position: ", owner_agent.feelers[hit_feeler])
-		#print(owner_agent.feelers[i])
-		#print(collision_point)
-		#print(owner_agent.position)
-		var over_shoot = owner_agent.feelers[hit_feeler] - closest_point
-		steering = closest_normal * over_shoot.length()
+	## loop over agent feelers
+	#for i in  range(owner_agent.feelers.size()):
+		#var collision_point := Vector2.ZERO
+		#var key = World.world_to_bucket(World.position_to_grid(owner_agent.feelers[i]))
+		#var bucket:Array = World.cell_buckets_static.get(Vector2i(int(key.x), int(key.y)), [])
+		#
+		#var buckets_to_check = []
+		#
+		#for k in range(-1, 2):
+			#for l in range(-1, 2):
+				#var new_key = Vector2i(int(key.x) + k, int(key.y) + l)
+				##print(new_key)
+				#var new_bucket: Array = World.cell_buckets_static.get(new_key, [])
+				#if new_bucket.is_empty():
+					#continue
+				#for value in new_bucket:
+					#buckets_to_check.append(value)
+		#
+		#
+		#
+		#if buckets_to_check.is_empty():
+			#continue
+		#for node:RavenNode in buckets_to_check:
+			#if node.node_type != RavenNode.NodeType.WALL:
+				#continue
+			### Wall points
+			#var half_res = World.resolution /2
+			#var node_world_pos = World.grid_to_world(node.node_pos.x, node.node_pos.y)
+			#var top_left := Vector2(node_world_pos.x -half_res, node_world_pos.y -half_res)
+			#var top_right:= Vector2(node_world_pos.x +half_res, node_world_pos.y -half_res)
+			#var bottom_left:= Vector2(node_world_pos.x -half_res, node_world_pos.y +half_res)
+			#var bottom_right:= Vector2(node_world_pos.x +half_res, node_world_pos.y +half_res)
+			#var wall_segments:Array = [
+				#[top_left, top_right],
+				#[bottom_left, bottom_right],
+				#[top_left, bottom_left],
+				#[top_right, bottom_right]
+			#]
+			#for segment:Array in wall_segments:
+				#var calc_point : Vector2 = Calculations.line_intersection2D(owner_agent.position, owner_agent.feelers[i], segment[0], segment[1])
+				#if calc_point != Vector2.INF:
+					#var dist_sq = owner_agent.position.distance_squared_to(calc_point)
+					#if dist_sq < closest_dist:
+						#closest_dist = dist_sq
+						#closest_point = calc_point
+						#closest_normal = (segment[1] - segment[0]).orthogonal().normalized()
+						#var to_agent = owner_agent.position - calc_point
+						#if closest_normal.dot(to_agent) < 0:
+							#closest_normal = -closest_normal
+						#hit_feeler = i
+	#if closest_point != Vector2.ZERO and hit_feeler != -1:
+		##print("Collision at", closest_point)
+		##print("Feeler position: ", owner_agent.feelers[hit_feeler])
+		##print(owner_agent.feelers[i])
+		##print(collision_point)
+		##print(owner_agent.position)
+		#var over_shoot = owner_agent.feelers[hit_feeler] - closest_point
+		#steering = closest_normal * over_shoot.length()
 	
 	#var dist_sq = owner_agent.position.distance_squared_to(collision_point)
 	#var detection_radius = 30.0
