@@ -136,10 +136,6 @@ text = "Agent Selected: "
 layout_mode = 2
 text = "None"
 
-[node name="RandomPath" type="Button" parent="Container/ButtonPanel/RunMapUI/HBoxContainer/AgentUI"]
-layout_mode = 2
-text = "Generate Random Path"
-
 [node name="PlayControls" type="HBoxContainer" parent="Container/ButtonPanel/RunMapUI"]
 layout_mode = 2
 
@@ -559,7 +555,6 @@ script = ExtResource("13_rytgg")
 [connection signal="pressed" from="Container/ButtonPanel/Buttons/Load" to="." method="_on_load_pressed"]
 [connection signal="pressed" from="Container/ButtonPanel/Buttons/RunMap" to="." method="_on_run_map_pressed"]
 [connection signal="pressed" from="Container/ButtonPanel/Buttons/Debug" to="." method="_on_debug_pressed"]
-[connection signal="pressed" from="Container/ButtonPanel/RunMapUI/HBoxContainer/AgentUI/RandomPath" to="." method="_on_random_path_pressed"]
 [connection signal="pressed" from="Container/ButtonPanel/DebugMapUI/PlayControls/AddDummy" to="." method="_on_add_dummy_pressed"]
 [connection signal="pressed" from="Container/ButtonPanel/DebugMapUI/PlayControls/Play" to="." method="_on_play_pressed"]
 [connection signal="file_selected" from="LoadMapDialog" to="." method="_on_load_map_dialog_file_selected"]
