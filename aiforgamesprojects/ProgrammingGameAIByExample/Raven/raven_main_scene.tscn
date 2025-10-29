@@ -39,7 +39,6 @@ z_index = 25
 script = ExtResource("3_wa7ej")
 
 [node name="StaticDrawing" type="Node2D" parent="MapDrawingInput/SubViewport/MapDrawing"]
-visible = false
 script = ExtResource("7_vghlm")
 
 [node name="BucketDrawing" type="Node2D" parent="MapDrawingInput"]

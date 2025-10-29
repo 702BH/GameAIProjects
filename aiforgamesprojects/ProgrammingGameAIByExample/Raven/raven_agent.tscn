@@ -1,6 +1,8 @@
-[gd_scene load_steps=2 format=3 uid="uid://bw8n4rlrth5ch"]
+[gd_scene load_steps=3 format=3 uid="uid://bw8n4rlrth5ch"]
 
 [ext_resource type="Script" uid="uid://b652dbejbm1bw" path="res://ProgrammingGameAIByExample/Raven/raven_agent.gd" id="1_y4deu"]
+
+[sub_resource type="SystemFont" id="SystemFont_y4deu"]
 
 [node name="RavenAgent" type="Node2D"]
 z_index = 50
@@ -23,3 +25,32 @@ collision_mask = 0
 monitoring = false
 
 [node name="body_collision" type="CollisionShape2D" parent="agent_body"]
+
+[node name="Control" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 0
+offset_left = -19.0
+offset_top = -41.0
+offset_right = 21.0
+offset_bottom = -1.0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Control"]
+layout_mode = 0
+offset_right = 43.0
+offset_bottom = 33.0
+theme_override_constants/separation = 0
+
+[node name="Name" type="Label" parent="Control/VBoxContainer"]
+modulate = Color(1, 0, 0, 1)
+layout_mode = 2
+theme_override_font_sizes/font_size = 10
+text = "Name"
+uppercase = true
+
+[node name="Health" type="Label" parent="Control/VBoxContainer"]
+modulate = Color(0, 1, 0.15, 1)
+layout_mode = 2
+theme_override_fonts/font = SubResource("SystemFont_y4deu")
+theme_override_font_sizes/font_size = 11
+text = "Health"
+uppercase = true

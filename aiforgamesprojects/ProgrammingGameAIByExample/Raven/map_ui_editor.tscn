@@ -1,9 +1,10 @@
-[gd_scene load_steps=24 format=3 uid="uid://c5uea86dlcivm"]
+[gd_scene load_steps=25 format=3 uid="uid://c5uea86dlcivm"]
 
 [ext_resource type="Script" uid="uid://cmclv6r6mrl5b" path="res://ProgrammingGameAIByExample/Raven/map_ui_editor.gd" id="1_ad81b"]
 [ext_resource type="StyleBox" uid="uid://b8a81fdlk5ted" path="res://ProgrammingGameAIByExample/Raven/button_pressed.tres" id="3_birsf"]
 [ext_resource type="Script" uid="uid://0l0g5jd1106f" path="res://ProgrammingGameAIByExample/Raven/collapsable_debug.gd" id="4_4vp7i"]
 [ext_resource type="ButtonGroup" uid="uid://ve11tdfr0n4y" path="res://ProgrammingGameAIByExample/Raven/raven_map_buttons.tres" id="4_62kta"]
+[ext_resource type="Script" uid="uid://b31v7dj8lp4ga" path="res://ProgrammingGameAIByExample/Raven/UI/run_map_ui.gd" id="4_fua0b"]
 [ext_resource type="Script" uid="uid://cq0e5qmniwqku" path="res://ProgrammingGameAIByExample/Raven/brain_debug.gd" id="5_4vp7i"]
 [ext_resource type="Script" uid="uid://22bijlkl0fsf" path="res://ProgrammingGameAIByExample/Raven/memory_debug.gd" id="6_72r2y"]
 [ext_resource type="Script" uid="uid://ccfoo3kxd1c8x" path="res://ProgrammingGameAIByExample/Raven/paths_debug.gd" id="7_f7lml"]
@@ -75,6 +76,7 @@ size_flags_vertical = 4
 theme_override_styles/panel = SubResource("StyleBoxFlat_itxlc")
 
 [node name="Buttons" type="HBoxContainer" parent="Container/ButtonPanel"]
+visible = false
 layout_mode = 2
 theme_override_constants/separation = 19
 
@@ -117,9 +119,9 @@ layout_mode = 2
 text = "Debug Map"
 
 [node name="RunMapUI" type="HBoxContainer" parent="Container/ButtonPanel"]
-visible = false
 layout_mode = 2
 alignment = 1
+script = ExtResource("4_fua0b")
 
 [node name="HBoxContainer" type="HBoxContainer" parent="Container/ButtonPanel/RunMapUI"]
 layout_mode = 2
@@ -136,6 +138,62 @@ text = "Agent Selected: "
 layout_mode = 2
 text = "None"
 
+[node name="VSeparator" type="VSeparator" parent="Container/ButtonPanel/RunMapUI/HBoxContainer"]
+layout_mode = 2
+theme_override_constants/separation = 6
+
+[node name="Health" type="HBoxContainer" parent="Container/ButtonPanel/RunMapUI/HBoxContainer"]
+layout_mode = 2
+
+[node name="Health" type="Label" parent="Container/ButtonPanel/RunMapUI/HBoxContainer/Health"]
+layout_mode = 2
+text = "Health:"
+
+[node name="Label" type="Label" parent="Container/ButtonPanel/RunMapUI/HBoxContainer/Health"]
+layout_mode = 2
+text = "100"
+
+[node name="VSeparator2" type="VSeparator" parent="Container/ButtonPanel/RunMapUI/HBoxContainer"]
+layout_mode = 2
+theme_override_constants/separation = 6
+
+[node name="Goal" type="HBoxContainer" parent="Container/ButtonPanel/RunMapUI/HBoxContainer"]
+layout_mode = 2
+
+[node name="CurrentGoal" type="Label" parent="Container/ButtonPanel/RunMapUI/HBoxContainer/Goal"]
+layout_mode = 2
+text = "GOAL"
+
+[node name="VSeparator3" type="VSeparator" parent="Container/ButtonPanel/RunMapUI/HBoxContainer"]
+layout_mode = 2
+theme_override_constants/separation = 6
+
+[node name="Weapon" type="HBoxContainer" parent="Container/ButtonPanel/RunMapUI/HBoxContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="Container/ButtonPanel/RunMapUI/HBoxContainer/Weapon"]
+layout_mode = 2
+text = "Selected Weapon:"
+
+[node name="Weapon" type="Label" parent="Container/ButtonPanel/RunMapUI/HBoxContainer/Weapon"]
+layout_mode = 2
+text = "BLASTER"
+
+[node name="VSeparator4" type="VSeparator" parent="Container/ButtonPanel/RunMapUI/HBoxContainer"]
+layout_mode = 2
+theme_override_constants/separation = 6
+
+[node name="Target" type="HBoxContainer" parent="Container/ButtonPanel/RunMapUI/HBoxContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="Container/ButtonPanel/RunMapUI/HBoxContainer/Target"]
+layout_mode = 2
+text = "Target:"
+
+[node name="Label2" type="Label" parent="Container/ButtonPanel/RunMapUI/HBoxContainer/Target"]
+layout_mode = 2
+text = "None"
+
 [node name="PlayControls" type="HBoxContainer" parent="Container/ButtonPanel/RunMapUI"]
 layout_mode = 2
 
@@ -143,11 +201,7 @@ layout_mode = 2
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 4
-text = "Play"
-
-[node name="MarginContainer" type="MarginContainer" parent="Container/ButtonPanel/RunMapUI/PlayControls"]
-layout_mode = 2
-theme_override_constants/margin_right = 4
+text = "Possess"
 
 [node name="DebugMapUI" type="HBoxContainer" parent="Container/ButtonPanel"]
 visible = false
