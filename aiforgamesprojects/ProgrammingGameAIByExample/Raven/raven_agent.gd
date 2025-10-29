@@ -7,6 +7,9 @@ extends RavenMover
 @onready var vision_shape := $agent_vision/vision_collision
 
 
+@onready var name_label := $Control/VBoxContainer/Name
+@onready var health_label := $Control/VBoxContainer/Health
+
 # for debug purposes
 var names = ["Jarvan", "Lulu", "Malphite", "Ryze"]
 var agent_name
@@ -82,6 +85,8 @@ func _ready() -> void:
 	#feeler_length = World.cell_size 
 	RavenServiceBus.agent_goal_changed.connect(_on_goal_changed.bind())
 	RavenServiceBus.agent_died.connect(_on_agent_died.bind())
+	name_label.text = agent_name
+	health_label.text = str(health) + " / " + str(max_health)
 
 func _on_agent_died(agent: RavenAgent) -> void:
 	# remove bot from memoery
@@ -189,29 +194,31 @@ func _draw() -> void:
 		draw_circle(Vector2.ZERO, 4.0, Color.GOLD)
 	draw_line(Vector2.ZERO, Vector2(10.0,0.0), "red")
 	
-	
-	
-	draw_circle(to_local(feelers[0]), 3.0, Color.RED)
-	draw_circle(to_local(feelers[1]), 3.0, Color.RED)
-	draw_circle(to_local(feelers[2]), 3.0, Color.RED)
-	
-	if !current_path.is_empty():
-		#print("drawing target:")
-		var target_node:PathEdge = current_path[current_path.size()-1]
+	if DebugSettings.debug_mode:
 		
-		draw_circle(to_local(World.grid_to_world(target_node.destination.x, target_node.destination.y)), 6.0, Color.NAVY_BLUE)
-		#draw_line(Vector2.ZERO, to_local(grid_to_world(current_path[0].node_pos.x, current_path[0].node_pos.y, path_planner.resolution)), "orange")
-		for edge:PathEdge in current_path:
-			var color := Color.ORANGE
-			draw_line(to_local(World.grid_to_world(edge.source.x, edge.source.y)), to_local(World.grid_to_world(edge.destination.x, edge.destination.y)), color)
 		
-		#for i in range(0, current_path.size() - 1):
-			#if i == current_path.size() - 1:
-				#continue
-			#else:
-				#draw_line(to_local(grid_to_world(current_path[i].node_pos.x, current_path[i].node_pos.y, path_planner.resolution)), to_local(grid_to_world(current_path[i+1].node_pos.x, current_path[i+1].node_pos.y, path_planner.resolution)), "orange")
-	if steering_controller.target:
-		draw_circle(to_local(steering_controller.target), 6.0, "green")
+		
+		draw_circle(to_local(feelers[0]), 3.0, Color.RED)
+		draw_circle(to_local(feelers[1]), 3.0, Color.RED)
+		draw_circle(to_local(feelers[2]), 3.0, Color.RED)
+		
+		if !current_path.is_empty():
+			#print("drawing target:")
+			var target_node:PathEdge = current_path[current_path.size()-1]
+			
+			draw_circle(to_local(World.grid_to_world(target_node.destination.x, target_node.destination.y)), 6.0, Color.NAVY_BLUE)
+			#draw_line(Vector2.ZERO, to_local(grid_to_world(current_path[0].node_pos.x, current_path[0].node_pos.y, path_planner.resolution)), "orange")
+			for edge:PathEdge in current_path:
+				var color := Color.ORANGE
+				draw_line(to_local(World.grid_to_world(edge.source.x, edge.source.y)), to_local(World.grid_to_world(edge.destination.x, edge.destination.y)), color)
+			
+			#for i in range(0, current_path.size() - 1):
+				#if i == current_path.size() - 1:
+					#continue
+				#else:
+					#draw_line(to_local(grid_to_world(current_path[i].node_pos.x, current_path[i].node_pos.y, path_planner.resolution)), to_local(grid_to_world(current_path[i+1].node_pos.x, current_path[i+1].node_pos.y, path_planner.resolution)), "orange")
+		if steering_controller.target:
+			draw_circle(to_local(steering_controller.target), 6.0, "green")
 
 func _on_generate_paths_pressed() -> void:
 	current_path.clear()
@@ -249,7 +256,7 @@ func take_damage(amount:float) -> void:
 		queue_free()
 	health = clamp(health, 0, 100)
 	print("TAKEN DAMAGE, REAMINING HEALTH: ", health)
-
+	health_label.text = str(health) + " / " + str(max_health)
 
 func add_health(amount:float) -> void:
 	health += amount
