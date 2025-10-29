@@ -82,7 +82,7 @@ func _on_run_map_pressed() -> void:
 
 func on_agent_selected(agent: RavenAgent) -> void:
 	selected_agent = agent
-	agent_name_label.text = str(agent)
+	agent_name_label.text = str(agent.agent_name)
 	update_debug_ui(true)
 
 func on_agent_deselected() -> void:

@@ -60,8 +60,8 @@ var vision_points :PackedVector2Array = [
 	
 ]
 
-var min_feeler_length := 15
-var max_feeler_length := 35
+var min_feeler_length := 5
+var max_feeler_length := 25
 var feeler_length = min_feeler_length
 var feelers = [Vector2.ZERO,Vector2.ZERO, Vector2.ZERO]
 
@@ -257,6 +257,9 @@ func take_damage(amount:float) -> void:
 	health = clamp(health, 0, 100)
 	print("TAKEN DAMAGE, REAMINING HEALTH: ", health)
 	health_label.text = str(health) + " / " + str(max_health)
+	var data:StatsData = StatsData.build().set_agent(self).set_system(DebugData.Systems.STATS).set_step(StatsData.Steps.HEALTH)
+	data.add_message(str(health))
+	RavenServiceBus.debug_event.emit(data)
 
 func add_health(amount:float) -> void:
 	health += amount
