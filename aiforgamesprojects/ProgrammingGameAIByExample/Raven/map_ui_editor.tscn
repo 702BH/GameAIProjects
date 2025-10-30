@@ -149,7 +149,7 @@ layout_mode = 2
 layout_mode = 2
 text = "Health:"
 
-[node name="Label" type="Label" parent="Container/ButtonPanel/RunMapUI/HBoxContainer/Health"]
+[node name="Amount" type="Label" parent="Container/ButtonPanel/RunMapUI/HBoxContainer/Health"]
 layout_mode = 2
 text = "100"
 
@@ -190,7 +190,7 @@ layout_mode = 2
 layout_mode = 2
 text = "Target:"
 
-[node name="Label2" type="Label" parent="Container/ButtonPanel/RunMapUI/HBoxContainer/Target"]
+[node name="Target" type="Label" parent="Container/ButtonPanel/RunMapUI/HBoxContainer/Target"]
 layout_mode = 2
 text = "None"
 

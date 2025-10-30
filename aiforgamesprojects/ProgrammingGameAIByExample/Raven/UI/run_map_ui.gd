@@ -2,26 +2,45 @@ class_name PlayModeUI
 extends HBoxContainer
 
 
+@onready var goal_text := $HBoxContainer/Goal/CurrentGoal
+@onready var agent_name_text := $HBoxContainer/AgentUI/selectedName
+@onready var agent_health_text := $HBoxContainer/Health/Amount
+@onready var weapon_text := $HBoxContainer/Weapon/Weapon
+@onready var target_text := $HBoxContainer/Target/Target
+
+
 var steps_dict = {
-	BrainData.Steps.keys()[BrainData.Steps.GOALS] : Callable(display_goal_data),
-	WeaponData.Steps.keys()[WeaponData.Steps.WEAPON_SELECTION]  : Callable(display_weapon),
-	StatsData.Steps.HEALTH : Callable(display_health)
+	DebugData.Systems.STATS : Callable(update_debug_data)
 }
 
+var selected_agent
 
 func _ready() -> void:
 	RavenServiceBus.debug_event.connect(on_debug_event.bind())
 
 func on_debug_event(data: DebugData) -> void:
 	if data != null:
-		pass
+		if steps_dict.has(data.system):
+			if data.agent == selected_agent:
+				steps_dict[data.system].call(data.messages[0])
 
 
-func display_goal_data() -> void:
-	pass
+func update_debug_data(data: StatsDataDebug) -> void:
+	print("STATS RECIEVED")
+	agent_name_text.text = data.name
+	display_goal_data(data.goal)
+	display_weapon(data.weapon)
+	display_health(data.health)
+	display_target(data.target)
 
-func display_weapon() -> void:
-	pass
+func display_goal_data(goal : String) -> void:
+	goal_text.text = goal
 
-func display_health() -> void:
-	pass
+func display_weapon(weapon : String) -> void:
+	weapon_text.text = weapon
+
+func display_health(health : String) -> void:
+	agent_health_text.text = health
+
+func display_target(target: String) -> void:
+	target_text.text = target

@@ -16,6 +16,7 @@ signal start_map_request
 
 @onready var agent_debugger := $CollapsableDebug
 @onready var debug_buttons_container := $Container/ButtonPanel/DebugMapUI
+@onready var run_map_agent_ui := $Container/ButtonPanel/RunMapUI
 
 
 @onready var popup_placebale : PlaceablePopUp = $PlaceablePopup
@@ -127,11 +128,13 @@ func update_debug_ui(selected: bool) -> void:
 	agent_debugger.clear_systems()
 	if selected:
 		agent_debugger.selected_agent = selected_agent
+		run_map_agent_ui.selected_agent = selected_agent
 		# set agent name
 		$Container/ButtonPanel/DebugMapUI/HBoxContainer/AgentUI/selectedName.text = str(selected_agent.agent_name)
 	else:
 		$Container/ButtonPanel/DebugMapUI/HBoxContainer/AgentUI/selectedName.text = "None"
 		agent_debugger.selected_agent = null
+		run_map_agent_ui.selected_agent = null
 
 
 func _on_add_dummy_pressed() -> void:

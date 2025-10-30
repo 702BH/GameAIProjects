@@ -146,3 +146,7 @@ func get_current_weapon() -> RavenWeapon:
 
 func get_weapon_from_inventory(weapon: RavenWeapon.WeaponType) -> RavenWeapon:
 	return weapon_map.get(weapon, null)
+
+
+func get_current_weapon_name() -> String:
+	return current_weapon.name

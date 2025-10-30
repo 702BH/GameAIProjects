@@ -3,6 +3,7 @@
 [ext_resource type="Script" uid="uid://b652dbejbm1bw" path="res://ProgrammingGameAIByExample/Raven/raven_agent.gd" id="1_y4deu"]
 
 [sub_resource type="SystemFont" id="SystemFont_y4deu"]
+subpixel_positioning = 0
 
 [node name="RavenAgent" type="Node2D"]
 z_index = 50
