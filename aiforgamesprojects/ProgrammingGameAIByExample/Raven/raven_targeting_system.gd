@@ -58,3 +58,10 @@ func get_time_target_has_been_out_of_view() -> float:
 
 func clear_target() -> void:
 	current_target = null
+
+
+func get_current_target_name() -> String:
+	if current_target:
+		return current_target.agent_name
+	else:
+		return "No Target"

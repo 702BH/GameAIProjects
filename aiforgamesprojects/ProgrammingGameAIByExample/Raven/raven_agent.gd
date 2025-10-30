@@ -182,7 +182,16 @@ func _physics_process(delta: float) -> void:
 	#var oppnents := sensory_memory.get_recently_sensed_opponents()
 	#if oppnents.is_empty():
 		#print("no enemies")
-	
+
+
+func _process(_delta: float) -> void:
+	if debug_regulator.is_ready():
+		var data:StatsData = StatsData.build().set_agent(self).set_system(DebugData.Systems.STATS)
+		var message:= StatsDataDebug.new(agent_name, str(health), brain.get_current_goal(), weapon_system.get_current_weapon_name(), targeting_system.get_current_target_name())
+		data.add_message_stats(message)
+		RavenServiceBus.debug_event.emit(data)
+
+
 
 func _draw() -> void:
 	if selected:

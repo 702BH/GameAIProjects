@@ -88,3 +88,7 @@ func add_goal_get_item(item: RavenNodeItem.ItemSubType) -> void:
 	if not_present(goal):
 		remove_all_subgoals()
 		add_subgoal(GoalGetItem.new(owner_agent, item))
+
+
+func get_current_goal() -> String:
+	return subgoals[0]._get_name()
