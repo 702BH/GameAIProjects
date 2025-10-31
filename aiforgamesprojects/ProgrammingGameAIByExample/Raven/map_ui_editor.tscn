@@ -609,6 +609,7 @@ script = ExtResource("13_rytgg")
 [connection signal="pressed" from="Container/ButtonPanel/Buttons/Load" to="." method="_on_load_pressed"]
 [connection signal="pressed" from="Container/ButtonPanel/Buttons/RunMap" to="." method="_on_run_map_pressed"]
 [connection signal="pressed" from="Container/ButtonPanel/Buttons/Debug" to="." method="_on_debug_pressed"]
+[connection signal="pressed" from="Container/ButtonPanel/RunMapUI/PlayControls/Play" to="Container/ButtonPanel/RunMapUI" method="_on_play_pressed"]
 [connection signal="pressed" from="Container/ButtonPanel/DebugMapUI/PlayControls/AddDummy" to="." method="_on_add_dummy_pressed"]
 [connection signal="pressed" from="Container/ButtonPanel/DebugMapUI/PlayControls/Play" to="." method="_on_play_pressed"]
 [connection signal="file_selected" from="LoadMapDialog" to="." method="_on_load_map_dialog_file_selected"]

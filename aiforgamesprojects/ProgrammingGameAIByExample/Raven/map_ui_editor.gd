@@ -126,6 +126,7 @@ func _on_play_pressed() -> void:
 
 func update_debug_ui(selected: bool) -> void:
 	agent_debugger.clear_systems()
+	run_map_agent_ui.clear_ui()
 	if selected:
 		agent_debugger.selected_agent = selected_agent
 		run_map_agent_ui.selected_agent = selected_agent
