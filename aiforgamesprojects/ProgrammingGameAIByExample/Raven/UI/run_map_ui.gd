@@ -26,7 +26,6 @@ func on_debug_event(data: DebugData) -> void:
 
 
 func update_debug_data(data: StatsDataDebug) -> void:
-	print("STATS RECIEVED")
 	agent_name_text.text = data.name
 	display_goal_data(data.goal)
 	display_weapon(data.weapon)
@@ -44,3 +43,16 @@ func display_health(health : String) -> void:
 
 func display_target(target: String) -> void:
 	target_text.text = target
+
+
+func clear_ui() -> void:
+	agent_name_text.text = "None"
+	goal_text.text = ""
+	weapon_text.text = ""
+	agent_health_text.text = ""
+	target_text.text = ""
+
+
+func _on_play_pressed() -> void:
+	print("Possess Requested")
+	RavenServiceBus.agent_possess_requested.emit()

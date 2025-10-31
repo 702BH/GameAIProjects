@@ -68,6 +68,11 @@ func not_present(_type: Type) -> bool:
 	return true
 
 
+func add_goal_move_to_position(pos:Vector2) -> void:
+	remove_all_subgoals()
+	add_subgoal(GoalMoveToPosition.new(owner_agent, pos))
+
+
 func add_goal_explore() -> void:
 	if not_present(Type.GOAL_EXPLORE):
 		remove_all_subgoals()
@@ -91,4 +96,7 @@ func add_goal_get_item(item: RavenNodeItem.ItemSubType) -> void:
 
 
 func get_current_goal() -> String:
-	return subgoals[0]._get_name()
+	if subgoals.is_empty():
+		return ""
+	else:
+		return subgoals[0]._get_name()

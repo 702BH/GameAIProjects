@@ -69,6 +69,7 @@ var feelers = [Vector2.ZERO,Vector2.ZERO, Vector2.ZERO]
 # Agent vals
 var health := 100.0
 var max_health := 100.0
+var is_possessed := false
 
 
 func _init() -> void:
@@ -87,6 +88,16 @@ func _ready() -> void:
 	RavenServiceBus.agent_died.connect(_on_agent_died.bind())
 	name_label.text = agent_name
 	health_label.text = str(health) + " / " + str(max_health)
+	RavenServiceBus.agent_selected.connect(on_agent_selected.bind())
+
+
+
+func on_agent_selected(a: RavenAgent) -> void:
+	# Create the ui message
+	var data:StatsData = StatsData.build().set_agent(self).set_system(DebugData.Systems.STATS)
+	var message:= StatsDataDebug.new(agent_name, str(health), brain.get_current_goal(), weapon_system.get_current_weapon_name(), targeting_system.get_current_target_name())
+	data.add_message_stats(message)
+	RavenServiceBus.debug_event.emit(data)
 
 func _on_agent_died(agent: RavenAgent) -> void:
 	# remove bot from memoery
@@ -115,29 +126,34 @@ func _input(event: InputEvent) -> void:
 				#print(b.Type.keys()[b.goal_type])
 		pass
 		#print(brain.subgoals)
-		
+	if event.is_action_pressed("remove"):
+		if is_possessed:
+			var mouse_position := get_global_mouse_position()
+			brain.add_goal_move_to_position(mouse_position)
 
 
 func _physics_process(delta: float) -> void:
-	#rotation += 0.1 * delta
 	brain.process()
-	
-	if target_selection_regulator.is_ready():
-		targeting_system.update()
-	
-	if goal_arbitration_regulator.is_ready():
-		brain.arbitrate()
-	
-	if vision_update_regulator.is_ready():
-		sensory_memory.update_agents_in_view()
-	
-	if weapon_selection_regulator.is_ready():
-		#print("Selecting weapon: ")
-		weapon_system.select_weapon()
-	
-	
-	
-	weapon_system.take_aim_and_shoot(delta)
+	if !is_possessed:
+		#rotation += 0.1 * delta
+		
+		
+		if target_selection_regulator.is_ready():
+			targeting_system.update()
+		
+		if goal_arbitration_regulator.is_ready():
+			brain.arbitrate()
+		
+		if vision_update_regulator.is_ready():
+			sensory_memory.update_agents_in_view()
+		
+		if weapon_selection_regulator.is_ready():
+			#print("Selecting weapon: ")
+			weapon_system.select_weapon()
+		
+		
+		
+		weapon_system.take_aim_and_shoot(delta)
 	
 	feeler_length = min_feeler_length + (velocity.length() / max_speed) * (max_feeler_length - min_feeler_length)
 	var steering_force = steering_controller.calculate()
@@ -333,3 +349,11 @@ func can_step_backward() -> Vector2:
 		return position_of_step
 	else:
 		return Vector2.ZERO
+
+
+func _possessed() -> void:
+	# clear all systems
+	brain.remove_all_subgoals()
+	steering_controller.reset_target()
+	targeting_system.clear_target()
+	velocity = Vector2.ZERO
