@@ -11,6 +11,14 @@ var dummy_count := 0
 func _ready() -> void:
 	RavenServiceBus.agent_possess_requested.connect(_on_possess_request.bind())
 
+func _process(delta: float) -> void:
+	queue_redraw()
+
+func _draw() -> void:
+	if selected_agent:
+		if selected_agent.is_possessed:
+			draw_circle(get_global_mouse_position(), 3.0, Color.RED)
+
 
 func _on_possess_request() -> void:
 	print("Possess request recievied by agent container")
@@ -43,6 +51,7 @@ func query_selectable(pos: Vector2) -> void:
 			RavenServiceBus.agent_delesected.emit()
 			#agent_deselected.emit()
 	else:
-		selected_agent.selected = false
-		selected_agent = null
-		RavenServiceBus.agent_delesected.emit()
+		if !selected_agent.is_possessed:
+			selected_agent.selected = false
+			selected_agent = null
+			RavenServiceBus.agent_delesected.emit()
