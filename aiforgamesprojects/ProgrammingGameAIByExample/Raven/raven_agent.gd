@@ -126,11 +126,16 @@ func _input(event: InputEvent) -> void:
 				#print(b.Type.keys()[b.goal_type])
 		pass
 		#print(brain.subgoals)
+
+
+func _unhandled_input(event: InputEvent) -> void:
 	if event.is_action_pressed("remove"):
 		if is_possessed:
 			var mouse_position := get_global_mouse_position()
 			brain.add_goal_move_to_position(mouse_position)
-
+	if event.is_action_pressed("place"):
+		if is_possessed:
+			print("Should handle firing")
 
 func _physics_process(delta: float) -> void:
 	brain.process()
