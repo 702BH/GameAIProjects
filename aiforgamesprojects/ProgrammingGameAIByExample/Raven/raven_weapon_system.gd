@@ -154,3 +154,13 @@ func get_current_weapon_name() -> String:
 
 func shoot_at(pos:Vector2) -> void:
 	current_weapon.shoot_at(pos)
+
+
+func weapon_inventory_mapping(key_input:int) -> void:
+	var keys =  weapon_map.keys()
+	if key_input-1 <= keys.size()-1:
+		var weapon_type = keys[key_input-1]
+		change_weapon(weapon_type)
+		print("Weapon changed ", current_weapon.name)
+	else:
+		print("no weapon at slot")

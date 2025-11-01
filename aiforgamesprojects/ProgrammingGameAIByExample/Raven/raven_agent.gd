@@ -136,6 +136,15 @@ func _unhandled_input(event: InputEvent) -> void:
 	if event.is_action_pressed("place"):
 		if is_possessed:
 			weapon_system.shoot_at(get_global_mouse_position())
+	# weapon inventory
+	if event.is_action_pressed("inventory_1"):
+		weapon_system.weapon_inventory_mapping(1)
+	if event.is_action_pressed("inventory_2"):
+		weapon_system.weapon_inventory_mapping(2)
+	if event.is_action_pressed("inventory_3"):
+		weapon_system.weapon_inventory_mapping(3)
+	if event.is_action_pressed("inventory_4"):
+		weapon_system.weapon_inventory_mapping(4)
 
 func _physics_process(delta: float) -> void:
 	brain.process()
