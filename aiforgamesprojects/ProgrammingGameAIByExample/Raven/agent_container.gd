@@ -51,6 +51,7 @@ func query_selectable(pos: Vector2) -> void:
 			RavenServiceBus.agent_delesected.emit()
 			#agent_deselected.emit()
 	else:
-		selected_agent.selected = false
-		selected_agent = null
-		RavenServiceBus.agent_delesected.emit()
+		if !selected_agent.is_possessed:
+			selected_agent.selected = false
+			selected_agent = null
+			RavenServiceBus.agent_delesected.emit()

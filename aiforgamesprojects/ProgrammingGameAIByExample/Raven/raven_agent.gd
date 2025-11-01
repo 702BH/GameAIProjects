@@ -135,7 +135,7 @@ func _unhandled_input(event: InputEvent) -> void:
 			brain.add_goal_move_to_position(mouse_position)
 	if event.is_action_pressed("place"):
 		if is_possessed:
-			print("Should handle firing")
+			weapon_system.shoot_at(get_global_mouse_position())
 
 func _physics_process(delta: float) -> void:
 	brain.process()

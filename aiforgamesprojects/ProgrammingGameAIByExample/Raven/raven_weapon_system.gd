@@ -150,3 +150,7 @@ func get_weapon_from_inventory(weapon: RavenWeapon.WeaponType) -> RavenWeapon:
 
 func get_current_weapon_name() -> String:
 	return current_weapon.name
+
+
+func shoot_at(pos:Vector2) -> void:
+	current_weapon.shoot_at(pos)
