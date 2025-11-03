@@ -1,9 +1,9 @@
 extends Node2D
 
 
-#
-#func _process(_delta: float) -> void:
-	#check_triggers_status()
+
+func _process(_delta: float) -> void:
+	check_triggers_status()
 
 func check_triggers_status() -> void:
 	var children = get_children()
