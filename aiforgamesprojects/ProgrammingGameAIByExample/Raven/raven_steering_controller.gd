@@ -231,13 +231,45 @@ func evade(pursuer : RavenMover) -> Vector2:
 func wall_avoidance() -> Vector2:
 	var steering := Vector2.ZERO
 	var distToThisIP :float = 0.0
-	var closest_dist := INF
 	
 	
-	var closest_point := Vector2.ZERO
+	
+	
 	var closest_normal := Vector2.ZERO
+
+	# Reverting back to old method
 	
-	
+	# get agents current bucket
+	var agent_key = World.world_to_bucket(World.position_to_grid(owner_agent.position))
+	var bucket:Array = World.cell_buckets_static.get(Vector2i(int(agent_key.x), int(agent_key.y)), [])
+	for k in range(-1, 1):
+			for l in range(-1, 1):
+				var new_key = Vector2i(int(agent_key.x) + k, int(agent_key.y) + l)
+				if World.cell_buckets_static.has(new_key):
+					for m in range(owner_agent.feelers.size()):
+						var collision_point := Vector2.ZERO
+						var walls = World.cell_buckets_static[new_key]
+						var closest_wall: RavenNode
+						var closest_point := Vector2.ZERO
+						var closest_dist := INF
+						var hit_feeler := -1
+						var hit_segment := -1
+						for wall in walls:
+							var wall_segments = wall.wall_segments
+							for n in range(wall_segments.size()):
+								var calc_point : Vector2 = Calculations.line_intersection2D(owner_agent.position, owner_agent.feelers[m], wall_segments[n][0], wall_segments[n][1])
+								if calc_point != Vector2.INF:
+									var dist_sq = owner_agent.position.distance_squared_to(calc_point)
+									if dist_sq < closest_dist:
+										closest_dist = dist_sq
+										closest_point = calc_point
+										closest_wall = wall
+										hit_feeler = m
+										hit_segment = n
+						if closest_wall and hit_feeler != -1:
+							var over_shoot = owner_agent.feelers[hit_feeler] - closest_point
+							#var force_multiplier = 2.0 + owner_agent.velocity.length() * 0.5
+							steering_force += closest_wall.wall_normals[hit_segment] * over_shoot.length() * 2.0
 	
 	###
 	# Looping over all walls, no buckets used for now
