@@ -28,6 +28,16 @@ func _ready() -> void:
 	RavenServiceBus.grid_generated.connect(_on_grid_generated.bind())
 	RavenServiceBus.placeable_popup_submitted.connect(_on_popup_submitted.bind())
 	RavenServiceBus.debg_mode_changed.connect(_on_debug_mode_changed.bind())
+	RavenServiceBus.game_start_requested.connect(_on_map_start_requested.bind())
+
+
+func _on_map_start_requested() -> void:
+	if DebugSettings.debug_mode:
+		viewport.render_target_update_mode = SubViewport.UPDATE_ALWAYS
+	else:
+		viewport.render_target_update_mode = SubViewport.UPDATE_DISABLED
+		viewport.render_target_clear_mode = SubViewport.CLEAR_MODE_NEVER
+
 
 func _on_debug_mode_changed(mode:bool) -> void:
 	print("DEBUG MODE CHANGED")
@@ -72,6 +82,7 @@ func _on_grid_generated() -> void:
 	#drawer.dirty_nodes = World.graph.nodes.duplicate()
 	drawer.queue_redraw()
 
+
 func _on_mode_changed(mode: tool_state) -> void:
 	print(mode)
 	current_state = mode
@@ -93,7 +104,7 @@ func _input(event: InputEvent) -> void:
 
 
 
-func _process(delta: float) -> void:
+func _process(_delta: float) -> void:
 	if current_state == tool_state.WALL:
 		if Input.is_action_pressed("place"):
 			var wall_location = World.position_to_grid(get_global_mouse_position())

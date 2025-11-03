@@ -82,6 +82,7 @@ func _on_dummy_agent_requested() -> void:
 
 func _on_map_start_requested() -> void:
 	print("MAP START REQUESTED")
+	map_drawing.set_process(false)
 	start_map()
 
 func start_map() -> void:

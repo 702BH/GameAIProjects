@@ -67,3 +67,7 @@ inventory_4={
 
 2d_physics/layer_1="world"
 2d_physics/layer_2="agent"
+
+[physics]
+
+2d/run_on_separate_thread=true
