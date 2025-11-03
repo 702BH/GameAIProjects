@@ -19,6 +19,7 @@ func _ready() -> void:
 	RavenServiceBus.debug_event.connect(on_debug_event.bind())
 
 func on_debug_event(data: DebugData) -> void:
+	print("debug event")
 	if data != null:
 		if steps_dict.has(data.system):
 			if data.agent == selected_agent:

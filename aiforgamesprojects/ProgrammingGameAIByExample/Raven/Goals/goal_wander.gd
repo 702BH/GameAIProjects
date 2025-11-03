@@ -11,6 +11,7 @@ func activate() -> void:
 	
 	# Activate wandering
 	owner_agent.steering_controller.set_behaviour("wander", true, 0.9) 
+	owner_agent.steering_controller.set_behaviour("obstacle_avoid", true, 1.5)
 
 
 func process() -> Status:

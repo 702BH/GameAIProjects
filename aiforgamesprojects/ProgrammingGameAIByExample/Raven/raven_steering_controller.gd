@@ -242,30 +242,30 @@ func wall_avoidance() -> Vector2:
 	###
 	# Looping over all walls, no buckets used for now
 	###
-	for i in range(owner_agent.feelers.size()):
-		var closest_wall: RavenNode
-		var collision_point := Vector2.ZERO
-		var hit_feeler := -1
-		var hit_segment := -1
-		for key in World.cell_buckets_static:
-			var walls = World.cell_buckets_static[key]
-			for wall in walls:
-				var wall_segments = wall.wall_segments
-				for j in range(wall_segments.size()):
-					var calc_point : Vector2 = Calculations.line_intersection2D(owner_agent.position, owner_agent.feelers[i], wall_segments[j][0], wall_segments[j][1])
-					if calc_point != Vector2.INF:
-						# check distance
-						var dist_sq = owner_agent.position.distance_squared_to(calc_point)
-						if dist_sq < closest_dist:
-							closest_dist = dist_sq
-							closest_point = calc_point
-							closest_wall = wall
-							hit_feeler = i
-							hit_segment = j
-		if closest_wall and hit_feeler != -1:
-			var over_shoot = owner_agent.feelers[hit_feeler] - closest_point
-			steering_force += closest_wall.wall_normals[hit_segment] * over_shoot.length() * 2.0
-	
+	#for i in range(owner_agent.feelers.size()):
+		#var closest_wall: RavenNode
+		#var collision_point := Vector2.ZERO
+		#var hit_feeler := -1
+		#var hit_segment := -1
+		#for key in World.cell_buckets_static:
+			#var walls = World.cell_buckets_static[key]
+			#for wall in walls:
+				#var wall_segments = wall.wall_segments
+				#for j in range(wall_segments.size()):
+					#var calc_point : Vector2 = Calculations.line_intersection2D(owner_agent.position, owner_agent.feelers[i], wall_segments[j][0], wall_segments[j][1])
+					#if calc_point != Vector2.INF:
+						## check distance
+						#var dist_sq = owner_agent.position.distance_squared_to(calc_point)
+						#if dist_sq < closest_dist:
+							#closest_dist = dist_sq
+							#closest_point = calc_point
+							#closest_wall = wall
+							#hit_feeler = i
+							#hit_segment = j
+		#if closest_wall and hit_feeler != -1:
+			#var over_shoot = owner_agent.feelers[hit_feeler] - closest_point
+			#steering_force += closest_wall.wall_normals[hit_segment] * over_shoot.length() * 2.0
+	#
 	###
 	# testing new method
 	###

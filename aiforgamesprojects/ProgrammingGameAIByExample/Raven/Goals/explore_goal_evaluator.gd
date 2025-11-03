@@ -11,4 +11,5 @@ func calculate_desirability(agent: RavenAgent) -> float:
 	return desriability
 
 func set_goal(agent: RavenAgent) -> void:
-	agent.brain.add_goal_explore()
+	#agent.brain.add_goal_explore()
+	agent.brain.add_goal_wander()

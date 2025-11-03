@@ -12,14 +12,14 @@ func _init(_agent: RavenAgent) -> void:
 	
 	# create the evalutor objects
 	evaluators.push_back(ExploreGoalEvaluator.new())
-	evaluators.push_back(AttackTargetGoalEvaluator.new())
-	#
-	#
-	## Weapon evaluators
-	evaluators.push_back(GetWeaponGoalEvaluator.new(RavenWeapon.WeaponType.SHOTGUN, RavenNodeItem.ItemSubType.SHOTGUN))
-	evaluators.push_back(GetWeaponGoalEvaluator.new(RavenWeapon.WeaponType.ROCKET_LAUNCHER, RavenNodeItem.ItemSubType.ROCKET_LAUNCHER))
-	evaluators.push_back(GetWeaponGoalEvaluator.new(RavenWeapon.WeaponType.RAIL_GUN, RavenNodeItem.ItemSubType.RAIL_GUN))
-	evaluators.push_back(GetHealthGoalEvaluator.new(RavenNodeItem.ItemSubType.HEALTH))
+	#evaluators.push_back(AttackTargetGoalEvaluator.new())
+	##
+	##
+	### Weapon evaluators
+	#evaluators.push_back(GetWeaponGoalEvaluator.new(RavenWeapon.WeaponType.SHOTGUN, RavenNodeItem.ItemSubType.SHOTGUN))
+	#evaluators.push_back(GetWeaponGoalEvaluator.new(RavenWeapon.WeaponType.ROCKET_LAUNCHER, RavenNodeItem.ItemSubType.ROCKET_LAUNCHER))
+	#evaluators.push_back(GetWeaponGoalEvaluator.new(RavenWeapon.WeaponType.RAIL_GUN, RavenNodeItem.ItemSubType.RAIL_GUN))
+	#evaluators.push_back(GetHealthGoalEvaluator.new(RavenNodeItem.ItemSubType.HEALTH))
 
 func activate() -> void:
 	arbitrate()
@@ -80,6 +80,11 @@ func add_goal_explore() -> void:
 		#print("SHOULD EXPLORE PLEASE")
 		RavenServiceBus.agent_goal_changed.emit(owner_agent, GoalEvaluator.GoalType.EXPLORE)
 
+
+func add_goal_wander() -> void:
+	if not_present(Type.GOAL_WANDER):
+		remove_all_subgoals()
+		add_subgoal(GoalWander.new(owner_agent))
 
 func add_goal_attack_target() -> void:
 	if not_present(Type.GOAL_ATTACK_TARGET):

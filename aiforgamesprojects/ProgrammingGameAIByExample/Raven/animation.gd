@@ -18,12 +18,12 @@ func _ready() -> void:
 	_point2 = Vector2(0, 0)
 
 
-func _process(delta: float) -> void:
-	if loading:
-		angle += speed * delta
-		if angle > TAU:
-			angle = 0.0
-		queue_redraw()
+#func _process(delta: float) -> void:
+	#if loading:
+		#angle += speed * delta
+		#if angle > TAU:
+			#angle = 0.0
+		#queue_redraw()
 
 func _draw():
 	if loading:

@@ -80,6 +80,7 @@ func _on_run_map_pressed() -> void:
 	map_drawer.current_ui_state = MapDrawing.ui_state.MAP_RUNNING
 	DebugSettings.set_debug_mode(false)
 	start_map_request.emit()
+	RavenServiceBus.game_start_requested.emit()
 
 func on_agent_selected(agent: RavenAgent) -> void:
 	selected_agent = agent
