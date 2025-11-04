@@ -13,6 +13,7 @@ func _process(_delta: float) -> void:
 		queue_free()
 
 func _on_trigger_area_area_entered(area: Area2D) -> void:
-	if is_active:
-		var agent: RavenAgent = area.get_parent()
-		agent.sensory_memory.update_with_sound_source(fired_by)
+	if fired_by:
+		if is_active:
+			var agent: RavenAgent = area.get_parent()
+			agent.sensory_memory.update_with_sound_source(fired_by)

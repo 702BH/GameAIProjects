@@ -24,6 +24,7 @@ DebugSettings="*res://ProgrammingGameAIByExample/Raven/Debug/DebugSettings.gd"
 
 window/size/resizable=false
 window/stretch/mode="canvas_items"
+window/vsync/vsync_mode=0
 
 [input]
 

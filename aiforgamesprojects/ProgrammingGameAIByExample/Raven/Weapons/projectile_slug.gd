@@ -4,7 +4,7 @@ extends "res://ProgrammingGameAIByExample/Raven/Weapons/raven_projectile.gd"
 
 func _init(_target: Vector2, fired_by: RavenAgent) -> void:
 	super(_target, fired_by)
-	damage_inflicted = 1.0
+	damage_inflicted = 10.0
 	max_speed = 80.0
 	max_force = 200.0
 	radius = 3.0
