@@ -1,0 +1,27 @@
+[gd_scene format=3 uid="uid://d3jreuk3tv2a3"]
+
+[node name="MapEditorButtons" type="HBoxContainer"]
+offset_right = 40.0
+offset_bottom = 40.0
+theme_override_constants/separation = 10
+
+[node name="Walls" type="Button" parent="."]
+layout_mode = 2
+text = "Add Walls"
+
+[node name="Placeables" type="Button" parent="."]
+layout_mode = 2
+text = "Add Placeable"
+
+[node name="LoadMap" type="Button" parent="."]
+layout_mode = 2
+text = "Load Map"
+
+[node name="MapName" type="LineEdit" parent="."]
+custom_minimum_size = Vector2(150, 0)
+layout_mode = 2
+placeholder_text = "Map Name"
+
+[node name="SaveMap" type="Button" parent="."]
+layout_mode = 2
+text = "Save Map"
