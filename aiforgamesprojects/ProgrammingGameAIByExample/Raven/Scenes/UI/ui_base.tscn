@@ -1,0 +1,30 @@
+[gd_scene load_steps=2 format=3 uid="uid://bd7xhayy1lt13"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_i2snx"]
+bg_color = Color(0.5, 0.37, 0.37, 1)
+
+[node name="UIBase" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Container" type="VBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="GridContainer" type="Control" parent="Container"]
+custom_minimum_size = Vector2(1152, 600)
+layout_mode = 2
+mouse_filter = 2
+
+[node name="PanelContainer" type="PanelContainer" parent="Container"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_styles/panel = SubResource("StyleBoxFlat_i2snx")
