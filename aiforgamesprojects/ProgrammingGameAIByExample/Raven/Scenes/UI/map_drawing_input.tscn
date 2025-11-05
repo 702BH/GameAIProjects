@@ -1,0 +1,32 @@
+[gd_scene load_steps=6 format=3 uid="uid://blaxjkyc3u28c"]
+
+[ext_resource type="Script" uid="uid://qcfy7irv0tk6" path="res://ProgrammingGameAIByExample/Raven/map_drawing_input.gd" id="1_is2fs"]
+[ext_resource type="Script" uid="uid://neh8p6k2bcdk" path="res://ProgrammingGameAIByExample/Raven/map_drawing.gd" id="2_entot"]
+[ext_resource type="Script" uid="uid://cqhp03f6dx6m0" path="res://ProgrammingGameAIByExample/Raven/static_drawing.gd" id="3_qrcs0"]
+[ext_resource type="Script" uid="uid://si5xexsnexmu" path="res://ProgrammingGameAIByExample/Raven/bucket_drawing.gd" id="4_dfo63"]
+[ext_resource type="Script" uid="uid://bhfbph3b48bce" path="res://ProgrammingGameAIByExample/Raven/overlay_draw.gd" id="5_d7llw"]
+
+[node name="MapDrawingInput" type="Node2D"]
+z_index = 50
+script = ExtResource("1_is2fs")
+
+[node name="SubViewport" type="SubViewport" parent="."]
+gui_disable_input = true
+gui_snap_controls_to_pixels = false
+render_target_clear_mode = 1
+render_target_update_mode = 4
+
+[node name="MapDrawing" type="Node2D" parent="SubViewport"]
+z_index = 25
+script = ExtResource("2_entot")
+
+[node name="StaticDrawing" type="Node2D" parent="SubViewport/MapDrawing"]
+script = ExtResource("3_qrcs0")
+
+[node name="BucketDrawing" type="Node2D" parent="."]
+z_index = 26
+script = ExtResource("4_dfo63")
+
+[node name="OverlayDraw" type="Node2D" parent="."]
+z_index = 27
+script = ExtResource("5_d7llw")

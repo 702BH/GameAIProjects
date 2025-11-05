@@ -1,16 +1,25 @@
-[gd_scene format=3 uid="uid://d3jreuk3tv2a3"]
+[gd_scene load_steps=3 format=3 uid="uid://d3jreuk3tv2a3"]
+
+[ext_resource type="Script" uid="uid://7vycrek6f7bd" path="res://ProgrammingGameAIByExample/Raven/Scenes/UI/map_editor_buttons.gd" id="1_vgtog"]
+[ext_resource type="ButtonGroup" uid="uid://d3tm0y8i3l7d4" path="res://ProgrammingGameAIByExample/Raven/UI/raven_map_editor_buttons.tres" id="2_eo7ql"]
 
 [node name="MapEditorButtons" type="HBoxContainer"]
 offset_right = 40.0
 offset_bottom = 40.0
+size_flags_horizontal = 3
 theme_override_constants/separation = 10
+script = ExtResource("1_vgtog")
 
 [node name="Walls" type="Button" parent="."]
 layout_mode = 2
+toggle_mode = true
+button_group = ExtResource("2_eo7ql")
 text = "Add Walls"
 
 [node name="Placeables" type="Button" parent="."]
 layout_mode = 2
+toggle_mode = true
+button_group = ExtResource("2_eo7ql")
 text = "Add Placeable"
 
 [node name="LoadMap" type="Button" parent="."]
@@ -25,3 +34,6 @@ placeholder_text = "Map Name"
 [node name="SaveMap" type="Button" parent="."]
 layout_mode = 2
 text = "Save Map"
+
+[connection signal="toggled" from="Walls" to="." method="_on_walls_toggled"]
+[connection signal="toggled" from="Placeables" to="." method="_on_placeables_toggled"]

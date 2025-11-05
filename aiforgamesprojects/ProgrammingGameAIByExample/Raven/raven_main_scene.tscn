@@ -10,7 +10,7 @@
 [ext_resource type="Script" uid="uid://bhfbph3b48bce" path="res://ProgrammingGameAIByExample/Raven/overlay_draw.gd" id="6_8yi77"]
 [ext_resource type="Script" uid="uid://cqhp03f6dx6m0" path="res://ProgrammingGameAIByExample/Raven/static_drawing.gd" id="7_vghlm"]
 
-[sub_resource type="ViewportTexture" id="ViewportTexture_83dyp"]
+[sub_resource type="ViewportTexture" id="ViewportTexture_bmaej"]
 viewport_path = NodePath("MapDrawingInput/SubViewport")
 
 [node name="RavenMainScene" type="Node2D"]
@@ -59,7 +59,7 @@ mouse_force_pass_scroll_events = false
 z_index = 4096
 
 [node name="World" type="Sprite2D" parent="."]
-texture = SubResource("ViewportTexture_83dyp")
+texture = SubResource("ViewportTexture_bmaej")
 centered = false
 
 [connection signal="map_load_request" from="CanvasLayer/UI" to="." method="_on_ui_map_load_request"]

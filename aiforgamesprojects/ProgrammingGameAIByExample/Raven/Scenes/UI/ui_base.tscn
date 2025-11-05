@@ -1,4 +1,6 @@
-[gd_scene load_steps=2 format=3 uid="uid://bd7xhayy1lt13"]
+[gd_scene load_steps=3 format=3 uid="uid://bd7xhayy1lt13"]
+
+[ext_resource type="Script" uid="uid://y0ng3mf676hm" path="res://ProgrammingGameAIByExample/Raven/Scenes/UI/ui_base.gd" id="1_jyig2"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_i2snx"]
 bg_color = Color(0.5, 0.37, 0.37, 1)
@@ -10,6 +12,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+script = ExtResource("1_jyig2")
 
 [node name="Container" type="VBoxContainer" parent="."]
 layout_mode = 1

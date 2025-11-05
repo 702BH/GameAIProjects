@@ -1,0 +1,127 @@
+[gd_scene load_steps=8 format=3 uid="uid://bt6me0vmsqw5k"]
+
+[ext_resource type="Script" uid="uid://ci8ky6tb4kk2l" path="res://ProgrammingGameAIByExample/Raven/placeable_popup.gd" id="1_cgin3"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_72r2y"]
+bg_color = Color(0.764706, 0.545098, 0.380392, 0.792157)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_xka71"]
+bg_color = Color(0.6, 0.6, 0.6, 0)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_f7lml"]
+bg_color = Color(0.6, 0.6, 0.6, 0)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_2eej5"]
+bg_color = Color(0.6, 0.6, 0.6, 0)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_rytgg"]
+bg_color = Color(0.6, 0.6, 0.6, 0)
+
+[sub_resource type="Theme" id="Theme_xka71"]
+OptionButton/styles/hover_pressed = SubResource("StyleBoxFlat_xka71")
+OptionButton/styles/pressed = SubResource("StyleBoxFlat_f7lml")
+PopupMenu/styles/hover = SubResource("StyleBoxFlat_2eej5")
+PopupMenu/styles/panel = SubResource("StyleBoxFlat_rytgg")
+
+[node name="PlaceablePopup" type="Panel"]
+clip_contents = true
+custom_minimum_size = Vector2(300, 300)
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_72r2y")
+script = ExtResource("1_cgin3")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+clip_contents = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="VBoxContainer"]
+custom_minimum_size = Vector2(0, 3)
+layout_mode = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="Label" type="Label" parent="VBoxContainer/VBoxContainer"]
+layout_mode = 2
+text = "Select Placeable"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="PopupSelection" type="OptionButton" parent="VBoxContainer/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+mouse_default_cursor_shape = 2
+theme = SubResource("Theme_xka71")
+flat = true
+alignment = 1
+text_overrun_behavior = 1
+autowrap_mode = 2
+fit_to_longest_item = false
+
+[node name="WeaponSelectable" type="VBoxContainer" parent="VBoxContainer/VBoxContainer"]
+visible = false
+layout_mode = 2
+
+[node name="Label" type="Label" parent="VBoxContainer/VBoxContainer/WeaponSelectable"]
+layout_mode = 2
+text = "Select Weapon"
+horizontal_alignment = 1
+
+[node name="WeaponSelection" type="OptionButton" parent="VBoxContainer/VBoxContainer/WeaponSelectable"]
+unique_name_in_owner = true
+layout_mode = 2
+mouse_default_cursor_shape = 2
+theme = SubResource("Theme_xka71")
+flat = true
+alignment = 1
+text_overrun_behavior = 1
+autowrap_mode = 2
+fit_to_longest_item = false
+
+[node name="VBoxContainer2" type="HBoxContainer" parent="VBoxContainer"]
+custom_minimum_size = Vector2(0, 50)
+layout_mode = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="VBoxContainer/VBoxContainer2"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/margin_left = 6
+theme_override_constants/margin_top = 3
+theme_override_constants/margin_right = 6
+theme_override_constants/margin_bottom = 3
+
+[node name="CancelPopup" type="Button" parent="VBoxContainer/VBoxContainer2/MarginContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 0
+mouse_default_cursor_shape = 2
+text = "Cancel"
+flat = true
+
+[node name="AcceptPopup" type="Button" parent="VBoxContainer/VBoxContainer2/MarginContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 8
+mouse_default_cursor_shape = 2
+text = "Accept"
+flat = true
+
+[node name="MarginContainer2" type="MarginContainer" parent="VBoxContainer"]
+custom_minimum_size = Vector2(0, 3)
+layout_mode = 2
+
+[connection signal="item_selected" from="VBoxContainer/VBoxContainer/PopupSelection" to="." method="_on_popup_selection_item_selected"]
+[connection signal="pressed" from="VBoxContainer/VBoxContainer2/MarginContainer/CancelPopup" to="." method="_on_cancel_popup_pressed"]
+[connection signal="pressed" from="VBoxContainer/VBoxContainer2/MarginContainer/AcceptPopup" to="." method="_on_accept_popup_pressed"]
