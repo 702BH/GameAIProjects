@@ -1,4 +1,4 @@
-[gd_scene load_steps=25 format=3 uid="uid://c5uea86dlcivm"]
+[gd_scene load_steps=19 format=3 uid="uid://c5uea86dlcivm"]
 
 [ext_resource type="Script" uid="uid://cmclv6r6mrl5b" path="res://ProgrammingGameAIByExample/Raven/map_ui_editor.gd" id="1_ad81b"]
 [ext_resource type="StyleBox" uid="uid://b8a81fdlk5ted" path="res://ProgrammingGameAIByExample/Raven/button_pressed.tres" id="3_birsf"]
@@ -12,8 +12,8 @@
 [ext_resource type="Script" uid="uid://cww7upfvyeedd" path="res://ProgrammingGameAIByExample/Raven/steering_debug.gd" id="8_xka71"]
 [ext_resource type="Script" uid="uid://cshd82ydb2vec" path="res://ProgrammingGameAIByExample/Raven/targeting_debug.gd" id="9_rytgg"]
 [ext_resource type="Script" uid="uid://cpo3h6d7vb6h4" path="res://ProgrammingGameAIByExample/Raven/weapons_debug.gd" id="10_2eej5"]
-[ext_resource type="Script" uid="uid://ci8ky6tb4kk2l" path="res://ProgrammingGameAIByExample/Raven/placeable_popup.gd" id="11_f7lml"]
 [ext_resource type="Script" uid="uid://1augwl03xst2" path="res://ProgrammingGameAIByExample/Raven/loading_popup.gd" id="13_2eej5"]
+[ext_resource type="PackedScene" uid="uid://bt6me0vmsqw5k" path="res://ProgrammingGameAIByExample/Raven/Scenes/UI/placeable_popup.tscn" id="13_fua0b"]
 [ext_resource type="Script" uid="uid://cnf7sipipte7q" path="res://ProgrammingGameAIByExample/Raven/animation.gd" id="13_rytgg"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_itxlc"]
@@ -24,27 +24,6 @@ bg_color = Color(0.6, 0.6, 0.6, 0.207843)
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_62kta"]
 bg_color = Color(0.6, 0.6, 0.6, 0.027451)
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_72r2y"]
-bg_color = Color(0.764706, 0.545098, 0.380392, 0.792157)
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_xka71"]
-bg_color = Color(0.6, 0.6, 0.6, 0)
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_f7lml"]
-bg_color = Color(0.6, 0.6, 0.6, 0)
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_2eej5"]
-bg_color = Color(0.6, 0.6, 0.6, 0)
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_rytgg"]
-bg_color = Color(0.6, 0.6, 0.6, 0)
-
-[sub_resource type="Theme" id="Theme_xka71"]
-OptionButton/styles/hover_pressed = SubResource("StyleBoxFlat_xka71")
-OptionButton/styles/pressed = SubResource("StyleBoxFlat_f7lml")
-PopupMenu/styles/hover = SubResource("StyleBoxFlat_2eej5")
-PopupMenu/styles/panel = SubResource("StyleBoxFlat_rytgg")
 
 [node name="UI" type="Control"]
 layout_mode = 3
@@ -466,105 +445,17 @@ layout_mode = 2
 script = ExtResource("9_rytgg")
 metadata/_tab_index = 5
 
-[node name="PlaceablePopup" type="Panel" parent="."]
-clip_contents = true
-custom_minimum_size = Vector2(300, 300)
-layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-grow_horizontal = 2
-grow_vertical = 2
-theme_override_styles/panel = SubResource("StyleBoxFlat_72r2y")
-script = ExtResource("11_f7lml")
-
-[node name="VBoxContainer" type="VBoxContainer" parent="PlaceablePopup"]
-clip_contents = true
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-
-[node name="MarginContainer" type="MarginContainer" parent="PlaceablePopup/VBoxContainer"]
-custom_minimum_size = Vector2(0, 3)
-layout_mode = 2
-
-[node name="VBoxContainer" type="VBoxContainer" parent="PlaceablePopup/VBoxContainer"]
-layout_mode = 2
-size_flags_vertical = 3
-
-[node name="Label" type="Label" parent="PlaceablePopup/VBoxContainer/VBoxContainer"]
-layout_mode = 2
-text = "Select Placeable"
-horizontal_alignment = 1
-vertical_alignment = 1
-
-[node name="PopupSelection" type="OptionButton" parent="PlaceablePopup/VBoxContainer/VBoxContainer"]
-unique_name_in_owner = true
-layout_mode = 2
-mouse_default_cursor_shape = 2
-theme = SubResource("Theme_xka71")
-flat = true
-alignment = 1
-text_overrun_behavior = 1
-autowrap_mode = 2
-fit_to_longest_item = false
-
-[node name="WeaponSelectable" type="VBoxContainer" parent="PlaceablePopup/VBoxContainer/VBoxContainer"]
-visible = false
-layout_mode = 2
-
-[node name="Label" type="Label" parent="PlaceablePopup/VBoxContainer/VBoxContainer/WeaponSelectable"]
-layout_mode = 2
-text = "Select Weapon"
-horizontal_alignment = 1
-
-[node name="WeaponSelection" type="OptionButton" parent="PlaceablePopup/VBoxContainer/VBoxContainer/WeaponSelectable"]
-unique_name_in_owner = true
-layout_mode = 2
-mouse_default_cursor_shape = 2
-theme = SubResource("Theme_xka71")
-flat = true
-alignment = 1
-text_overrun_behavior = 1
-autowrap_mode = 2
-fit_to_longest_item = false
-
-[node name="VBoxContainer2" type="HBoxContainer" parent="PlaceablePopup/VBoxContainer"]
-custom_minimum_size = Vector2(0, 50)
-layout_mode = 2
-
-[node name="MarginContainer" type="MarginContainer" parent="PlaceablePopup/VBoxContainer/VBoxContainer2"]
-layout_mode = 2
-size_flags_horizontal = 3
-theme_override_constants/margin_left = 6
-theme_override_constants/margin_top = 3
-theme_override_constants/margin_right = 6
-theme_override_constants/margin_bottom = 3
-
-[node name="CancelPopup" type="Button" parent="PlaceablePopup/VBoxContainer/VBoxContainer2/MarginContainer"]
-unique_name_in_owner = true
-layout_mode = 2
-size_flags_horizontal = 0
-mouse_default_cursor_shape = 2
-text = "Cancel"
-flat = true
-
-[node name="AcceptPopup" type="Button" parent="PlaceablePopup/VBoxContainer/VBoxContainer2/MarginContainer"]
-unique_name_in_owner = true
-layout_mode = 2
-size_flags_horizontal = 8
-mouse_default_cursor_shape = 2
-text = "Accept"
-flat = true
-
-[node name="MarginContainer2" type="MarginContainer" parent="PlaceablePopup/VBoxContainer"]
-custom_minimum_size = Vector2(0, 3)
-layout_mode = 2
+[node name="PlaceablePopup" parent="." instance=ExtResource("13_fua0b")]
+layout_mode = 0
+anchors_preset = 0
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+offset_right = 300.0
+offset_bottom = 300.0
+grow_horizontal = 1
+grow_vertical = 1
 
 [node name="LoadingPopup" type="Panel" parent="."]
 visible = false
@@ -615,8 +506,3 @@ script = ExtResource("13_rytgg")
 [connection signal="file_selected" from="LoadMapDialog" to="." method="_on_load_map_dialog_file_selected"]
 [connection signal="pressed" from="WeaponTypeSelector/VBoxContainer/VBoxContainer2/HBoxContainer2/HBoxContainer/WeaponCancel" to="." method="_on_weapon_cancel_pressed"]
 [connection signal="pressed" from="WeaponTypeSelector/VBoxContainer/VBoxContainer2/HBoxContainer2/HBoxContainer2/WeaponSubmit" to="." method="_on_weapon_submit_pressed"]
-[connection signal="submitted" from="PlaceablePopup" to="." method="_on_placeable_popup_submitted"]
-[connection signal="item_selected" from="PlaceablePopup/VBoxContainer/VBoxContainer/PopupSelection" to="PlaceablePopup" method="_on_popup_selection_item_selected"]
-[connection signal="pressed" from="PlaceablePopup/VBoxContainer/VBoxContainer2/MarginContainer/CancelPopup" to="." method="_on_cancel_popup_pressed"]
-[connection signal="pressed" from="PlaceablePopup/VBoxContainer/VBoxContainer2/MarginContainer/CancelPopup" to="PlaceablePopup" method="_on_cancel_popup_pressed"]
-[connection signal="pressed" from="PlaceablePopup/VBoxContainer/VBoxContainer2/MarginContainer/AcceptPopup" to="PlaceablePopup" method="_on_accept_popup_pressed"]

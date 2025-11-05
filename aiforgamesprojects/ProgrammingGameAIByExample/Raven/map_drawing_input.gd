@@ -30,7 +30,6 @@ func _ready() -> void:
 	RavenServiceBus.debg_mode_changed.connect(_on_debug_mode_changed.bind())
 	RavenServiceBus.game_start_requested.connect(_on_map_start_requested.bind())
 
-
 func setup_viewport(width:float, height:float) -> void:
 	viewport.size.x = width
 	viewport.size.y = height

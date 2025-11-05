@@ -1,25 +1,54 @@
-[gd_scene load_steps=6 format=3 uid="uid://c5d1yhld4km0r"]
+[gd_scene load_steps=11 format=3 uid="uid://c5d1yhld4km0r"]
 
 [ext_resource type="Script" uid="uid://dh6anayorwhn4" path="res://ProgrammingGameAIByExample/Raven/Scenes/edit_map_scene.gd" id="1_28eya"]
 [ext_resource type="PackedScene" uid="uid://bd7xhayy1lt13" path="res://ProgrammingGameAIByExample/Raven/Scenes/UI/ui_base.tscn" id="1_b6wt3"]
 [ext_resource type="PackedScene" uid="uid://d3jreuk3tv2a3" path="res://ProgrammingGameAIByExample/Raven/Scenes/UI/map_editor_buttons.tscn" id="2_thg27"]
-[ext_resource type="PackedScene" uid="uid://blaxjkyc3u28c" path="res://ProgrammingGameAIByExample/Raven/Scenes/UI/map_drawing_input.tscn" id="3_vh614"]
+[ext_resource type="Script" uid="uid://qcfy7irv0tk6" path="res://ProgrammingGameAIByExample/Raven/map_drawing_input.gd" id="3_nvbnf"]
+[ext_resource type="Script" uid="uid://neh8p6k2bcdk" path="res://ProgrammingGameAIByExample/Raven/map_drawing.gd" id="4_ojvak"]
+[ext_resource type="Script" uid="uid://cqhp03f6dx6m0" path="res://ProgrammingGameAIByExample/Raven/static_drawing.gd" id="5_cqhfu"]
+[ext_resource type="Script" uid="uid://si5xexsnexmu" path="res://ProgrammingGameAIByExample/Raven/bucket_drawing.gd" id="6_texiv"]
+[ext_resource type="Script" uid="uid://bhfbph3b48bce" path="res://ProgrammingGameAIByExample/Raven/overlay_draw.gd" id="7_eaicy"]
+[ext_resource type="PackedScene" uid="uid://bt6me0vmsqw5k" path="res://ProgrammingGameAIByExample/Raven/Scenes/UI/placeable_popup.tscn" id="9_ojvak"]
 
-[sub_resource type="ViewportTexture" id="ViewportTexture_vh614"]
+[sub_resource type="ViewportTexture" id="ViewportTexture_nvbnf"]
 viewport_path = NodePath("MapDrawingInput/SubViewport")
 
 [node name="EditMapScene" type="Node2D"]
 script = ExtResource("1_28eya")
 buttons = ExtResource("2_thg27")
 
-[node name="MapDrawingInput" parent="." instance=ExtResource("3_vh614")]
+[node name="MapDrawingInput" type="Node2D" parent="."]
+z_index = 50
+script = ExtResource("3_nvbnf")
+
+[node name="SubViewport" type="SubViewport" parent="MapDrawingInput"]
+gui_disable_input = true
+gui_snap_controls_to_pixels = false
+render_target_clear_mode = 1
+render_target_update_mode = 4
+
+[node name="MapDrawing" type="Node2D" parent="MapDrawingInput/SubViewport"]
+z_index = 25
+script = ExtResource("4_ojvak")
+
+[node name="StaticDrawing" type="Node2D" parent="MapDrawingInput/SubViewport/MapDrawing"]
+script = ExtResource("5_cqhfu")
+
+[node name="BucketDrawing" type="Node2D" parent="MapDrawingInput"]
+z_index = 26
+script = ExtResource("6_texiv")
+
+[node name="OverlayDraw" type="Node2D" parent="MapDrawingInput"]
+z_index = 27
+script = ExtResource("7_eaicy")
 
 [node name="UI" type="CanvasLayer" parent="."]
 
 [node name="UIBase" parent="UI" instance=ExtResource("1_b6wt3")]
 
-[node name="WorldSprite" type="Sprite2D" parent="."]
-texture = SubResource("ViewportTexture_vh614")
-centered = false
+[node name="PlaceablePopup" parent="UI" instance=ExtResource("9_ojvak")]
+visible = false
 
-[editable path="MapDrawingInput"]
+[node name="WorldSprite" type="Sprite2D" parent="."]
+texture = SubResource("ViewportTexture_nvbnf")
+centered = false
