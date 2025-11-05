@@ -31,6 +31,12 @@ func _ready() -> void:
 	RavenServiceBus.game_start_requested.connect(_on_map_start_requested.bind())
 
 
+func setup_viewport(width:float, height:float) -> void:
+	viewport.size.x = width
+	viewport.size.y = height
+
+
+
 func _on_map_start_requested() -> void:
 	if DebugSettings.debug_mode:
 		viewport.render_target_update_mode = SubViewport.UPDATE_ALWAYS

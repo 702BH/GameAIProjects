@@ -1,11 +1,25 @@
-[gd_scene load_steps=3 format=3 uid="uid://c5d1yhld4km0r"]
+[gd_scene load_steps=6 format=3 uid="uid://c5d1yhld4km0r"]
 
 [ext_resource type="Script" uid="uid://dh6anayorwhn4" path="res://ProgrammingGameAIByExample/Raven/Scenes/edit_map_scene.gd" id="1_28eya"]
 [ext_resource type="PackedScene" uid="uid://bd7xhayy1lt13" path="res://ProgrammingGameAIByExample/Raven/Scenes/UI/ui_base.tscn" id="1_b6wt3"]
+[ext_resource type="PackedScene" uid="uid://d3jreuk3tv2a3" path="res://ProgrammingGameAIByExample/Raven/Scenes/UI/map_editor_buttons.tscn" id="2_thg27"]
+[ext_resource type="PackedScene" uid="uid://blaxjkyc3u28c" path="res://ProgrammingGameAIByExample/Raven/Scenes/UI/map_drawing_input.tscn" id="3_vh614"]
+
+[sub_resource type="ViewportTexture" id="ViewportTexture_vh614"]
+viewport_path = NodePath("MapDrawingInput/SubViewport")
 
 [node name="EditMapScene" type="Node2D"]
 script = ExtResource("1_28eya")
+buttons = ExtResource("2_thg27")
+
+[node name="MapDrawingInput" parent="." instance=ExtResource("3_vh614")]
 
 [node name="UI" type="CanvasLayer" parent="."]
 
 [node name="UIBase" parent="UI" instance=ExtResource("1_b6wt3")]
+
+[node name="WorldSprite" type="Sprite2D" parent="."]
+texture = SubResource("ViewportTexture_vh614")
+centered = false
+
+[editable path="MapDrawingInput"]
