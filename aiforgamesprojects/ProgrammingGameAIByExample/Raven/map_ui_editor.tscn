@@ -1,4 +1,4 @@
-[gd_scene load_steps=19 format=3 uid="uid://c5uea86dlcivm"]
+[gd_scene load_steps=18 format=3 uid="uid://c5uea86dlcivm"]
 
 [ext_resource type="Script" uid="uid://cmclv6r6mrl5b" path="res://ProgrammingGameAIByExample/Raven/map_ui_editor.gd" id="1_ad81b"]
 [ext_resource type="StyleBox" uid="uid://b8a81fdlk5ted" path="res://ProgrammingGameAIByExample/Raven/button_pressed.tres" id="3_birsf"]
@@ -12,9 +12,8 @@
 [ext_resource type="Script" uid="uid://cww7upfvyeedd" path="res://ProgrammingGameAIByExample/Raven/steering_debug.gd" id="8_xka71"]
 [ext_resource type="Script" uid="uid://cshd82ydb2vec" path="res://ProgrammingGameAIByExample/Raven/targeting_debug.gd" id="9_rytgg"]
 [ext_resource type="Script" uid="uid://cpo3h6d7vb6h4" path="res://ProgrammingGameAIByExample/Raven/weapons_debug.gd" id="10_2eej5"]
-[ext_resource type="Script" uid="uid://1augwl03xst2" path="res://ProgrammingGameAIByExample/Raven/loading_popup.gd" id="13_2eej5"]
 [ext_resource type="PackedScene" uid="uid://bt6me0vmsqw5k" path="res://ProgrammingGameAIByExample/Raven/Scenes/UI/placeable_popup.tscn" id="13_fua0b"]
-[ext_resource type="Script" uid="uid://cnf7sipipte7q" path="res://ProgrammingGameAIByExample/Raven/animation.gd" id="13_rytgg"]
+[ext_resource type="PackedScene" uid="uid://bwvvmioh0yweg" path="res://ProgrammingGameAIByExample/Raven/Scenes/UI/loading_popup.tscn" id="14_2eej5"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_itxlc"]
 bg_color = Color(0.6, 0.6, 0.6, 0.231373)
@@ -457,40 +456,9 @@ offset_bottom = 300.0
 grow_horizontal = 1
 grow_vertical = 1
 
-[node name="LoadingPopup" type="Panel" parent="."]
-visible = false
-custom_minimum_size = Vector2(300, 300)
-layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -150.0
-offset_top = -150.0
-offset_right = 150.0
-offset_bottom = 150.0
-grow_horizontal = 2
-grow_vertical = 2
-script = ExtResource("13_2eej5")
-
-[node name="VBoxContainer" type="VBoxContainer" parent="LoadingPopup"]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-
-[node name="Label" type="Label" parent="LoadingPopup/VBoxContainer"]
-layout_mode = 2
-text = "Saving Map Please Wait"
-horizontal_alignment = 1
-
-[node name="animation" type="Control" parent="LoadingPopup/VBoxContainer"]
-layout_mode = 2
-size_flags_vertical = 3
-script = ExtResource("13_rytgg")
+[node name="LoadingPopup" parent="." instance=ExtResource("14_2eej5")]
+layout_mode = 0
+anchors_preset = 0
 
 [connection signal="mouse_entered" from="Container/GridContainer" to="Container/GridContainer" method="_on_mouse_entered"]
 [connection signal="mouse_exited" from="Container/GridContainer" to="Container/GridContainer" method="_on_mouse_exited"]

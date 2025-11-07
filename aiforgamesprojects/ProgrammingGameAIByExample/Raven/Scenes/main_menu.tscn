@@ -1,4 +1,6 @@
-[gd_scene load_steps=4 format=3 uid="uid://dnpygy6h5uf4w"]
+[gd_scene load_steps=5 format=3 uid="uid://dnpygy6h5uf4w"]
+
+[ext_resource type="Script" uid="uid://crhukr4dm1562" path="res://ProgrammingGameAIByExample/Raven/Scenes/main_menu.gd" id="1_dqbjo"]
 
 [sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_xyqn4"]
 
@@ -14,6 +16,8 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+script = ExtResource("1_dqbjo")
+map_editor = "uid://c5d1yhld4km0r"
 
 [node name="TextureRect" type="TextureRect" parent="."]
 modulate = Color(0.19, 0.19, 0.19, 1)
@@ -70,3 +74,5 @@ custom_minimum_size = Vector2(150, 0)
 layout_mode = 2
 size_flags_horizontal = 4
 text = "Debug Map"
+
+[connection signal="pressed" from="PanelContainer/Items/MapEditor" to="." method="_on_map_editor_pressed"]

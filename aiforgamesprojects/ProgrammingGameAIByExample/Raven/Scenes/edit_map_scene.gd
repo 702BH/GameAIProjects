@@ -4,6 +4,7 @@ extends Node2D
 @export var width := 1152.0
 @export var height := 600.0
 
+
 @onready var ui_base:= $UI/UIBase
 @onready var world_sprite := $WorldSprite
 @onready var map_input := $MapDrawingInput
