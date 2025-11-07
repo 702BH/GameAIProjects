@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=3 uid="uid://c5d1yhld4km0r"]
+[gd_scene load_steps=12 format=3 uid="uid://c5d1yhld4km0r"]
 
 [ext_resource type="Script" uid="uid://dh6anayorwhn4" path="res://ProgrammingGameAIByExample/Raven/Scenes/edit_map_scene.gd" id="1_28eya"]
 [ext_resource type="PackedScene" uid="uid://bd7xhayy1lt13" path="res://ProgrammingGameAIByExample/Raven/Scenes/UI/ui_base.tscn" id="1_b6wt3"]
@@ -9,6 +9,7 @@
 [ext_resource type="Script" uid="uid://si5xexsnexmu" path="res://ProgrammingGameAIByExample/Raven/bucket_drawing.gd" id="6_texiv"]
 [ext_resource type="Script" uid="uid://bhfbph3b48bce" path="res://ProgrammingGameAIByExample/Raven/overlay_draw.gd" id="7_eaicy"]
 [ext_resource type="PackedScene" uid="uid://bt6me0vmsqw5k" path="res://ProgrammingGameAIByExample/Raven/Scenes/UI/placeable_popup.tscn" id="9_ojvak"]
+[ext_resource type="PackedScene" uid="uid://bwvvmioh0yweg" path="res://ProgrammingGameAIByExample/Raven/Scenes/UI/loading_popup.tscn" id="10_cqhfu"]
 
 [sub_resource type="ViewportTexture" id="ViewportTexture_nvbnf"]
 viewport_path = NodePath("MapDrawingInput/SubViewport")
@@ -49,6 +50,16 @@ script = ExtResource("7_eaicy")
 [node name="PlaceablePopup" parent="UI" instance=ExtResource("9_ojvak")]
 visible = false
 
+[node name="LoadingPopup" parent="UI" instance=ExtResource("10_cqhfu")]
+
 [node name="WorldSprite" type="Sprite2D" parent="."]
 texture = SubResource("ViewportTexture_nvbnf")
 centered = false
+
+[node name="MapSelection" type="FileDialog" parent="."]
+title = "Open a File"
+ok_button_text = "Open"
+file_mode = 0
+use_native_dialog = true
+
+[connection signal="file_selected" from="MapSelection" to="." method="_on_map_selection_file_selected"]

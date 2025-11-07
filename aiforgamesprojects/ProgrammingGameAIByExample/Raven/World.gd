@@ -27,6 +27,9 @@ var threads := []
 var is_saving := false
 var save_thread : Thread
 
+var current_map_name : String
+var current_texture : Texture2D
+
 func initialise(_width:float, _height:float, _resolution:float, _cell_size:int) -> void:
 	width = _width
 	height = _height
@@ -76,6 +79,8 @@ func generate_edges(rows, columns) ->void:
 
 
 func load_world_from_file(file_path: String) -> void:
+	var file_name = file_path.get_slice("/", file_path.get_slice_count("/") -1)
+	current_map_name = file_name
 	var file = FileAccess.open(file_path, FileAccess.READ)
 	if file == null:
 		push_error("Could not open file")
@@ -146,10 +151,10 @@ func load_world_from_file(file_path: String) -> void:
 	pre_calc_costs = result["pre_calc_costs"]
 	
 	# debugging
-	for key in cell_buckets_static:
-		var walls = cell_buckets_static[key]
-		for wall in walls:
-			print(wall.wall_segments)
+	#for key in cell_buckets_static:
+		#var walls = cell_buckets_static[key]
+		#for wall in walls:
+			#print(wall.wall_segments)
 
 
 func calculate_costs() -> void:
@@ -210,7 +215,7 @@ func save_map(file_name:String) -> void:
 	if is_saving:
 		return
 	
-	print("SHOULD START SAVING UI")
+	#print("SHOULD START SAVING UI")
 	RavenServiceBus.load_pop_up.emit()
 	save_thread = Thread.new()
 	save_thread.start(_save_world_threaded.bind(file_name))
@@ -247,7 +252,9 @@ func save_world_to_file(file_name:String) -> void:
 				"column": col
 			})
 	
-	var file_path = "res://ProgrammingGameAIByExample/Raven/Maps/" + file_name + ".json"
+	
+	var file_path = "res://ProgrammingGameAIByExample/Raven/Maps/" + file_name
+	print("FILE PATH::::: ", file_path)
 	
 	var file = FileAccess.open(file_path, FileAccess.WRITE)
 	var json_string = JSON.stringify(save_data)
@@ -257,6 +264,7 @@ func save_world_to_file(file_name:String) -> void:
 
 func _on_save_complete() -> void:
 	RavenServiceBus.load_pop_up.emit()
+	DebugSettings.set_debug_mode(false)
 	print("MAP SAVED")
 
 func move_agent(agent: RavenAgent, old_pos: Vector2, new_pos: Vector2) -> void:

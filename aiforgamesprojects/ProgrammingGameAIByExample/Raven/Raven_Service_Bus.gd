@@ -27,11 +27,11 @@ signal placeable_popup_requested(data: SelectableData)
 
 ## UI to map change mode
 signal mode_changed(mode: MapDrawing.tool_state)
-
 signal placeable_popup_submitted(data: SelectableData)
-
 signal load_pop_up()
-
+signal load_map_pressed()
+signal map_selected(path:String)
+signal map_save_request(name:String)
 
 # agent selections
 signal agent_selected(agent: RavenAgent)
@@ -47,3 +47,4 @@ signal debg_mode_changed(mode:bool)
 # Map drawing
 signal grid_generated()
 signal update_tool_state(state: MapDrawing.tool_state)
+signal ready_for_saving()

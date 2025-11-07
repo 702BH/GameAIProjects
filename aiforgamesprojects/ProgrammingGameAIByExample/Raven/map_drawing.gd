@@ -23,10 +23,13 @@ var font = ThemeDB.fallback_font
 
 
 
+
 func _draw() -> void:
 	#if !World.graph.nodes.is_empty():
 		#for i in range(draw_start, draw_end):
 			#var
+	
+	var neigh : Array
 	
 	
 	if !dirty_nodes.is_empty():
@@ -77,6 +80,8 @@ func _draw() -> void:
 			if node.node_type == RavenNode.NodeType.WALL:
 				World.graph.remove_wall(node.id)
 		dirty_nodes.clear()
+	if !DebugSettings.debug_mode:
+		RavenServiceBus.ready_for_saving.emit()
 	#if !World.graph.nodes.is_empty():
 		#for node:RavenNode in World.graph.nodes:
 			#var neighbors : Array
