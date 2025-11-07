@@ -37,3 +37,5 @@ text = "Save Map"
 
 [connection signal="toggled" from="Walls" to="." method="_on_walls_toggled"]
 [connection signal="toggled" from="Placeables" to="." method="_on_placeables_toggled"]
+[connection signal="pressed" from="LoadMap" to="." method="_on_load_map_pressed"]
+[connection signal="pressed" from="SaveMap" to="." method="_on_save_map_pressed"]

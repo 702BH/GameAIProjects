@@ -52,3 +52,11 @@ visible = false
 [node name="WorldSprite" type="Sprite2D" parent="."]
 texture = SubResource("ViewportTexture_nvbnf")
 centered = false
+
+[node name="MapSelection" type="FileDialog" parent="."]
+title = "Open a File"
+ok_button_text = "Open"
+file_mode = 0
+use_native_dialog = true
+
+[connection signal="file_selected" from="MapSelection" to="." method="_on_map_selection_file_selected"]

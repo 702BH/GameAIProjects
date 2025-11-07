@@ -247,7 +247,7 @@ func save_world_to_file(file_name:String) -> void:
 				"column": col
 			})
 	
-	var file_path = "res://ProgrammingGameAIByExample/Raven/Maps/" + file_name + ".json"
+	var file_path = "res://ProgrammingGameAIByExample/Raven/Maps/" + file_name
 	
 	var file = FileAccess.open(file_path, FileAccess.WRITE)
 	var json_string = JSON.stringify(save_data)

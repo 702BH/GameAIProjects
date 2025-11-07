@@ -1,0 +1,38 @@
+[gd_scene load_steps=3 format=3 uid="uid://bwvvmioh0yweg"]
+
+[ext_resource type="Script" uid="uid://1augwl03xst2" path="res://ProgrammingGameAIByExample/Raven/loading_popup.gd" id="1_rjpiq"]
+[ext_resource type="Script" uid="uid://cnf7sipipte7q" path="res://ProgrammingGameAIByExample/Raven/animation.gd" id="2_xvge7"]
+
+[node name="LoadingPopup" type="Panel"]
+visible = false
+custom_minimum_size = Vector2(300, 300)
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -150.0
+offset_top = -150.0
+offset_right = 150.0
+offset_bottom = 150.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_rjpiq")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Label" type="Label" parent="VBoxContainer"]
+layout_mode = 2
+text = "Saving Map Please Wait"
+horizontal_alignment = 1
+
+[node name="animation" type="Control" parent="VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+script = ExtResource("2_xvge7")
