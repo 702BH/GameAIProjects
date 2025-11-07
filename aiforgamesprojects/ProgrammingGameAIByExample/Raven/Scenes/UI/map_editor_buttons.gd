@@ -1,5 +1,6 @@
 extends HBoxContainer
 
+@export_file("*.tscn") var main_menu
 
 @onready var map_name := $MapName
 
@@ -36,4 +37,9 @@ func _on_map_selected(file_path:String) -> void:
 
 
 func _on_save_map_pressed() -> void:
+	print("SHOULD BE SEDING THE MAP ANME", map_name.text)
 	RavenServiceBus.map_save_request.emit(str(map_name.text))
+
+
+func _on_menu_pressed() -> void:
+	get_tree().change_scene_to_file(main_menu)

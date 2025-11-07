@@ -18,6 +18,7 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_dqbjo")
 map_editor = "uid://c5d1yhld4km0r"
+play_mode = "uid://b8mhppyapsk86"
 
 [node name="TextureRect" type="TextureRect" parent="."]
 modulate = Color(0.19, 0.19, 0.19, 1)
@@ -73,6 +74,14 @@ text = "Play Map"
 custom_minimum_size = Vector2(150, 0)
 layout_mode = 2
 size_flags_horizontal = 4
-text = "Debug Map"
+text = "Debug Map (In Progress)"
+
+[node name="OpenMap" type="FileDialog" parent="."]
+title = "Open a File"
+ok_button_text = "Open"
+file_mode = 0
+use_native_dialog = true
 
 [connection signal="pressed" from="PanelContainer/Items/MapEditor" to="." method="_on_map_editor_pressed"]
+[connection signal="pressed" from="PanelContainer/Items/Play" to="." method="_on_play_pressed"]
+[connection signal="file_selected" from="OpenMap" to="." method="_on_open_map_file_selected"]

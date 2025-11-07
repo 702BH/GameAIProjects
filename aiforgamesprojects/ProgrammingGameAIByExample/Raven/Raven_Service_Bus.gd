@@ -47,3 +47,4 @@ signal debg_mode_changed(mode:bool)
 # Map drawing
 signal grid_generated()
 signal update_tool_state(state: MapDrawing.tool_state)
+signal ready_for_saving()

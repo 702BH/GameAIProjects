@@ -47,8 +47,9 @@ func _on_map_start_requested() -> void:
 func _on_debug_mode_changed(mode:bool) -> void:
 	print("DEBUG MODE CHANGED")
 	print(DebugSettings.debug_mode)
-	static_drawing.queue_redraw()
-	drawer.queue_redraw()
+	print("SHOULD BE REDRAWING")
+	#static_drawing.queue_redraw()
+	#drawer.queue_redraw()
 	viewport.render_target_clear_mode = SubViewport.CLEAR_MODE_ONCE
 	for node in World.graph.nodes:
 		drawer.dirty_nodes.append(node)

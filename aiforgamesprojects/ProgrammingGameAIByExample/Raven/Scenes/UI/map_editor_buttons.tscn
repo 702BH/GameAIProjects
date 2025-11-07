@@ -9,6 +9,7 @@ offset_bottom = 40.0
 size_flags_horizontal = 3
 theme_override_constants/separation = 10
 script = ExtResource("1_vgtog")
+main_menu = "uid://dnpygy6h5uf4w"
 
 [node name="Walls" type="Button" parent="."]
 layout_mode = 2
@@ -35,7 +36,12 @@ placeholder_text = "Map Name"
 layout_mode = 2
 text = "Save Map"
 
+[node name="Menu" type="Button" parent="."]
+layout_mode = 2
+text = "Main Menu"
+
 [connection signal="toggled" from="Walls" to="." method="_on_walls_toggled"]
 [connection signal="toggled" from="Placeables" to="." method="_on_placeables_toggled"]
 [connection signal="pressed" from="LoadMap" to="." method="_on_load_map_pressed"]
 [connection signal="pressed" from="SaveMap" to="." method="_on_save_map_pressed"]
+[connection signal="pressed" from="Menu" to="." method="_on_menu_pressed"]
