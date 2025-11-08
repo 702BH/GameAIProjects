@@ -21,7 +21,7 @@ func _ready() -> void:
 		#print(RavenNode.PlaceableType[key])
 	for key in SelectableData.WeaponSubtype:
 		weapon_selection.add_item(SelectableData.enum_map[SelectableData.WeaponSubtype[key]], SelectableData.WeaponSubtype[key])
-		print(SelectableData.enum_map[SelectableData.WeaponSubtype[key]])
+		#print(SelectableData.enum_map[SelectableData.WeaponSubtype[key]])
 	RavenServiceBus.placeable_popup_requested.connect(_on_placeable_popup_request.bind())
 
 func _on_placeable_popup_request(data: SelectableData) -> void:

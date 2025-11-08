@@ -89,7 +89,11 @@ func _ready() -> void:
 	name_label.text = agent_name
 	health_label.text = str(health) + " / " + str(max_health)
 	RavenServiceBus.agent_selected.connect(on_agent_selected.bind())
+	RavenServiceBus.game_ready.connect(_on_game_ready.bind())
 
+func _on_game_ready() -> void:
+	visible = true
+	set_physics_process(true)
 
 
 func on_agent_selected(a: RavenAgent) -> void:
@@ -267,7 +271,7 @@ func _on_generate_paths_pressed() -> void:
 	#print(path_planner.position_to_grid(position))
 	#print("getting node:")
 	#print(path_planner.get_nearest_node(position).id)
-	print("getting random path:")
+	#print("getting random path:")
 	#print(path_planner.get_random_path(position))
 	current_path = path_planner.get_random_path(position)
 	edge_timer = 0
@@ -289,13 +293,13 @@ func is_at_position(pos: Vector2) -> bool:
 func take_damage(amount:float) -> void:
 	health -= amount
 	if health <= 100.0:
-		print("SHOULD DIE")
+		#print("SHOULD DIE")
 		RavenServiceBus.agent_died.emit(self)
 		World.remove_agent(self, World.position_to_grid(position))
 		call_deferred("queue_free")
 		#queue_free()
 	health = clamp(health, 0, 100)
-	print("TAKEN DAMAGE, REAMINING HEALTH: ", health)
+	#print("TAKEN DAMAGE, REAMINING HEALTH: ", health)
 	health_label.text = str(health) + " / " + str(max_health)
 	var data:StatsData = StatsData.build().set_agent(self).set_system(DebugData.Systems.STATS).set_step(StatsData.Steps.HEALTH)
 	data.add_message(str(health))
@@ -304,7 +308,7 @@ func take_damage(amount:float) -> void:
 func add_health(amount:float) -> void:
 	health += amount
 	health = clamp(health, 0, 100)
-	print("HEALTH ADDED, Current Health: ", health)
+	#print("HEALTH ADDED, Current Health: ", health)
 
 
 func can_walk_to(pos: Vector2) -> bool:
@@ -326,7 +330,7 @@ func can_step_left() -> Vector2:
 	if can_walk_to(position_of_step):
 		return position_of_step 
 	else:
-		print("Cant walk left")
+		#print("Cant walk left")
 		return Vector2.ZERO
 
 

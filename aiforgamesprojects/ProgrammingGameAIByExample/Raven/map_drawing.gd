@@ -81,6 +81,7 @@ func _draw() -> void:
 				World.graph.remove_wall(node.id)
 		dirty_nodes.clear()
 	if !DebugSettings.debug_mode:
+		print("Map ready for saving apparently")
 		RavenServiceBus.ready_for_saving.emit()
 	#if !World.graph.nodes.is_empty():
 		#for node:RavenNode in World.graph.nodes:

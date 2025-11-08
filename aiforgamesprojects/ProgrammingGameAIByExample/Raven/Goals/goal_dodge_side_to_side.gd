@@ -21,10 +21,10 @@ func activate() -> void:
 		#strafe right
 		strafe_target = owner_agent.can_step_right()
 		if strafe_target != Vector2.ZERO:
-			print("Agent position ", owner_agent.position)
-			print("Agent velocity normalised" , owner_agent.velocity.normalized())
-			print("Strafing right")
-			print(strafe_target)
+			#print("Agent position ", owner_agent.position)
+			#print("Agent velocity normalised" , owner_agent.velocity.normalized())
+			#print("Strafing right")
+			#print(strafe_target)
 			owner_agent.steering_controller.set_target_world(strafe_target)
 		else:
 			clockwise = !clockwise
@@ -32,10 +32,10 @@ func activate() -> void:
 	else:
 		strafe_target = owner_agent.can_step_left()
 		if strafe_target != Vector2.ZERO:
-			print("Agent position ", owner_agent.position)
-			print("Agent velocity normalised", owner_agent.velocity.normalized())
-			print("Strafing left")
-			print(strafe_target)
+			#print("Agent position ", owner_agent.position)
+			#print("Agent velocity normalised", owner_agent.velocity.normalized())
+			#print("Strafing left")
+			#print(strafe_target)
 			owner_agent.steering_controller.set_target_world(strafe_target)
 		else:
 			clockwise = !clockwise

@@ -81,7 +81,7 @@ func _on_dummy_agent_requested() -> void:
 
 
 func _on_map_start_requested() -> void:
-	print("MAP START REQUESTED")
+	#print("MAP START REQUESTED")
 	map_drawing.set_process(false)
 	start_map()
 
@@ -92,9 +92,7 @@ func start_map() -> void:
 func _unhandled_input(event: InputEvent) -> void:
 	if event.is_action_pressed("place"):
 		agents_container.query_selectable(get_global_mouse_position())
-	if event.is_action_pressed("remove"):
-		if agents_container.selected_agent:
-			print("Should generate a path")
+
 
 func initialise_ui_container(map_drawer) -> void:
 	ui.map_drawer = map_drawer

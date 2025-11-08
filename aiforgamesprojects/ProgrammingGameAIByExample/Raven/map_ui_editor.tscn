@@ -54,6 +54,7 @@ size_flags_vertical = 4
 theme_override_styles/panel = SubResource("StyleBoxFlat_itxlc")
 
 [node name="Buttons" type="HBoxContainer" parent="Container/ButtonPanel"]
+visible = false
 layout_mode = 2
 theme_override_constants/separation = 19
 
@@ -96,7 +97,6 @@ layout_mode = 2
 text = "Debug Map"
 
 [node name="RunMapUI" type="HBoxContainer" parent="Container/ButtonPanel"]
-visible = false
 layout_mode = 2
 alignment = 1
 script = ExtResource("4_fua0b")

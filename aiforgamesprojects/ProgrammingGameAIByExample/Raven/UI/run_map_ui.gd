@@ -19,7 +19,7 @@ func _ready() -> void:
 	RavenServiceBus.debug_event.connect(on_debug_event.bind())
 
 func on_debug_event(data: DebugData) -> void:
-	print("debug event")
+	#print("debug event")
 	if data != null:
 		if steps_dict.has(data.system):
 			if data.agent == selected_agent:
@@ -55,5 +55,5 @@ func clear_ui() -> void:
 
 
 func _on_play_pressed() -> void:
-	print("Possess Requested")
+	#print("Possess Requested")
 	RavenServiceBus.agent_possess_requested.emit()

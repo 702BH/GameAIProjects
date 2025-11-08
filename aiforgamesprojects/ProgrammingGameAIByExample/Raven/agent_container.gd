@@ -21,7 +21,7 @@ func _draw() -> void:
 
 
 func _on_possess_request() -> void:
-	print("Possess request recievied by agent container")
+	#print("Possess request recievied by agent container")
 	if selected_agent:
 		if !selected_agent.is_possessed:
 			selected_agent.is_possessed = true
