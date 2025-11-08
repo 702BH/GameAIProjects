@@ -45,15 +45,10 @@ func _on_map_start_requested() -> void:
 
 
 func _on_debug_mode_changed(mode:bool) -> void:
-	print("DEBUG MODE CHANGED")
-	print(DebugSettings.debug_mode)
-	print("SHOULD BE REDRAWING")
-	#static_drawing.queue_redraw()
-	#drawer.queue_redraw()
+	print("debug mode changed")
 	viewport.render_target_clear_mode = SubViewport.CLEAR_MODE_ONCE
 	for node in World.graph.nodes:
 		drawer.dirty_nodes.append(node)
-	#drawer.dirty_nodes = World.graph.nodes.duplicate()
 	drawer.queue_redraw()
 
 func _on_popup_submitted(data: SelectableData) -> void:
@@ -73,7 +68,7 @@ func _on_popup_submitted(data: SelectableData) -> void:
 					data.node.set_item_type(RavenNodeItemWeapon.new(RavenNodeItem.ItemSubType.BLASTER))
 				SelectableData.WeaponSubtype.RAIL_GUN:
 					data.node.set_item_type(RavenNodeItemWeapon.new(RavenNodeItem.ItemSubType.RAIL_GUN))
-			print("Weapon submitted")
+			#print("Weapon submitted")
 		SelectableData.PlaceableType.Spawn:
 			#print("Spawn submitted")
 			if data.node.node_type == RavenNode.NodeType.TRAVERSAL:
@@ -90,10 +85,10 @@ func _on_grid_generated() -> void:
 
 
 func _on_mode_changed(mode: tool_state) -> void:
-	print(mode)
+	#print(mode)
 	current_state = mode
-	print("MAP STATE CHANGED: ")
-	print(current_state)
+	#print("MAP STATE CHANGED: ")
+	#print(current_state)
 
 func _on_submitted(weapon: RavenNodeItem.ItemSubType) -> void:
 	if RavenServiceBus.selected_node:

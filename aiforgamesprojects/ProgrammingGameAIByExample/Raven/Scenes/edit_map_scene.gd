@@ -37,7 +37,9 @@ func _ready() -> void:
 
 func _on_ready_for_save() -> void:
 	await get_tree().process_frame
-	print("SAVINGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGG")
+	await get_tree().process_frame
+	await get_tree().process_frame
+	await get_tree().process_frame
 	 #Save image
 	 #split the name
 	var file_name = loaded_map.get_slice(".", 0)
@@ -64,7 +66,8 @@ func _on_map_selection_file_selected(path: String) -> void:
 
 
 func _on_map_save_request(map_name:String) -> void:
+	print("Map Save requested")
 	loaded_map = map_name
 	World.save_map(map_name)
-	print("SHOULD HAVE SAVED IMAGE")
+	#print("SHOULD HAVE SAVED IMAGE")
 	#DebugSettings.set_debug_mode(true)

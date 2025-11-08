@@ -29,7 +29,7 @@ func shoot_at(pos: Vector2) -> void:
 			direction = direction.rotated(deg_to_rad(deviation))
 			
 			var bullet = ProjectilePellet.new(owner_agent.position + direction, owner_agent)
-			print(direction)
+			#print(direction)
 			bullet.position = owner_agent.position
 			bullet.heading = direction
 			RavenServiceBus.fire_projectile.emit(bullet)

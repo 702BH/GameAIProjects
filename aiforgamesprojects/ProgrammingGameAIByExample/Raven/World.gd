@@ -79,6 +79,7 @@ func generate_edges(rows, columns) ->void:
 
 
 func load_world_from_file(file_path: String) -> void:
+	#print("Loading Map....")
 	var file_name = file_path.get_slice("/", file_path.get_slice_count("/") -1)
 	current_map_name = file_name
 	var file = FileAccess.open(file_path, FileAccess.READ)
@@ -99,6 +100,17 @@ func load_world_from_file(file_path: String) -> void:
 	var map_columns = result["columns"]
 	var map_res = result["resolution"]
 	var nodes = result["nodes"]
+	var map_cell_size = result["cell_size"]
+	var map_width = result["world_width"]
+	var map_height = result["world_height"]
+	
+	# initialise world variables
+	rows = map_rows
+	columns = map_columns
+	resolution = map_res
+	cell_size = map_cell_size
+	width = map_width
+	height = map_height
 	
 	grid_world.resize(map_rows)
 	for i in range(map_rows):
@@ -111,12 +123,12 @@ func load_world_from_file(file_path: String) -> void:
 		if node["row"] == 0 or node["row"] == map_rows-1 or node["column"]== 0 or node["column"]==map_columns-1:
 			var graph_node = graph.add_vertex(node["type"], Vector2(node["position"]["x"], node["position"]["y"]), true)
 			grid_world[node["row"]][node["column"]] = graph_node
-			var cell_x = int(node["position"]["x"]/cell_size)
-			var cell_y = int(node["position"]["y"]/cell_size)
+			var cell_x = int(node["position"]["x"]/map_cell_size)
+			var cell_y = int(node["position"]["y"]/map_cell_size)
 			var key = Vector2i(cell_x, cell_y)
 			if !cell_buckets_static.has(key):
 				cell_buckets_static[key] = []
-			cell_buckets_static[key].append(graph.nodes[node["row"] * columns + node["column"]])
+			cell_buckets_static[key].append(graph.nodes[node["row"] * map_columns + node["column"]])
 		else:
 			var graph_node = graph.add_vertex(node["type"], Vector2(node["position"]["x"], node["position"]["y"]), false)
 			grid_world[node["row"]][node["column"]] = graph_node
@@ -137,12 +149,12 @@ func load_world_from_file(file_path: String) -> void:
 				#print("grid to world: ", grid_to_world(graph_node.node_pos.x, graph_node.node_pos.y, resolution))
 				#print("world to grid: ", position_to_grid(graph_node.node_pos))
 			if graph_node.node_type == RavenNode.NodeType.WALL:
-				var cell_x = int(node["position"]["x"]/cell_size)
-				var cell_y = int(node["position"]["y"]/cell_size)
+				var cell_x = int(node["position"]["x"]/map_cell_size)
+				var cell_y = int(node["position"]["y"]/map_cell_size)
 				var key = Vector2i(cell_x, cell_y)
 				if !cell_buckets_static.has(key):
 					cell_buckets_static[key] = []
-				cell_buckets_static[key].append(graph.nodes[node["row"] * columns + node["column"]])
+				cell_buckets_static[key].append(graph.nodes[node["row"] * map_columns + node["column"]])
 	generate_edges(map_rows, map_columns)
 	RavenServiceBus.grid_generated.emit()
 	loaded_map = true
@@ -193,7 +205,7 @@ func calculate_costs_threaded() -> void:
 	for thread:Thread in threads:
 		thread.wait_to_finish()
 	
-	print("All precomputed costs done.")
+	#print("All precomputed costs done.")
 
 func _compute_chunk(info) -> void:
 	var start_idx = info["start"]
@@ -212,6 +224,7 @@ func _compute_chunk(info) -> void:
 
 
 func save_map(file_name:String) -> void:
+	print("Map is saving")
 	if is_saving:
 		return
 	
@@ -228,13 +241,16 @@ func _save_world_threaded(file_name:String) ->void:
 
 
 func save_world_to_file(file_name:String) -> void:
-	print("Saving map")
+	#print("Saving map")
 	calculate_costs_threaded()
 	
 	var save_data = {
 		"rows":rows,
 		"columns": columns,
 		"resolution": resolution,
+		"cell_size": cell_size,
+		"world_width": width,
+		"world_height": height,
 		"nodes": [],
 		"pre_calc_costs": pre_calc_costs
 	}
@@ -254,18 +270,20 @@ func save_world_to_file(file_name:String) -> void:
 	
 	
 	var file_path = "res://ProgrammingGameAIByExample/Raven/Maps/" + file_name
-	print("FILE PATH::::: ", file_path)
+	#print("FILE PATH::::: ", file_path)
 	
 	var file = FileAccess.open(file_path, FileAccess.WRITE)
 	var json_string = JSON.stringify(save_data)
 	file.store_line(json_string)
 	file.close()
-	print("map saved")
+	#print("map saved")
 
 func _on_save_complete() -> void:
+	print("Map has saved")
 	RavenServiceBus.load_pop_up.emit()
+	print("setting debug mode false")
 	DebugSettings.set_debug_mode(false)
-	print("MAP SAVED")
+	#print("MAP SAVED")
 
 func move_agent(agent: RavenAgent, old_pos: Vector2, new_pos: Vector2) -> void:
 	var old_key = world_to_bucket((old_pos))

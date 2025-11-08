@@ -12,9 +12,9 @@ var time_start_recovery
 func deactivate() -> void:
 	is_active = false
 	time_start_recovery = Time.get_ticks_msec()
-	print("TRIGGER DEACTIVATED")
+	#print("TRIGGER DEACTIVATED")
 
 
 func activate() -> void:
 	is_active = true
-	print("TRIGGER ACTIVE")
+	#print("TRIGGER ACTIVE")

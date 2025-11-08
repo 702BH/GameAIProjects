@@ -21,6 +21,7 @@ signal projectile_sound(fired_by : RavenAgent, radius: float)
 # UI Requests
 signal game_start_requested()
 signal dummy_agent_requested()
+signal game_ready()
 
 ## Placeable popup requested from map -> UI
 signal placeable_popup_requested(data: SelectableData)

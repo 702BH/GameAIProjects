@@ -1,9 +1,27 @@
-[gd_scene load_steps=2 format=3 uid="uid://b8mhppyapsk86"]
+[gd_scene load_steps=6 format=3 uid="uid://b8mhppyapsk86"]
 
 [ext_resource type="Script" uid="uid://bqkge10ar6axs" path="res://ProgrammingGameAIByExample/Raven/Scenes/play_map_scene.gd" id="1_fhylp"]
+[ext_resource type="PackedScene" uid="uid://bd7xhayy1lt13" path="res://ProgrammingGameAIByExample/Raven/Scenes/UI/ui_base.tscn" id="2_r6h8a"]
+[ext_resource type="PackedScene" uid="uid://2tpxo8xsq0so" path="res://ProgrammingGameAIByExample/Raven/Scenes/UI/map_play_buttons.tscn" id="2_ryt1v"]
+[ext_resource type="Script" uid="uid://ysxcngv0sxu6" path="res://ProgrammingGameAIByExample/Raven/Scenes/agent_container.gd" id="3_uqbpn"]
+[ext_resource type="Script" uid="uid://usmiyy54dcgt" path="res://ProgrammingGameAIByExample/Raven/Scenes/triggers_container.gd" id="3_xh0gc"]
 
 [node name="PlayMapScene" type="Node2D"]
 script = ExtResource("1_fhylp")
+buttons = ExtResource("2_ryt1v")
+
+[node name="ProjectileContainer" type="Node2D" parent="."]
+z_index = 4096
+
+[node name="AgentContainer" type="Node2D" parent="."]
+script = ExtResource("3_uqbpn")
+
+[node name="TriggersContainer" type="Node2D" parent="."]
+script = ExtResource("3_xh0gc")
+
+[node name="UI" type="CanvasLayer" parent="."]
+
+[node name="UIBase" parent="UI" instance=ExtResource("2_r6h8a")]
 
 [node name="WorldSprite" type="Sprite2D" parent="."]
 centered = false

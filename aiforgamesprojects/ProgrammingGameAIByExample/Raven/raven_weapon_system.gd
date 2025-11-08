@@ -161,6 +161,4 @@ func weapon_inventory_mapping(key_input:int) -> void:
 	if key_input-1 <= keys.size()-1:
 		var weapon_type = keys[key_input-1]
 		change_weapon(weapon_type)
-		print("Weapon changed ", current_weapon.name)
-	else:
-		print("no weapon at slot")
+		#print("Weapon changed ", current_weapon.name)

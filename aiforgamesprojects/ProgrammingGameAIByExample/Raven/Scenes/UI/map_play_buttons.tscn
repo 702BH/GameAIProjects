@@ -1,0 +1,78 @@
+[gd_scene load_steps=2 format=3 uid="uid://2tpxo8xsq0so"]
+
+[ext_resource type="Script" uid="uid://bwdyph8gcwd8p" path="res://ProgrammingGameAIByExample/Raven/Scenes/UI/map_play_buttons.gd" id="1_oshm4"]
+
+[node name="MapPlayButtons" type="HBoxContainer"]
+offset_right = 40.0
+offset_bottom = 40.0
+size_flags_horizontal = 3
+theme_override_constants/separation = 10
+script = ExtResource("1_oshm4")
+
+[node name="Info" type="HBoxContainer" parent="."]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 10
+
+[node name="Selected" type="Label" parent="Info"]
+layout_mode = 2
+text = "Agent Selected : "
+
+[node name="SelectedName" type="Label" parent="Info"]
+layout_mode = 2
+text = "None"
+
+[node name="VSeparator" type="VSeparator" parent="Info"]
+layout_mode = 2
+theme_override_constants/separation = 4
+
+[node name="Health" type="Label" parent="Info"]
+layout_mode = 2
+text = "Health: 100"
+
+[node name="VSeparator2" type="VSeparator" parent="Info"]
+layout_mode = 2
+theme_override_constants/separation = 4
+
+[node name="Goal" type="Label" parent="Info"]
+layout_mode = 2
+text = "No Goal"
+
+[node name="VSeparator3" type="VSeparator" parent="Info"]
+layout_mode = 2
+theme_override_constants/separation = 4
+
+[node name="Weapon" type="Label" parent="Info"]
+layout_mode = 2
+text = "Weapon: None"
+
+[node name="VSeparator4" type="VSeparator" parent="Info"]
+layout_mode = 2
+theme_override_constants/separation = 4
+
+[node name="Target" type="Label" parent="Info"]
+layout_mode = 2
+text = "Target: None"
+
+[node name="VSeparator5" type="VSeparator" parent="."]
+layout_mode = 2
+theme_override_constants/separation = 4
+
+[node name="Buttons" type="HBoxContainer" parent="."]
+layout_mode = 2
+size_flags_horizontal = 8
+theme_override_constants/separation = 10
+
+[node name="Play" type="Button" parent="Buttons"]
+layout_mode = 2
+text = "Start Map"
+
+[node name="Possess" type="Button" parent="Buttons"]
+layout_mode = 2
+text = "Possess Agent"
+
+[node name="Menu" type="Button" parent="Buttons"]
+layout_mode = 2
+text = "Main Menu"
+
+[connection signal="pressed" from="Buttons/Play" to="." method="_on_play_pressed"]

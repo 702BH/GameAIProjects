@@ -35,7 +35,7 @@ func update_agents_in_view() -> void:
 		
 		if !Calculations.do_walls_obstruct_line_segment(owner_agent.position, agent.position):
 			record.shootable = true
-			print("NOT OBSTRUCTED")
+			#print("NOT OBSTRUCTED")
 			# FOV check
 			var agent_velocity = owner_agent.velocity.normalized()
 			var target_vector = (agent.position - owner_agent.position).normalized()
@@ -56,7 +56,7 @@ func update_agents_in_view() -> void:
 			else:
 				record.within_fov = false
 		else:
-			print("OBSTRUCTED!")
+			#print("OBSTRUCTED!")
 			record.shootable = false
 	# debugging
 	#if !memory_dict.is_empty():
@@ -109,7 +109,7 @@ func get_time_target_has_been_out_of_view(agent: RavenAgent) -> float:
 
 func update_with_sound_source(agent: RavenAgent) -> void:
 	if agent != owner_agent:
-		print("UPDATING WITH SOUND SOURCE")
+		#print("UPDATING WITH SOUND SOURCE")
 		if !memory_dict.has(agent):
 			memory_dict[agent] = MemoryRecord.new(agent)
 		var record: MemoryRecord = memory_dict[agent]
@@ -134,5 +134,3 @@ func update_with_sound_source(agent: RavenAgent) -> void:
 		else:
 			record.within_fov = false
 			record.shootable = false
-	else:
-		print("FIRED BY THIS AGENT")
