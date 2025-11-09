@@ -5,8 +5,8 @@ extends "res://ProgrammingGameAIByExample/Raven/Weapons/raven_weapon.gd"
 func _init(_agent: RavenAgent) -> void:
 	super(_agent)
 	weapon_type = WeaponType.ROCKET_LAUNCHER
-	num_rounds_left = 15
-	max_rounds_carried = 30
+	num_rounds_left = 3
+	max_rounds_carried = 6
 	time_next_available = 0.0
 	rate_of_fire = 1.5
 	initialise_fuzzy_module()

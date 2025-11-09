@@ -18,6 +18,8 @@ var goal_base_text := "Goal: "
 var weapon_base_text := "Weapon: "
 var target_base_text := "Target: "
 
+var debug_regulator = Regulator.new(2.0)
+
 
 func _ready() -> void:
 	RavenServiceBus.agent_possessed.connect(_on_agent_possessed.bind())
@@ -26,12 +28,13 @@ func _ready() -> void:
 
 
 func _process(_delta: float) -> void:
-	if selected_agent:
-		selected_label.text = selected_base_text + selected_agent.get_agent_name()
-		health_label.text = health_base_text + selected_agent.get_health()
-		goal_label.text = goal_base_text + selected_agent.get_current_goal()
-		weapon_label.text = weapon_base_text + selected_agent.get_current_weapon()
-		target_label.text = target_base_text + selected_agent.get_current_target()
+	if debug_regulator.is_ready():
+		if selected_agent:
+			selected_label.text = selected_base_text + selected_agent.get_agent_name()
+			health_label.text = health_base_text + selected_agent.get_health()
+			goal_label.text = goal_base_text + selected_agent.get_current_goal()
+			weapon_label.text = weapon_base_text + selected_agent.get_current_weapon()
+			target_label.text = target_base_text + selected_agent.get_current_target()
 
 func _on_play_pressed() -> void:
 	play_button.disabled = true

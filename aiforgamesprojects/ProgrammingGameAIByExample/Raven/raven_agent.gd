@@ -306,7 +306,7 @@ func is_at_position(pos: Vector2) -> bool:
 
 func take_damage(amount:float) -> void:
 	health -= amount
-	if health <= 100.0:
+	if health <= 0.0:
 		#print("SHOULD DIE")
 		RavenServiceBus.agent_died.emit(self)
 		World.remove_agent(self, World.position_to_grid(position))
