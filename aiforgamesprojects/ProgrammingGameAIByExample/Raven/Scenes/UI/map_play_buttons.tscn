@@ -3,9 +3,9 @@
 [ext_resource type="Script" uid="uid://bwdyph8gcwd8p" path="res://ProgrammingGameAIByExample/Raven/Scenes/UI/map_play_buttons.gd" id="1_oshm4"]
 
 [node name="MapPlayButtons" type="HBoxContainer"]
+clip_contents = true
 offset_right = 40.0
 offset_bottom = 40.0
-size_flags_horizontal = 3
 theme_override_constants/separation = 10
 script = ExtResource("1_oshm4")
 
@@ -16,11 +16,7 @@ theme_override_constants/separation = 10
 
 [node name="Selected" type="Label" parent="Info"]
 layout_mode = 2
-text = "Agent Selected : "
-
-[node name="SelectedName" type="Label" parent="Info"]
-layout_mode = 2
-text = "None"
+text = "Agent Selected : None"
 
 [node name="VSeparator" type="VSeparator" parent="Info"]
 layout_mode = 2
@@ -36,7 +32,7 @@ theme_override_constants/separation = 4
 
 [node name="Goal" type="Label" parent="Info"]
 layout_mode = 2
-text = "No Goal"
+text = "Goal: None"
 
 [node name="VSeparator3" type="VSeparator" parent="Info"]
 layout_mode = 2
@@ -69,6 +65,7 @@ text = "Start Map"
 
 [node name="Possess" type="Button" parent="Buttons"]
 layout_mode = 2
+disabled = true
 text = "Possess Agent"
 
 [node name="Menu" type="Button" parent="Buttons"]
@@ -76,3 +73,4 @@ layout_mode = 2
 text = "Main Menu"
 
 [connection signal="pressed" from="Buttons/Play" to="." method="_on_play_pressed"]
+[connection signal="pressed" from="Buttons/Possess" to="." method="_on_possess_pressed"]

@@ -1,6 +1,7 @@
 extends Node2D
 
 @export var buttons : PackedScene
+@export_file("*.tscn") var main_menu
 
 
 @onready var world_sprite := $WorldSprite
@@ -14,12 +15,15 @@ extends Node2D
 @onready var projectile_container := $ProjectileContainer
 
 
+var agent_count := 0
+
 func _ready() -> void:
 	DebugSettings.debug_mode = false
 	# Connect signals
 	RavenServiceBus.game_start_requested.connect(_on_map_start_requested.bind())
 	RavenServiceBus.projectile_sound.connect(_on_projectile_sound.bind())
 	RavenServiceBus.fire_projectile.connect(_on_projectile_fired.bind())
+	RavenServiceBus.agent_died.connect(_on_agent_died.bind())
 	
 	# set up buttons
 	var buttons :HBoxContainer = buttons.instantiate()
@@ -76,6 +80,7 @@ func spawn_agents() -> void:
 		if randf() > 0.3:
 			agent.rotate(randf_range(-2, 2))
 		agent_container.add_child(agent)
+		agent_count +=1
 		agent.visible = false
 		agent.set_physics_process(false)
 		World.place_agent(agent, World.position_to_grid(agent.position))
@@ -97,3 +102,9 @@ func _on_projectile_sound(fired_by: RavenAgent, sound:float) -> void:
 func _on_projectile_fired(projectile: RavenProjectile) -> void:
 	#print("Fired")
 	projectile_container.add_child(projectile)
+
+
+func _on_agent_died(agent:RavenAgent) -> void:
+	agent_count -= 1
+	if agent_count <= 1:
+		get_tree().change_scene_to_file(main_menu)

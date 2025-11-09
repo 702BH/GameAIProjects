@@ -1,9 +1,14 @@
-[gd_scene load_steps=3 format=3 uid="uid://bqrt565jhxnpa"]
+[gd_scene load_steps=4 format=3 uid="uid://bqrt565jhxnpa"]
 
 [ext_resource type="PackedScene" uid="uid://csq0krd703gr5" path="res://ProgrammingGameAIByExample/Raven/Items/trigger.tscn" id="1_eyt8o"]
 [ext_resource type="Script" uid="uid://3d5py238di4a" path="res://ProgrammingGameAIByExample/Raven/Items/trigger_health.gd" id="2_vyxug"]
+[ext_resource type="Texture2D" uid="uid://d3x3rv5tsse4j" path="res://ProgrammingGameAIByExample/Raven/Assets/tile_0145.png" id="3_wd45a"]
 
 [node name="TriggerHealth" instance=ExtResource("1_eyt8o")]
 script = ExtResource("2_vyxug")
+
+[node name="Sprite2D" type="Sprite2D" parent="." index="1"]
+modulate = Color(0.594825, 0.77, 0.5005, 1)
+texture = ExtResource("3_wd45a")
 
 [connection signal="area_entered" from="triggerArea" to="." method="_on_trigger_area_area_entered"]

@@ -226,6 +226,20 @@ func _physics_process(delta: float) -> void:
 		#RavenServiceBus.debug_event.emit(data)
 
 
+func get_agent_name() -> String:
+	return agent_name
+
+func get_health() -> String:
+	return str(health)
+
+func get_current_goal() -> String:
+	return brain.get_current_goal()
+
+func get_current_weapon() -> String:
+	return weapon_system.get_current_weapon_name()
+
+func get_current_target() -> String:
+	return targeting_system.get_current_target_name()
 
 func _draw() -> void:
 	if selected:

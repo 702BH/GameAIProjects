@@ -6,4 +6,6 @@
 [node name="TriggerWeapon" instance=ExtResource("1_x2cc7")]
 script = ExtResource("2_rxemb")
 
+[node name="Sprite2D" type="Sprite2D" parent="." index="1"]
+
 [connection signal="area_entered" from="triggerArea" to="." method="_on_trigger_area_area_entered"]
