@@ -12,6 +12,7 @@ var weapon_sprite_map = {
 func initialise(shape_x:float, shape_y:float,  _weapon: RavenNodeItem.ItemSubType) -> void:
 	trigger_collision_shape.shape.size = Vector2(shape_x, shape_y)
 	weapon = RavenNodeItemWeapon.enum_map_weapon.get(_weapon)
+	print(weapon)
 	$Sprite2D.texture = weapon_sprite_map[weapon]
 
 func _on_trigger_area_area_entered(area: Area2D) -> void:
