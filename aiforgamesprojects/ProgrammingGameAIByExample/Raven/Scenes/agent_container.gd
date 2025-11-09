@@ -26,6 +26,7 @@ func _on_possess_request() -> void:
 	if selected_agent:
 		if !selected_agent.is_possessed:
 			selected_agent.is_possessed = true
+			#RavenServiceBus.agent_possessed.emit(selected_agent)
 			selected_agent._possessed()
 		else:
 			selected_agent.is_possessed = false

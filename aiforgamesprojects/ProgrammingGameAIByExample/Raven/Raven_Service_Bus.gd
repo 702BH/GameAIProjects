@@ -39,6 +39,7 @@ signal agent_selected(agent: RavenAgent)
 signal agent_delesected()
 signal agent_died(agent:RavenAgent)
 signal agent_possess_requested()
+signal agent_possessed(agent: RavenAgent)
 
 
 # debugging system
