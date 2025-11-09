@@ -94,7 +94,10 @@ func load_world_from_file(file_path: String) -> void:
 		return
 	
 	graph = RavenGraph.new(false)
+	# reset containers
 	grid_world = []
+	spawn_points = []
+	triggers = []
 	
 	var map_rows = result["rows"]
 	var map_columns = result["columns"]
