@@ -31,6 +31,7 @@ func _process(delta: float) -> void:
 	queue_redraw()
 
 func _draw() -> void:
-	var font = ThemeDB.fallback_font
-	draw_string(font, Vector2(0, 15), "ROCKET", HORIZONTAL_ALIGNMENT_CENTER, -1.0, 16, Color.BLACK)
+	if DebugSettings.debug_mode:
+		var font = ThemeDB.fallback_font
+		draw_string(font, Vector2(0, 15), "ROCKET", HORIZONTAL_ALIGNMENT_CENTER, -1.0, 16, Color.BLACK)
 	draw_circle(Vector2.ZERO, radius, Color.AQUA)

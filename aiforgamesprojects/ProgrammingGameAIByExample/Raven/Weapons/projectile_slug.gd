@@ -4,7 +4,7 @@ extends "res://ProgrammingGameAIByExample/Raven/Weapons/raven_projectile.gd"
 
 func _init(_target: Vector2, fired_by: RavenAgent) -> void:
 	super(_target, fired_by)
-	damage_inflicted = 10.0
+	damage_inflicted = 5.0
 	max_speed = 80.0
 	max_force = 200.0
 	radius = 3.0
@@ -31,6 +31,7 @@ func _process(delta: float) -> void:
 	queue_redraw()
 
 func _draw() -> void:
-	var font = ThemeDB.fallback_font
-	draw_string(font, Vector2(0, 15), "RAILGUN", HORIZONTAL_ALIGNMENT_CENTER, -1.0, 16, Color.BLACK)
+	if DebugSettings.debug_mode:
+		var font = ThemeDB.fallback_font
+		draw_string(font, Vector2(0, 15), "RAILGUN", HORIZONTAL_ALIGNMENT_CENTER, -1.0, 16, Color.BLACK)
 	draw_circle(Vector2.ZERO, radius, Color.CORAL)

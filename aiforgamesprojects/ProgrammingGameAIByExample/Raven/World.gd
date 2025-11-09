@@ -94,7 +94,10 @@ func load_world_from_file(file_path: String) -> void:
 		return
 	
 	graph = RavenGraph.new(false)
+	# reset containers
 	grid_world = []
+	spawn_points = []
+	triggers = []
 	
 	var map_rows = result["rows"]
 	var map_columns = result["columns"]
@@ -133,7 +136,13 @@ func load_world_from_file(file_path: String) -> void:
 			var graph_node = graph.add_vertex(node["type"], Vector2(node["position"]["x"], node["position"]["y"]), false)
 			grid_world[node["row"]][node["column"]] = graph_node
 			if node["item_type"] == RavenNodeItem.ItemType.WEAPON:
-				var item := RavenNodeItemWeapon.new(RavenNodeItem.ItemSubType.SHOTGUN)
+				var item : RavenNodeItemWeapon
+				if node["item_sub_type"] == RavenNodeItem.ItemSubType.SHOTGUN:
+					item = RavenNodeItemWeapon.new(RavenNodeItem.ItemSubType.SHOTGUN)
+				elif node["item_sub_type"] == RavenNodeItem.ItemSubType.ROCKET_LAUNCHER:
+					item = RavenNodeItemWeapon.new(RavenNodeItem.ItemSubType.ROCKET_LAUNCHER)
+				elif node["item_sub_type"] == RavenNodeItem.ItemSubType.RAIL_GUN:
+					item = RavenNodeItemWeapon.new(RavenNodeItem.ItemSubType.RAIL_GUN)
 				graph_node.set_item_type(item)
 				# create trigger item trigger
 				triggers.append(graph_node)
@@ -258,11 +267,14 @@ func save_world_to_file(file_name:String) -> void:
 		for col in range(columns):
 			var node: RavenNode = grid_world[row][col]
 			var item_type= null
+			var item_sub_type = null
 			if node.item_type:
 				item_type = node.item_type.item_type
+				item_sub_type = node.item_type.item_sub_type
 			save_data["nodes"].append({
 				"type": node.node_type,
 				"item_type": item_type,
+				"item_sub_type": item_sub_type,
 				"position": {"x":node.node_pos.x, "y":node.node_pos.y},
 				"row": row,
 				"column": col

@@ -18,6 +18,7 @@ extends Node2D
 var agent_count := 0
 
 func _ready() -> void:
+	print("Spawn array size ", World.spawn_points.size())
 	DebugSettings.debug_mode = false
 	# Connect signals
 	RavenServiceBus.game_start_requested.connect(_on_map_start_requested.bind())
@@ -85,7 +86,6 @@ func spawn_agents() -> void:
 		agent.set_physics_process(false)
 		World.place_agent(agent, World.position_to_grid(agent.position))
 		agent.queue_redraw()
-
 	RavenServiceBus.game_ready.emit()
 
 
