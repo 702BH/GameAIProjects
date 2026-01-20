@@ -45,6 +45,9 @@ This makes agent behaviour inspectable, tunable, and deterministic.
 
 5. **Combat & Weapon Selection**
    - Fuzzy logic selects the most effective weapon based on distance, ammo, and context.
+     
+6. **Debugging**
+   - For debugging and inspection agents use a custom data structure and messaging service bus using the builder pattern.
 
 ---
 ## Goal System
