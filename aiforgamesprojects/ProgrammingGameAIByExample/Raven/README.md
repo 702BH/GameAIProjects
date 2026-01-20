@@ -1,9 +1,14 @@
 # Raven — AI Implementation
 
 ## Project Summary
-Raven is a focused implementation of the Raven project from *Programming Game AI by Example* Written in GDScript.
+Raven is a recreation of the Raven project from *Programming Game AI by Example* Written in GDScript - a Python like programming language.
 Primary constraints are real-time simulation, deterministic behavior, and maintainable data structures for experimentation.
 
+## General Overview:
+- Custom map editor using JSON serialisation / parsing using multi-threading jobs
+- Collision system using spatial buckets and line/segment intersection
+- Custom navigation system
+- Custom AI Agent system including: Perception of environment, State memory, decision making through goal arbitration
 
 ## Systems Overview
 - [Navigation Graph](#navigation-graph)
