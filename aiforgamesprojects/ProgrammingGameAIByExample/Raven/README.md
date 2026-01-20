@@ -9,6 +9,7 @@ Primary constraints are real-time simulation, deterministic behavior, and mainta
 - Collision system using spatial buckets and line/segment intersection
 - Custom navigation system
 - Custom AI Agent system including: Perception of environment, State memory, decision making through goal arbitration
+- Custom weighted steering behaviours
 
 ## Systems Overview
 - [Navigation Graph](#navigation-graph)
