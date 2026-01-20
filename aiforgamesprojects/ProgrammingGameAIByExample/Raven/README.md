@@ -1,12 +1,9 @@
-# Inner Raven — Game AI Implementation
+# Raven — AI Implementation
 
 ## Project Summary
-Inner Raven is a focused implementation of the Raven project from *Programming Game AI by Example* inside a Godot-based sandbox.
-The codebase emphasizes original systems engineering: custom navigation graph, collision, map tooling, and a goal-driven AI stack.
+Raven is a focused implementation of the Raven project from *Programming Game AI by Example* Written in GDScript.
 Primary constraints are real-time simulation, deterministic behavior, and maintainable data structures for experimentation.
 
-## Demo / Screenshots
-- TBD (capture from `raven_main_scene.tscn` once visuals stabilize)
 
 ## Systems Overview
 - [Navigation Graph](#navigation-graph)
@@ -51,12 +48,7 @@ Primary constraints are real-time simulation, deterministic behavior, and mainta
 - Precompute all-pairs costs per node in a background thread to accelerate runtime queries.
 
 **Tradeoffs**
-- Precomputing `pre_calc_costs` trades memory for faster path cost lookups (O(V^2) storage).
-- Grid-based graph limits navigation fidelity compared to polygonal meshes but keeps editing and tooling fast.
-
-**Complexity/Performance**
-- Dijkstra: O((V + E) log V) with the heap, executed either per query or in parallel precompute passes.
-- A*: O((V + E) log V) with heuristic guidance; performance depends on grid size and obstacle layout.
+- Precomputing `pre_calc_costs` trades memory for faster path cost lookups.
 
 ### Collision System
 **Problem**
@@ -76,9 +68,6 @@ Primary constraints are real-time simulation, deterministic behavior, and mainta
 - Grid-aligned walls simplify collision math but limit fine-grained geometry detail.
 - Some line-of-sight checks still iterate all buckets, which is acceptable for current map sizes but not optimal at scale.
 
-**Complexity/Performance**
-- Broad-phase bucket lookup is O(1) average per query; narrow-phase is O(k) with k walls in a bucket.
-- Line-of-sight checks are O(W) over wall segments; optimizing to bucketed ray traversal is a future improvement.
 
 ### Map Editor
 **Problem**
