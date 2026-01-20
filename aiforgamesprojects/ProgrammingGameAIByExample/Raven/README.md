@@ -1,15 +1,28 @@
-# Raven — AI Implementation
+# Raven — Game AI Systems & Engine-Level Architecture
 
-## Project Summary
-Raven is a recreation of the Raven project from *Programming Game AI by Example* Written in GDScript - a Python like programming language.
-Primary constraints are real-time simulation, deterministic behavior, and maintainable data structures for experimentation.
+## Overview
+Raven is a ground-up reimplementation of the classic Raven AI project from Programming Game AI by Example, built in GDScript (Godot 4) with a strong emphasis on engine-level systems, deterministic simulation, and data-oriented design.
 
-## General Overview:
-- Custom map editor using JSON serialisation / parsing using multi-threading jobs
-- Collision system using spatial buckets and line/segment intersection
-- Custom navigation system
-- Custom AI Agent system including: Perception of environment, State memory, decision making through goal arbitration
-- Custom weighted steering behaviours
+Rather than relying on built-in navigation, physics, or AI frameworks, this project reconstructs navigation, collision, perception, and goal-based decision-making from first principles. The result is a tightly integrated simulation where AI behavior emerges from explicit systems rather than opaque engine magic.
+
+The project serves both as:
+- A deep study of practical game AI architecture
+- A systems-engineering exercise focused on performance, debuggability, and extensibility
+
+## Design Constraints & Goals
+This project was developed under several non-trivial constraints:
+- Real-time performance — AI, navigation, perception, and collision all run within a fixed update budget
+- Deterministic behavior — identical inputs produce identical outcomes (critical for debugging AI)
+- Explicit data flow — systems communicate through well-defined structures, not implicit engine state
+- Tool-driven iteration — maps, costs, and geometry are authored and validated inside the project
+- Experimentation-friendly — AI decisions must be inspectable, reproducible, and tunable
+
+## High-Level Systems
+- Custom grid-based map editor
+- Navigation graph with runtime path computation
+- Deterministic collision and line-of-sight system
+- Goal-driven AI agents with perception, memory, and arbitration
+- Weighted steering behaviors layered on top of navigation
 
 ## Systems Overview
 - [Navigation Graph](#navigation-graph)
@@ -40,57 +53,101 @@ Primary constraints are real-time simulation, deterministic behavior, and mainta
 
 ### Navigation Graph
 **Problem**
-- Support consistent navigation for agents on a grid world with obstacles, items, and spawn points.
+Provide fast, consistent, and inspectable navigation for multiple agents in a dynamic grid world containing:
+- Obstacles
+- Items
+- Spawn points
+- Tactical choke points
+
+The system must support:
+- Repeated path queries
+- Distance heuristics for AI evaluation
+- Deterministic results independent of frame timing
 
 **Approach**
-- Custom graph structure (`RavenGraph`) stores nodes as an array of `RavenNode` and edges in a dictionary keyed by node id.
-- Nodes are grid-aligned (row/column) with explicit types (traversal, wall, spawn, item). Edges are `NavGraphEdge` entries between neighbor nodes.
-- Pathfinding is performed with Dijkstra (targeted and all-pairs precompute) and A* with a Euclidean heuristic.
-- Design references *C# Data Structures and Algorithms - Second Edition* by Marcin Jamro for adjacency list patterns and heap-based shortest path implementations.
+A custom graph structure (RavenGraph) stores:
+- Nodes as a contiguous array (RavenNode)
+- Edges as adjacency lists keyed by node ID
+Nodes are grid-aligned, typed (wall, traversal, spawn, item), and indexed for cache-friendly traversal
 
-**Key Decisions**
-- Use adjacency lists (dictionary of arrays) for predictable memory access in a dense grid.
-- Store node ids as contiguous indices for cache-friendly traversal and easier precomputation.
-- Precompute all-pairs costs per node in a background thread to accelerate runtime queries.
+Pathfinding implementations:
+- Dijkstra (single-source and precomputed variants)
+- A* with Euclidean heuristic
+
+All-pairs path cost tables (pre_calc_costs) are optionally computed offline during map save using parallel threads.
+
+**Key Engineering Decisions**
+- Contiguous node IDs → predictable memory access and simpler precomputation
+- Adjacency lists over matrices → scalable and sparse-friendly
+- Offline precomputation → eliminates runtime spikes during AI evaluation
+- Explicit graph ownership → no dependency on engine navmesh internals
 
 **Tradeoffs**
-- Precomputing `pre_calc_costs` trades memory for faster path cost lookups.
+- Memory is deliberately traded for speed via pre_calc_costs
+- Grid-based navigation sacrifices geometric freedom for determinism and simplicity
+- Path costs are static per map (dynamic terrain would require partial recomputation)
 
-### Collision System
+### Collision & Line-of-Sight System
 **Problem**
-- Provide deterministic, real-time collision checks for walls and projectiles with predictable performance.
+Support deterministic collision detection for:
+- Agents
+- Projectiles
+- Vision occlusion
+
+Without using Godot’s physics engine, while maintaining:
+- Predictable performance
+- Reproducible results
+- Tight integration with AI perception
 
 **Approach**
-- Wall geometry is derived from grid nodes: each wall cell computes segment edges and normals.
-- Broad-phase uses spatial buckets (`cell_buckets_static`) keyed by grid cells to limit collision checks.
-- Narrow-phase uses line/segment intersection for line-of-sight occlusion and circle-circle tests for agents/projectiles.
-- Developed with reference to *Beginning Math and Physics for Game Programmers* by Wendy Stahler, especially for line intersection and circle intersection math.
+Wall geometry is derived directly from grid data
+- Each wall cell generates line segments and outward normals
+Broad-phase:
+- Static spatial buckets keyed by grid cell
+Narrow-phase:
+- Line–segment intersection (LOS, vision)
+- Circle–circle tests (agents, projectiles)
+- No continuous physics — all math is explicit and CPU-only
+
+Developed with reference to *Beginning Math and Physics for Game Programmers* by Wendy Stahler, especially for line intersection and circle intersection math.
 
 **Key Decisions**
-- Favor deterministic, CPU-only math primitives (no physics engine dependency) for reproducibility.
-- Use bucketed lookups for projectiles and local movement checks to maintain real-time constraints.
+- Avoid physics engine → removes non-determinism and black-box behavior
+- Use grid-derived geometry → guarantees alignment with navigation
+- Separate static vs dynamic spatial buckets → reduces collision checks
 
 **Tradeoffs**
-- Grid-aligned walls simplify collision math but limit fine-grained geometry detail.
-- Some line-of-sight checks still iterate all buckets, which is acceptable for current map sizes but not optimal at scale.
+- Grid-aligned walls limit geometric expressiveness
+- Some LOS checks still traverse multiple buckets (acceptable at current scale)
+- No impulse resolution — movement is steering-driven
 
 
-### Map Editor
+### Map Editor & Tooling
 **Problem**
-- Author and iterate on Raven maps without external tooling, while keeping data aligned to the navigation and collision systems.
+Enable rapid iteration on AI scenarios without external tools, while guaranteeing:
+- Navigation correctness
+- Collision alignment
+- Deterministic rebuilds
 
 **Approach**
-- Custom UI tools (toggleable wall/spawn/weapon placement) operate on the same grid used by navigation.
-- Maps serialize to JSON in `Maps/` with rows/columns, resolution, cell size, world size, nodes, and precomputed costs.
-- Loading reconstructs the grid, graph nodes, items, and spatial buckets to keep nav + collision in sync.
+In-engine grid editor for:
+- Walls, Spawn points, Items
+Maps serialize to human-readable JSON, containing:
+- Grid metadata
+- Node definitions
+- Precomputed navigation costs
+
+Load step reconstructs:
+- Graph
+- Collision geometry
+- Spatial buckets
+- Items & spawns
 
 **Key Decisions**
-- Grid-based authoring ensures consistency across navigation and collision systems.
-- Embed `pre_calc_costs` in map files to remove runtime spikes for heavy path queries.
+- Author once, consume everywhere → editor uses the same data as runtime
+- Serialize precomputed data → no hidden runtime work
+- Multithreaded precomputation → avoids blocking editor UI
 
-**Tradeoffs**
-- JSON maps are human-readable but larger; binary would be faster to load at scale.
-- Grid resolution is a fixed tradeoff between path precision and node count.
 
 **Complexity/Performance**
 - Load time scales with node count and the size of precomputed cost tables.
@@ -101,18 +158,39 @@ Primary constraints are real-time simulation, deterministic behavior, and mainta
 - Build an agent decision system that is transparent, debuggable, and consistent with Raven’s goal-based design.
 
 **Approach**
-- Perception uses a vision polygon, line-of-sight checks against wall segments, and FOV tests via dot products.
-- Sensory memory stores last-sensed position, visibility timestamps, and shootable state with a fixed memory span.
-- Goal arbitration is handled by `GoalThink` evaluators (explore, attack, get weapon, get health) inspired by *Programming Game AI by Example*.
-- Decision loop runs on a regulated cadence to decouple sensory updates, goal arbitration, and weapon selection.
+**Perception**
+- Vision cone via dot products
+- Line-of-sight checks against wall segments
+- Visibility gated by distance, FOV, and occlusion
+
+**Sensory Memory**
+- Stores last known positions
+- Visibility timestamps
+- Shootable state
+- Memory decay over a fixed time horizon
+
+**Decision Making**
+GoalThink evaluates competing goals:
+- Explore
+- Attack
+- Get weapon
+- Get health
+Goals are composable (GoalComposite) and stack-based
+Arbitration runs on regulated intervals
+Goals implement a fuzzy logic system
+
+**Movement**
+- Steering behaviors layered on top of navigation
+- Weighted blending allows smooth transitions between goals
 
 **Key Decisions**
 - Use regulators to bound update rates (e.g., vision updates every ~4s, target selection every ~2s).
 - Keep goals composable via `GoalComposite` and explicit subgoal stacks for traceable behavior.
 
 **Tradeoffs**
-- Regulated updates reduce CPU cost but can introduce slight reaction latency.
-- Goal arbitration is single-threaded to keep behavior deterministic and debuggable.
+- Regulated updates introduce small reaction latency
+- Single-threaded AI caps extreme agent counts
+- Goal arbitration scales linearly with evaluator count
 
 **Complexity/Performance**
 - Perception scales with nearby agents and wall checks; bucketed walls keep projectile checks localized.
